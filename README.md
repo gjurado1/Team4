@@ -1,4 +1,5 @@
 # Team-4-SWEN-661-Spring-2026
+
 SWEN 661 Team 4 Repository Spring 2026
 
 # CareConnect
@@ -6,17 +7,21 @@ SWEN 661 Team 4 Repository Spring 2026
 CareConnect is a multi-platform care coordination application designed for low-vision caregivers. It helps organize medications, tasks, appointments, and important contacts in an accessible UI with scalable typography, high-contrast themes, and magnification support.
 
 ## Team Members
+
 - Member 1 — GitHub: @gjurado1
 - Member 2 — GitHub: @Stinkybootsllc
 - Member 3 — GitHub: @username (TBD)
 
 ## Team Charter
+
 - [Team Charter](docs/team-charter.docx)
 
 ## Setup Instructions (WIP)
+
 These instructions will be updated as development progresses.
 
 ### Repo Structure
+
 - `apps/mobile_flutter` — Flutter mobile app (Android/iOS)
 - `apps/mobile_react_native` — React Native mobile app (Android/iOS)
 - `apps/desktop_electron` — Electron desktop app (Windows)
