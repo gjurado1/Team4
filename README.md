@@ -16,7 +16,7 @@ CareConnect is a multi-platform care coordination application designed for low-v
 
 ## Team Charter
 
-- [Team Charter](docs/Team_4_Charter.pdf)
+- [Team Charter](docs/Team%204%20Charter.pdf)
 
 ## Setup Instructions (WIP)
 
