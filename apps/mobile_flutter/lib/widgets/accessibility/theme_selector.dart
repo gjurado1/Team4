@@ -8,11 +8,12 @@ class ThemeSelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Access the global theme controller
     final controller = AppThemeScope.of(context);
-
     final theme = Theme.of(context);
     final cs = theme.colorScheme;
 
+    // Define the theme options available in the UI
     final themes = <_ThemeOption>[
       const _ThemeOption(
         id: AppVisionTheme.defaultTheme,
@@ -40,6 +41,19 @@ class ThemeSelector extends StatelessWidget {
       ),
     ];
 
+    // Helper function to update BOTH the custom vision theme 
+    // AND the Flutter system ThemeMode
+    void handleThemeChange(AppVisionTheme visionId) {
+      controller.setVisionTheme(visionId);
+      
+      if (visionId == AppVisionTheme.darkContrast) {
+        controller.setThemeMode(ThemeMode.dark);
+      } else {
+        // Default and Sepia typically use the Light base theme
+        controller.setThemeMode(ThemeMode.light);
+      }
+    }
+
     return AnimatedBuilder(
       animation: controller,
       builder: (context, _) {
@@ -53,9 +67,9 @@ class ThemeSelector extends StatelessWidget {
               style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700),
             ),
             const SizedBox(height: 16),
-
             LayoutBuilder(
               builder: (context, constraints) {
+                // If width is less than 700, use a vertical list (Column)
                 final isNarrow = constraints.maxWidth < 700;
 
                 if (isNarrow) {
@@ -65,7 +79,7 @@ class ThemeSelector extends StatelessWidget {
                         _ThemeCard(
                           option: t,
                           active: active == t.id,
-                          onTap: () => controller.setVisionTheme(t.id),
+                          onTap: () => handleThemeChange(t.id),
                           highlightColor: cs.primary,
                         ),
                         const SizedBox(height: 12),
@@ -74,6 +88,7 @@ class ThemeSelector extends StatelessWidget {
                   );
                 }
 
+                // If width is 700 or more, use a horizontal Row
                 return Row(
                   children: [
                     for (int i = 0; i < themes.length; i++) ...[
@@ -81,7 +96,7 @@ class ThemeSelector extends StatelessWidget {
                         child: _ThemeCard(
                           option: themes[i],
                           active: active == themes[i].id,
-                          onTap: () => controller.setVisionTheme(themes[i].id),
+                          onTap: () => handleThemeChange(themes[i].id),
                           highlightColor: cs.primary,
                         ),
                       ),
@@ -98,6 +113,7 @@ class ThemeSelector extends StatelessWidget {
   }
 }
 
+// --- HELPER UI WIDGET ---
 class _ThemeCard extends StatelessWidget {
   final _ThemeOption option;
   final bool active;
@@ -181,6 +197,7 @@ class _ThemeCard extends StatelessWidget {
   }
 }
 
+// --- DATA MODEL ---
 class _ThemeOption {
   final AppVisionTheme id;
   final String name;

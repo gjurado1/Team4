@@ -146,5 +146,5 @@ class _Series {
   final String key;
   final List<FlSpot> spots;
   final Color? color;
-  const _Series({required this.key, required this.spots});
+  const _Series({required this.key, required this.spots, this.color});
 }

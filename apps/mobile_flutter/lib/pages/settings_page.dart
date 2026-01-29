@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../widgets/ui/app_card.dart';
 import '../widgets/ui/app_button.dart';
 import '../widgets/navigation/header_voice_button.dart';
-
 // Your converted accessibility widgets:
 import '../widgets/accessibility/theme_selector.dart';
 import '../widgets/accessibility/text_size_control.dart';
@@ -27,6 +25,32 @@ class _SettingsPageState extends State<SettingsPage> {
   bool enhancedFocus = true;
   bool largeTouchTargets = true;
   bool screenReaderSupport = false;
+  /////////////////////////////////
+  @override
+  void initState() {
+    super.initState();
+    _loadSettings();
+  }
+
+  Future<void> _loadSettings() async {
+    final prefs = await SharedPreferences.getInstance();
+    if (!mounted) return;
+    setState(() {
+      readAloud = prefs.getBool('careconnect-read-aloud') ?? false;
+      voiceCommands = prefs.getBool('careconnect-voice-commands') ?? false;
+      voiceReminders = prefs.getBool('careconnect-voice-reminders') ?? false;
+      reduceMotion = prefs.getBool('careconnect-reduce-motion') ?? false;
+      enhancedFocus = prefs.getBool('careconnect-enhanced-focus') ?? true;
+      largeTouchTargets = prefs.getBool('careconnect-large-touch') ?? true;
+      screenReaderSupport = prefs.getBool('careconnect-screen-reader') ?? false;
+    });
+  }
+
+  Future<void> _saveSetting(String key, bool value) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(key, value);
+  }
+  /////////////////////////////////
 
   Future<void> _confirmReset() async {
     final ok = await showDialog<bool>(
@@ -53,6 +77,13 @@ class _SettingsPageState extends State<SettingsPage> {
     // Optional: clear other accessibility preferences if you add them later
     // await prefs.remove('careconnect-reduce-motion');
     // etc...
+    await prefs.remove('careconnect-read-aloud');
+    await prefs.remove('careconnect-voice-commands');
+    await prefs.remove('careconnect-voice-reminders');
+    await prefs.remove('careconnect-reduce-motion');
+    await prefs.remove('careconnect-enhanced-focus');
+    await prefs.remove('careconnect-large-touch');
+    await prefs.remove('careconnect-screen-reader');
 
     if (!mounted) return;
 
@@ -86,18 +117,36 @@ class _SettingsPageState extends State<SettingsPage> {
         title: 'Account',
         headerIcon: Icons.person_outline,
         items: [
-          _SettingsItem(label: 'Profile Information', leadingIcon: Icons.person, onTap: () => context.go('/profile')),
-          _SettingsItem(label: 'Password & Security', leadingIcon: Icons.lock_outline, onTap: () {}),
-          _SettingsItem(label: 'Notifications', leadingIcon: Icons.notifications_none, onTap: () {}),
+          _SettingsItem(
+              label: 'Profile Information',
+              leadingIcon: Icons.person,
+              onTap: () => context.go('/profile')),
+          _SettingsItem(
+              label: 'Password & Security',
+              leadingIcon: Icons.lock_outline,
+              onTap: () {}),
+          _SettingsItem(
+              label: 'Notifications',
+              leadingIcon: Icons.notifications_none,
+              onTap: () {}),
         ],
       ),
       _SettingsSection(
         title: 'General',
         headerIcon: Icons.public,
         items: [
-          _SettingsItem(label: 'Language & Region', leadingIcon: Icons.language, onTap: () {}),
-          _SettingsItem(label: 'Privacy Policy', leadingIcon: Icons.privacy_tip_outlined, onTap: () {}),
-          _SettingsItem(label: 'Help & Support', leadingIcon: Icons.help_outline, onTap: () {}),
+          _SettingsItem(
+              label: 'Language & Region',
+              leadingIcon: Icons.language,
+              onTap: () {}),
+          _SettingsItem(
+              label: 'Privacy Policy',
+              leadingIcon: Icons.privacy_tip_outlined,
+              onTap: () {}),
+          _SettingsItem(
+              label: 'Help & Support',
+              leadingIcon: Icons.help_outline,
+              onTap: () {}),
         ],
       ),
     ];
@@ -121,7 +170,8 @@ class _SettingsPageState extends State<SettingsPage> {
                 const SizedBox(width: 6),
                 Text(
                   'Settings',
-                  style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w900),
+                  style: theme.textTheme.titleLarge
+                      ?.copyWith(fontWeight: FontWeight.w900),
                 ),
                 const Spacer(),
                 const Padding(
@@ -135,7 +185,6 @@ class _SettingsPageState extends State<SettingsPage> {
               child: Container(height: 2, color: theme.dividerColor),
             ),
           ),
-
           SliverPadding(
             padding: const EdgeInsets.fromLTRB(16, 16, 16, 96),
             sliver: SliverList(
@@ -144,11 +193,13 @@ class _SettingsPageState extends State<SettingsPage> {
                   // Accessibility Preferences
                   Row(
                     children: [
-                      Icon(Icons.visibility_outlined, size: 28, color: cs.primary),
+                      Icon(Icons.visibility_outlined,
+                          size: 28, color: cs.primary),
                       const SizedBox(width: 10),
                       Text(
                         'Accessibility Preferences',
-                        style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w900),
+                        style: theme.textTheme.titleLarge
+                            ?.copyWith(fontWeight: FontWeight.w900),
                       ),
                     ],
                   ),
@@ -180,21 +231,30 @@ class _SettingsPageState extends State<SettingsPage> {
                           title: 'Read Aloud',
                           subtitle: 'Have the app read screens aloud',
                           value: readAloud,
-                          onChanged: (v) => setState(() => readAloud = v),
+                          onChanged: (v) {
+                            setState(() => readAloud = v);
+                            _saveSetting('careconnect-read-aloud', v);
+                          },
                         ),
                         const SizedBox(height: 10),
                         _ToggleRow(
                           title: 'Voice Commands',
                           subtitle: 'Navigate and act using your voice',
                           value: voiceCommands,
-                          onChanged: (v) => setState(() => voiceCommands = v),
+                          onChanged: (v) {
+                            setState(() => voiceCommands = v);
+                            _saveSetting('careconnect-voice-commands', v);
+                          },
                         ),
                         const SizedBox(height: 10),
                         _ToggleRow(
                           title: 'Voice Reminders',
                           subtitle: 'Play spoken reminders and alerts',
                           value: voiceReminders,
-                          onChanged: (v) => setState(() => voiceReminders = v),
+                          onChanged: (v) {
+                            setState(() => voiceReminders = v);
+                            _saveSetting('careconnect-voice-reminders', v);
+                          },
                         ),
                       ],
                     ),
@@ -211,28 +271,40 @@ class _SettingsPageState extends State<SettingsPage> {
                           title: 'Reduce Motion',
                           subtitle: 'Minimize animations',
                           value: reduceMotion,
-                          onChanged: (v) => setState(() => reduceMotion = v),
+                          onChanged: (v) {
+                            setState(() => reduceMotion = v);
+                            _saveSetting('careconnect-reduce-motion', v);
+                          },
                         ),
                         const SizedBox(height: 10),
                         _ToggleRow(
                           title: 'Enhanced Focus Indicators',
                           subtitle: 'Stronger focus outlines',
                           value: enhancedFocus,
-                          onChanged: (v) => setState(() => enhancedFocus = v),
+                          onChanged: (v) {
+                            setState(() => enhancedFocus = v);
+                            _saveSetting('careconnect-enhanced-focus', v);
+                          },
                         ),
                         const SizedBox(height: 10),
                         _ToggleRow(
                           title: 'Large Touch Targets',
                           subtitle: 'Bigger buttons and controls',
                           value: largeTouchTargets,
-                          onChanged: (v) => setState(() => largeTouchTargets = v),
+                          onChanged: (v) {
+                            setState(() => largeTouchTargets = v);
+                            _saveSetting('careconnect-large-touch', v);
+                          },
                         ),
                         const SizedBox(height: 10),
                         _ToggleRow(
                           title: 'Screen Reader Support',
                           subtitle: 'Optimize for assistive tech',
                           value: screenReaderSupport,
-                          onChanged: (v) => setState(() => screenReaderSupport = v),
+                          onChanged: (v) {
+                            setState(() => screenReaderSupport = v);
+                            _saveSetting('careconnect-screen-reader', v);
+                          },
                         ),
                       ],
                     ),
@@ -246,43 +318,48 @@ class _SettingsPageState extends State<SettingsPage> {
                       children: [
                         Icon(section.headerIcon, size: 28, color: cs.primary),
                         const SizedBox(width: 10),
-                        Text(section.title, style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w900)),
+                        Text(section.title,
+                            style: theme.textTheme.titleLarge
+                                ?.copyWith(fontWeight: FontWeight.w900)),
                       ],
                     ),
                     const SizedBox(height: 12),
-
                     AppCard(
                       padding: EdgeInsets.zero,
                       child: Theme(
                         data: theme.copyWith(dividerColor: Colors.transparent),
                         child: ExpansionTile(
-                          tilePadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+                          tilePadding: const EdgeInsets.symmetric(
+                              horizontal: 14, vertical: 6),
                           childrenPadding: const EdgeInsets.only(bottom: 12),
                           leading: Container(
                             padding: const EdgeInsets.all(10),
                             decoration: BoxDecoration(
                               color: cs.surfaceContainerHighest,
                               borderRadius: BorderRadius.circular(10),
-                              border: Border.all(color: theme.dividerColor, width: 2),
+                              border: Border.all(
+                                  color: theme.dividerColor, width: 2),
                             ),
                             child: const Icon(Icons.description_outlined),
                           ),
                           title: Text('${section.title} Settings',
-                              style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w900)),
+                              style: theme.textTheme.titleMedium
+                                  ?.copyWith(fontWeight: FontWeight.w900)),
                           subtitle: Text(
                             'Manage ${section.title.toLowerCase()} preferences',
-                            style: theme.textTheme.bodySmall?.copyWith(color: theme.hintColor),
+                            style: theme.textTheme.bodySmall
+                                ?.copyWith(color: theme.hintColor),
                           ),
                           children: [
                             for (int i = 0; i < section.items.length; i++) ...[
-                              if (i > 0) Container(height: 2, color: theme.dividerColor),
+                              if (i > 0)
+                                Container(height: 2, color: theme.dividerColor),
                               _NavRow(item: section.items[i]),
                             ],
                           ],
                         ),
                       ),
                     ),
-
                     const SizedBox(height: 22),
                   ],
 
@@ -291,13 +368,18 @@ class _SettingsPageState extends State<SettingsPage> {
                     padding: const EdgeInsets.all(16),
                     child: Column(
                       children: [
-                        Text('CareConnect', style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w900)),
+                        Text('CareConnect',
+                            style: theme.textTheme.titleLarge
+                                ?.copyWith(fontWeight: FontWeight.w900)),
                         const SizedBox(height: 6),
-                        Text('Version 1.0.0', style: theme.textTheme.bodySmall?.copyWith(color: theme.hintColor)),
+                        Text('Version 1.0.0',
+                            style: theme.textTheme.bodySmall
+                                ?.copyWith(color: theme.hintColor)),
                         const SizedBox(height: 6),
                         Text(
                           '© 2025 CareConnect. All rights reserved.',
-                          style: theme.textTheme.bodySmall?.copyWith(color: theme.hintColor),
+                          style: theme.textTheme.bodySmall
+                              ?.copyWith(color: theme.hintColor),
                           textAlign: TextAlign.center,
                         ),
                         const SizedBox(height: 14),
@@ -354,8 +436,12 @@ class _SettingsPanel extends StatelessWidget {
             ),
             child: Icon(leadingIcon, color: cs.onSurface),
           ),
-          title: Text(title, style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w900)),
-          subtitle: Text(subtitle, style: theme.textTheme.bodySmall?.copyWith(color: theme.hintColor)),
+          title: Text(title,
+              style: theme.textTheme.titleMedium
+                  ?.copyWith(fontWeight: FontWeight.w900)),
+          subtitle: Text(subtitle,
+              style:
+                  theme.textTheme.bodySmall?.copyWith(color: theme.hintColor)),
           children: [child],
         ),
       ),
@@ -394,9 +480,13 @@ class _ToggleRow extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(title, style: theme.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w800)),
+                Text(title,
+                    style: theme.textTheme.bodyMedium
+                        ?.copyWith(fontWeight: FontWeight.w800)),
                 const SizedBox(height: 4),
-                Text(subtitle, style: theme.textTheme.bodySmall?.copyWith(color: theme.hintColor)),
+                Text(subtitle,
+                    style: theme.textTheme.bodySmall
+                        ?.copyWith(color: theme.hintColor)),
               ],
             ),
           ),
@@ -430,7 +520,9 @@ class _NavRow extends StatelessWidget {
             Icon(item.leadingIcon, color: cs.onSurface),
             const SizedBox(width: 12),
             Expanded(
-              child: Text(item.label, style: theme.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w700)),
+              child: Text(item.label,
+                  style: theme.textTheme.bodyMedium
+                      ?.copyWith(fontWeight: FontWeight.w700)),
             ),
             Icon(Icons.chevron_right, color: theme.hintColor),
           ],
@@ -467,16 +559,22 @@ class _ResetDialog extends StatelessWidget {
             decoration: BoxDecoration(
               color: const Color(0xFFFEF5E7), // alert-warning-bg token
               borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: const Color(0xFFF6C343), width: 2), // alert-warning-border
+              border: Border.all(
+                  color: const Color(0xFFF6C343),
+                  width: 2), // alert-warning-border
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('⚠️ Safety Notice', style: theme.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w900, color: const Color(0xFFD69E2E))),
+                Text('⚠️ Safety Notice',
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                        fontWeight: FontWeight.w900,
+                        color: const Color(0xFFD69E2E))),
                 const SizedBox(height: 6),
                 Text(
                   'You can always change these settings again after resetting.',
-                  style: theme.textTheme.bodySmall?.copyWith(color: theme.hintColor),
+                  style: theme.textTheme.bodySmall
+                      ?.copyWith(color: theme.hintColor),
                 ),
               ],
             ),
@@ -487,7 +585,8 @@ class _ResetDialog extends StatelessWidget {
         TextButton(onPressed: onCancel, child: const Text('Cancel')),
         ElevatedButton(
           onPressed: onConfirm,
-          style: ElevatedButton.styleFrom(backgroundColor: cs.error, foregroundColor: Colors.white),
+          style: ElevatedButton.styleFrom(
+              backgroundColor: cs.error, foregroundColor: Colors.white),
           child: const Text('Reset Settings'),
         ),
       ],
@@ -500,7 +599,8 @@ class _SettingsSection {
   final IconData headerIcon;
   final List<_SettingsItem> items;
 
-  _SettingsSection({required this.title, required this.headerIcon, required this.items});
+  _SettingsSection(
+      {required this.title, required this.headerIcon, required this.items});
 }
 
 class _SettingsItem {
@@ -508,5 +608,6 @@ class _SettingsItem {
   final IconData leadingIcon;
   final VoidCallback onTap;
 
-  _SettingsItem({required this.label, required this.leadingIcon, required this.onTap});
+  _SettingsItem(
+      {required this.label, required this.leadingIcon, required this.onTap});
 }

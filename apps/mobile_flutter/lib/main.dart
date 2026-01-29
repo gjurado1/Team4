@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-
 import 'package:mobile_flutter/router/app_router.dart';
 import 'package:mobile_flutter/theme/app_theme_controller.dart';
 import 'package:mobile_flutter/theme/app_theme_scope.dart';
+import 'package:go_router/go_router.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(const _Root());
 }
 
-/// Root widget that owns the AppThemeController lifecycle
 class _Root extends StatefulWidget {
   const _Root();
 
@@ -19,15 +18,18 @@ class _Root extends StatefulWidget {
 
 class _RootState extends State<_Root> {
   late final AppThemeController _themeController;
+  late final GoRouter _router;
 
   @override
   void initState() {
     super.initState();
     _themeController = AppThemeController();
+    
+    // Router is initialized once here to prevent route resets on rebuild
+    _router = buildRouter(); 
 
-    // Optional (recommended):
-    // If your controller loads saved theme / text size from prefs
-    // _themeController.loadFromPrefs();
+    // Important: Ensure the controller loads saved preferences
+    _themeController.loadFromPrefs();
   }
 
   @override
@@ -45,9 +47,14 @@ class _RootState extends State<_Root> {
         builder: (context, _) {
           return MaterialApp.router(
             debugShowCheckedModeBanner: false,
-            routerConfig: buildRouter(),
+            routerConfig: _router,
 
-            // Apply global text scaling (TextSizeControl)
+            // --- FIXED: Theme linkage activated ---
+            theme: ThemeData.light(useMaterial3: true), 
+            darkTheme: ThemeData.dark(useMaterial3: true),
+            themeMode: _themeController.themeMode, 
+            // ---------------------------------------
+
             builder: (context, child) {
               final mediaQuery = MediaQuery.of(context);
               return MediaQuery(
@@ -57,11 +64,6 @@ class _RootState extends State<_Root> {
                 child: child!,
               );
             },
-
-            // Optional: if your controller exposes ThemeData
-            // theme: _themeController.lightTheme,
-            // darkTheme: _themeController.darkTheme,
-            // themeMode: _themeController.themeMode,
           );
         },
       ),
