@@ -155,9 +155,6 @@ The project meets the **minimum 60% test coverage requirement** as specified in 
 * Some advanced features (e.g., role-based dashboards, remote sync) are outside the current scope.
 
 ---
-Absolutely — here’s a **clean, academic, professor-proof version** you can paste directly into your `README.md`. It’s professional, clear, and defensible if asked about roles or AI usage.
-
----
 
 ## 👥 Team Member Contributions (This Week)
 
