@@ -120,5 +120,3 @@ git branch -d <your-finished-branch>
 * **Test After Rebase:** Always run the app locally after a rebase to ensure teammate changes didn't break your new logic.
 
 ---
-
-Would you like me to add a section on how to handle "Force Pushing" safely if multiple people happen to collaborate on the same feature branch?
