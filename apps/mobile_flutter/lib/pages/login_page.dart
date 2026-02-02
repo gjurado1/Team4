@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../services/database_helper.dart';
+// import '../models/user.dart'; // Just in case you need the User type
+
 import '../widgets/ui/app_alert.dart';
 import '../widgets/ui/app_button.dart';
 import '../widgets/ui/app_input.dart';
@@ -30,6 +33,34 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
+  // Future<void> _handleLogin() async {
+  //   setState(() {
+  //     _error = '';
+  //     _showResetConfirm = false;
+  //   });
+
+  //   final u = _username.text.trim();
+  //   final p = _password.text.trim();
+
+  //   if (u.isEmpty || p.isEmpty) {
+  //     setState(() => _error = 'Please enter both username and password.');
+  //     return;
+  //   }
+
+  //   // Demo login logic matches React :contentReference[oaicite:10]{index=10}
+  //   if (u.toLowerCase().contains('caregiver') || u == 'demo') {
+  //     await _setRole('caregiver');
+  //     if (!mounted) return;
+  //     context.go('/caregiver/dashboard');
+  //   } else if (u.toLowerCase().contains('patient')) {
+  //     await _setRole('patient');
+  //     if (!mounted) return;
+  //     context.go('/patient/dashboard');
+  //   } else {
+  //     await _setRole(null);
+  //     setState(() => _error = 'Invalid username or password. Please try again.');
+  //   }
+  // }
   Future<void> _handleLogin() async {
     setState(() {
       _error = '';
@@ -44,25 +75,34 @@ class _LoginPageState extends State<LoginPage> {
       return;
     }
 
-    // Demo login logic matches React :contentReference[oaicite:10]{index=10}
-    if (u.toLowerCase().contains('caregiver') || u == 'demo') {
-      await _setRole('caregiver');
+    // --- NEW SQLITE LOGIC ---
+    // 1. Check the database for this user
+    final user = await DatabaseHelper.instance.login(u, p);
+
+    if (user != null) {
+      // 2. Logic to determine role (Since we haven't added roles to DB yet,
+      // let's assume 'admin' is a caregiver for testing)
+      String role = user.username.toLowerCase().contains('patient')
+          ? 'patient'
+          : 'caregiver';
+
+      await _setRole(role);
+
       if (!mounted) return;
-      context.go('/caregiver/dashboard');
-    } else if (u.toLowerCase().contains('patient')) {
-      await _setRole('patient');
-      if (!mounted) return;
-      context.go('/patient/dashboard');
+      context.go('/$role/dashboard');
     } else {
+      // 3. If no user found in DB, show error
       await _setRole(null);
-      setState(() => _error = 'Invalid username or password. Please try again.');
+      setState(
+          () => _error = 'Invalid username or password. Please try again.');
     }
   }
 
   Future<void> _demoLogin(String role) async {
     await _setRole(role);
     if (!mounted) return;
-    context.go(role == 'caregiver' ? '/caregiver/dashboard' : '/patient/dashboard');
+    context.go(
+        role == 'caregiver' ? '/caregiver/dashboard' : '/patient/dashboard');
   }
 
   @override
@@ -97,15 +137,20 @@ class _LoginPageState extends State<LoginPage> {
                       color: theme.colorScheme.surface,
                       borderRadius: BorderRadius.circular(12),
                       border: Border.all(color: theme.dividerColor, width: 2),
-                      boxShadow: const [BoxShadow(blurRadius: 18, offset: Offset(0, 10))],
+                      boxShadow: const [
+                        BoxShadow(blurRadius: 18, offset: Offset(0, 10))
+                      ],
                     ),
                     child: Column(
                       children: [
-                        Text('Sign in to your account', style: theme.textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w800)),
+                        Text('Sign in to your account',
+                            style: theme.textTheme.headlineSmall
+                                ?.copyWith(fontWeight: FontWeight.w800)),
                         const SizedBox(height: 6),
-                        Text('Enter your credentials to access CareConnect', style: theme.textTheme.bodyMedium?.copyWith(color: theme.hintColor)),
+                        Text('Enter your credentials to access CareConnect',
+                            style: theme.textTheme.bodyMedium
+                                ?.copyWith(color: theme.hintColor)),
                         const SizedBox(height: 16),
-
                         AppInput(
                           label: 'Username',
                           hintText: 'Enter your username',
@@ -119,12 +164,14 @@ class _LoginPageState extends State<LoginPage> {
                           controller: _password,
                           obscureText: _pwObscure,
                           suffix: IconButton(
-                            onPressed: () => setState(() => _pwObscure = !_pwObscure),
-                            icon: Icon(_pwObscure ? Icons.visibility : Icons.visibility_off),
+                            onPressed: () =>
+                                setState(() => _pwObscure = !_pwObscure),
+                            icon: Icon(_pwObscure
+                                ? Icons.visibility
+                                : Icons.visibility_off),
                           ),
                           onSubmitted: (_) => _handleLogin(),
                         ),
-
                         Align(
                           alignment: Alignment.centerRight,
                           child: TextButton(
@@ -132,16 +179,16 @@ class _LoginPageState extends State<LoginPage> {
                             child: const Text('Forgot Password?'),
                           ),
                         ),
-
                         if (_error.isNotEmpty) ...[
                           AppAlert.error(child: Text(_error)),
                           const SizedBox(height: 12),
                         ],
                         if (_showResetConfirm) ...[
-                          const AppAlert.info(child: Text('Password reset link sent! Please check your inbox.')),
+                          const AppAlert.info(
+                              child: Text(
+                                  'Password reset link sent! Please check your inbox.')),
                           const SizedBox(height: 12),
                         ],
-
                         AppButton(
                           variant: AppButtonVariant.primary,
                           expand: true,
@@ -149,9 +196,10 @@ class _LoginPageState extends State<LoginPage> {
                           icon: const Icon(Icons.arrow_forward, size: 20),
                           child: const Text('Sign In'),
                         ),
-
                         const SizedBox(height: 12),
-                        Text("Don't have an account?", style: theme.textTheme.bodyMedium?.copyWith(color: theme.hintColor)),
+                        Text("Don't have an account?",
+                            style: theme.textTheme.bodyMedium
+                                ?.copyWith(color: theme.hintColor)),
                         const SizedBox(height: 8),
                         AppButton(
                           variant: AppButtonVariant.secondary,
@@ -175,11 +223,14 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     child: Column(
                       children: [
-                        Text('Demo Credentials', style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w800)),
+                        Text('Demo Credentials',
+                            style: theme.textTheme.titleMedium
+                                ?.copyWith(fontWeight: FontWeight.w800)),
                         const SizedBox(height: 6),
-                        Text('Use these credentials to explore CareConnect', style: theme.textTheme.bodySmall?.copyWith(color: theme.hintColor)),
+                        Text('Use these credentials to explore CareConnect',
+                            style: theme.textTheme.bodySmall
+                                ?.copyWith(color: theme.hintColor)),
                         const SizedBox(height: 12),
-
                         _DemoTile(
                           title: '👤 Patient Account',
                           subtitle: 'Username: testpatient',
@@ -218,7 +269,8 @@ class _DemoTile extends StatelessWidget {
   final String subtitle;
   final VoidCallback onTap;
 
-  const _DemoTile({required this.title, required this.subtitle, required this.onTap});
+  const _DemoTile(
+      {required this.title, required this.subtitle, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -237,9 +289,13 @@ class _DemoTile extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(title, style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w800)),
+            Text(title,
+                style: theme.textTheme.titleSmall
+                    ?.copyWith(fontWeight: FontWeight.w800)),
             const SizedBox(height: 4),
-            Text(subtitle, style: theme.textTheme.bodySmall?.copyWith(color: theme.hintColor)),
+            Text(subtitle,
+                style: theme.textTheme.bodySmall
+                    ?.copyWith(color: theme.hintColor)),
           ],
         ),
       ),

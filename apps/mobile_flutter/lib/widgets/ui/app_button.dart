@@ -45,6 +45,20 @@ class AppButton extends StatelessWidget {
         break;
     }
 
+    // final content = Row(
+    //   mainAxisSize: MainAxisSize.min,
+    //   mainAxisAlignment: MainAxisAlignment.center,
+    //   children: [
+    //     if (icon != null) ...[
+    //       IconTheme(data: IconThemeData(color: fg, size: 20), child: icon!),
+    //       const SizedBox(width: 8),
+    //     ],
+    //     DefaultTextStyle(
+    //       style: TextStyle(color: fg, fontWeight: FontWeight.w700),
+    //       child: child,
+    //     ),
+    //   ],
+    // );
     final content = Row(
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
@@ -53,13 +67,24 @@ class AppButton extends StatelessWidget {
           IconTheme(data: IconThemeData(color: fg, size: 20), child: icon!),
           const SizedBox(width: 8),
         ],
-        DefaultTextStyle(
-          style: TextStyle(color: fg, fontWeight: FontWeight.w700),
-          child: child,
+        // Wrap text in Flexible to prevent "RenderFlex overflowed" errors
+        Flexible(
+          child: DefaultTextStyle(
+            style: TextStyle(
+              color: fg,
+              fontWeight: FontWeight.w700,
+              overflow:
+                  TextOverflow.ellipsis, // Adds "..." if text is way too long
+            ),
+            softWrap: false, // Keeps text on one line for buttons
+            child: child,
+          ),
         ),
       ],
     );
-
+    
+    
+    
     final button = ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(

@@ -4,7 +4,9 @@ import '../models/auth_state.dart';
 class AuthNotifier extends StateNotifier<AuthState> {
   AuthNotifier() : super(AuthState(isLoggedIn: false));
 
-  void login() {
+  Future<void> login() async {
+    // Simulate an async login operation (e.g., network request)
+    
     state = state.copyWith(isLoggedIn: true);
   }
 
