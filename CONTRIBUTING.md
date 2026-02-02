@@ -63,23 +63,21 @@ git add <conflicted-file-path>
 ```
 
 
-4. **Continue Rebase:** ```bash
+4. **Continue Rebase:** 
+
+```bash
 git rebase --continue
 ```
-*Note: If you get stuck, use `git rebase --abort` to start over.*
+_Note_: If you get stuck, use `git rebase --abort` to start over.*
 
 
-```
-
-
-
----
 
 ## 4. Submitting Your Work
 
 Once your feature is complete and you have performed a final rebase onto `main`:
 
 1. **Push to Remote:**
+
 ```bash
 # Use --force-with-lease because rebase rewrites history
 git push origin <your-branch-name> --force-with-lease
@@ -88,14 +86,14 @@ git push origin <your-branch-name> --force-with-lease
 
 
 2. **Open a Pull Request (PR):**
+
 * Assign at least one teammate for review.
 * Ensure the CI/CD (if applicable) passes.
 
 
 3. **Merge:**
+
 * After approval, merge the PR into `main`.
-
-
 
 ---
 
