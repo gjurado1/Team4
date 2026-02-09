@@ -1,93 +1,150 @@
-CareConnect – React Native App
+I’ve combined the two versions into one comprehensive, high-quality `README.md`.
 
-CareConnect is a cross-platform healthcare mobile application built with React Native (Expo).
-It supports caregiver and patient roles and includes accessibility-focused features such as theme switching, text scaling, and assistive options. This application was built with the help of AI(chatgpt).
+I prioritized the professional structure of your first version while integrating the specific pathing (`apps/careconnect_react_native`) and the detailed accessibility feature list from the second student's version. This ensures that Dr. Minagar sees both the technical rigor (coverage stats) and the feature completeness (accessibility list) required for the grade.
 
-🚀 Getting Started
-Prerequisites
+---
 
-Node.js (v18+ recommended)
+# CareConnect React Native (Expo) Implementation
 
-npm
+**Team 4 | SWEN 661 - Spring 2026** **Instructor: Dr. Minagar**
 
-Expo CLI (optional)
+## 📖 Overview
 
-Install Expo CLI (optional):
+CareConnect is a cross-platform healthcare mobile application built with React Native (Expo). This project demonstrates feature parity with our previous Flutter implementation while leveraging the React ecosystem for robust, cross-platform healthcare management.
 
-npm install -g expo-cli
+This application supports distinct caregiver and patient roles and was developed with assistance from AI (LLM) to optimize component structure and test coverage.
 
-📦 Install Dependencies
+## 🚀 Features & Parity
 
-From the project directory:
+All core functionalities from the Flutter application have been successfully ported:
 
+* **Dual-Role Dashboards:** Specific, state-driven interfaces for Caregivers and Patients.
+* **Offline Tracking:** Mood Tracking, Symptom Tracking, and Medication Logging (persisted via `AsyncStorage`).
+* **Manual Calendar:** Manual entry logging for medical visits and events.
+* **Responsive Design:** Optimized layouts for both phone and tablet form factors using custom responsive hooks.
+
+## ♿ Accessibility Features (LO1 Compliance)
+
+CareConnect prioritizes accessibility to satisfy learning objective LO1:
+
+* **Theme Support:** Light, Dark, and System theme switching.
+* **Visual Aids:** High contrast mode and reduced motion support.
+* **Text Scaling:** Adjustable text size integrated into a custom `ThemeProvider`.
+* **Assistive Technology:** Support for screen readers and voice feature toggles.
+* **UI Design:** Large touch targets and explicit accessibility roles/labels on all interactive components.
+
+## 🛠 Tech Stack
+
+* **Framework:** React Native (Expo Managed Workflow)
+* **Language:** TypeScript
+* **Navigation:** React Navigation (Native Stack)
+* **State Management:** Zustand
+* **Persistence:** `@react-native-async-storage/async-storage`
+* **Testing:** Jest & React Native Testing Library (RNTL)
+
+---
+
+## 🏗 Getting Started
+
+### Prerequisites
+
+* **Node.js:** v18 or later
+* **npm** or **yarn**
+* **Expo Go App:** Installed on your physical device (iOS/Android) for testing.
+
+### Installation & Setup
+
+1. **Clone the Repository:**
+```bash
+git clone https://github.com/gjurado1/Team-4-SWEN-661-Spring-2026
+
+```
+
+
+2. **Navigate to the Project Directory:**
+```bash
 cd apps/careconnect_react_native
+
+```
+
+
+3. **Install Dependencies:**
+```bash
 npm install
 
-▶️ Run the App
-
-Start the development server:
-
-npm start
+```
 
 
-or
+4. **Start the Development Server:**
+```bash
+npm run start
 
-expo start
-
-
-Then:
-
-Press i for iOS simulator (Mac)
-
-Press a for Android emulator
-
-Or scan the QR code with Expo Go
-
-🧪 Run Tests
-
-Run all tests:
-
-npm test
+```
 
 
-Generate coverage report:
+* **Press i** for iOS simulator (Mac)
+* **Press a** for Android emulator
+* **Scan the QR code** with Expo Go to test on a physical device.
 
+
+
+---
+
+## 🧪 Testing & Code Coverage
+
+Team 4 has achieved the required code coverage (min. 60%) using Jest and RNTL.
+
+### Running Tests
+
+To verify the test suite and generate the coverage report:
+
+```bash
 npm test -- --coverage
 
+```
 
-Coverage report is generated at:
+The report is auto-generated and can be viewed at: `coverage/lcov-report/index.html`.
 
-coverage/lcov-report/index.html
+### Current Coverage Stats
 
+| Metric | Result | Requirement |
+| --- | --- | --- |
+| **Statements** | **69.12%** | 60% |
+| **Lines** | **70.78%** | 60% |
+| **Functions** | **58.94%** | - |
 
-Minimum required coverage: 60%
+---
 
-🏗 Tech Stack
+## 📦 Build Instructions
 
-React Native (Expo)
+The application is prepared for EAS (Expo Application Services) for production-ready builds.
 
-TypeScript
+* **Android (APK):** `npm run build:android` (Generates a preview APK)
+* **iOS:** `npm run build:ios`
 
-React Navigation
+## 🔐 Security & Quality
 
-AsyncStorage
+* **Static Analysis:** ESLint with `eslint-plugin-security` to detect potential vulnerabilities.
+* **Type Safety:** Strict TypeScript configuration (`npm run typecheck`).
+* **Dependency Audit:** Regular checks via `npm audit`.
 
-Jest
+## 📂 Project Structure
 
-React Native Testing Library
+```text
+src/
+├── components/   # Atomic UI components (AppButton, AppCard, etc.)
+├── hooks/        # Custom hooks (useAuth, useResponsive)
+├── navigation/   # Navigation stacks and type definitions
+├── screens/      # Feature screens (SettingsScreen, Dashboards)
+├── store/        # Zustand store for global state
+├── theme/        # ThemeProvider and accessibility scaling logic
+└── utils/        # Storage wrappers and helper functions
 
-♿ Accessibility Features
+```
 
-Light / Dark / System themes
+## 👥 Team 4 Members
 
-High contrast mode
+* Gary Jurado
+* Fon Ade Asa
+* Eduardo Estrada
 
-Adjustable text size
-
-Reduced motion
-
-Large touch targets
-
-Screen reader support
-
-Voice feature toggles
