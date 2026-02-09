@@ -101,6 +101,10 @@ To verify the test suite and generate the coverage report:
 ```bash
 npm test -- --coverage
 
+# OR
+
+npx jest --coverage
+
 ```
 
 The report is auto-generated and can be viewed at: `coverage/lcov-report/index.html`.
