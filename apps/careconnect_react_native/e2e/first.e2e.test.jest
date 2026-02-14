@@ -1,0 +1,9 @@
+describe("CareConnect", () => {
+  beforeAll(async () => {
+    await device.launchApp();
+  });
+
+  it("should show the app", async () => {
+    await expect(element(by.id("login-screen"))).toBeVisible();
+  });
+});

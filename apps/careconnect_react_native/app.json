@@ -27,7 +27,8 @@
     "android": {
       "adaptiveIcon": {
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.anonymous.careconnectreactnativeexpo"
     },
     "plugins": [
       "expo-sqlite"
