@@ -21,4 +21,15 @@ allprojects {
 }
 
 apply plugin: "expo-root-project"
-apply plugin: "com.facebook.react.rootproject"
+
+subprojects { sub ->
+  afterEvaluate {
+    if (sub.plugins.hasPlugin("com.android.application") || sub.plugins.hasPlugin("com.android.library")) {
+      sub.android {
+        packagingOptions {
+          pickFirst "lib/**/libfbjni.so"
+        }
+      }
+    }
+  }
+}
