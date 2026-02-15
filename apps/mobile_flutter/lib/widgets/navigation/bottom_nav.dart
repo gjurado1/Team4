@@ -100,108 +100,120 @@ class _BottomNavState extends State<BottomNav> {
         // Expanded full screen menu
         if (_expanded)
           Positioned.fill(
-            child: Material(
-              color: cs.surface,
-              child: SafeArea(
-                child: Column(
-                  children: [
-                    // Collapse header button (smaller, more React-like)
-                    Container(
-                      padding: const EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                        color: cs.surface,
-                        border: Border(bottom: BorderSide(color: theme.dividerColor, width: 2)),
-                      ),
-                      child: SizedBox(
-                        height: 52,
-                        width: double.infinity,
-                        child: OutlinedButton.icon(
-                          onPressed: () => setState(() => _expanded = false),
-                          icon: const Icon(Icons.expand_more, size: 22),
-                          label: const Text(
-                            'Collapse Menu',
-                            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800),
-                          ),
-                          style: OutlinedButton.styleFrom(
-                            side: BorderSide(color: theme.dividerColor, width: 2),
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                          ),
-                        ),
-                      ),
-                    ),
-
-                    // Grid content (constrain width + compact tiles)
-                    Expanded(
-                      child: SingleChildScrollView(
-                        padding: const EdgeInsets.all(16),
-                        child: Center(
-                          child: ConstrainedBox(
-                            constraints: const BoxConstraints(maxWidth: 720),
-                            child: LayoutBuilder(
-                              builder: (context, constraints) {
-                                final crossAxisCount = constraints.maxWidth >= 720 ? 3 : 2;
-
-                                return GridView.count(
-                                  crossAxisCount: crossAxisCount,
-                                  shrinkWrap: true,
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  mainAxisSpacing: 12,
-                                  crossAxisSpacing: 12,
-                                  // Wide buttons like React (was square-ish)
-                                  childAspectRatio: 2.6,
-                                  children: [
-                                    for (final item in _items)
-                                      _NavGridTile(
-                                        item: item,
-                                        active: widget.currentPath == item.path,
-                                        onTap: () => _navigate(item),
-                                      ),
-                                  ],
-                                );
-                              },
+            child: BlockSemantics(
+              child: Semantics(
+                scopesRoute: true,
+                namesRoute: true,
+                explicitChildNodes: true,
+                label: 'Navigation menu',
+                child: FocusScope(
+                  autofocus: true,
+                  child: Material(
+                    color: cs.surface,
+                    child: SafeArea(
+                      child: Column(
+                        children: [
+                          // Collapse header button (smaller, more React-like)
+                          Container(
+                            padding: const EdgeInsets.all(12),
+                            decoration: BoxDecoration(
+                              color: cs.surface,
+                              border: Border(bottom: BorderSide(color: theme.dividerColor, width: 2)),
+                            ),
+                            child: SizedBox(
+                              height: 52,
+                              width: double.infinity,
+                              child: OutlinedButton.icon(
+                                onPressed: () => setState(() => _expanded = false),
+                                icon: const Icon(Icons.expand_more, size: 22),
+                                label: const Text(
+                                  'Collapse Menu',
+                                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800),
+                                ),
+                                style: OutlinedButton.styleFrom(
+                                  side: BorderSide(color: theme.dividerColor, width: 2),
+                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                                ),
+                              ),
                             ),
                           ),
-                        ),
+
+                          // Grid content (constrain width + compact tiles)
+                          Expanded(
+                            child: SingleChildScrollView(
+                              padding: const EdgeInsets.all(16),
+                              child: Center(
+                                child: ConstrainedBox(
+                                  constraints: const BoxConstraints(maxWidth: 720),
+                                  child: LayoutBuilder(
+                                    builder: (context, constraints) {
+                                      final crossAxisCount = constraints.maxWidth >= 720 ? 3 : 2;
+
+                                      return GridView.count(
+                                        crossAxisCount: crossAxisCount,
+                                        shrinkWrap: true,
+                                        physics: const NeverScrollableScrollPhysics(),
+                                        mainAxisSpacing: 12,
+                                        crossAxisSpacing: 12,
+                                        // Slightly taller tiles to better accommodate larger text sizes.
+                                        childAspectRatio: 2.2,
+                                        children: [
+                                          for (final item in _items)
+                                            _NavGridTile(
+                                              item: item,
+                                              active: widget.currentPath == item.path,
+                                              onTap: () => _navigate(item),
+                                            ),
+                                        ],
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                  ],
+                  ),
                 ),
               ),
             ),
           ),
 
         // Bottom bar (Menu button)
-        Align(
-          alignment: Alignment.bottomCenter,
-          child: Material(
-            elevation: 8,
-            color: cs.surface,
-            child: Container(
-              padding: EdgeInsets.only(bottom: bottomPad),
-              decoration: BoxDecoration(
-                border: Border(top: BorderSide(color: theme.dividerColor, width: 2)),
-              ),
-              child: SizedBox(
-                height: 64,
-                width: double.infinity,
-                child: InkWell(
-                  onTap: () => setState(() => _expanded = true),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Icon(Icons.menu, size: 28),
-                      const SizedBox(width: 10),
-                      Text(
-                        'Menu',
-                        style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w800),
-                      ),
-                    ],
+        if (!_expanded)
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Material(
+              elevation: 8,
+              color: cs.surface,
+              child: Container(
+                padding: EdgeInsets.only(bottom: bottomPad),
+                decoration: BoxDecoration(
+                  border: Border(top: BorderSide(color: theme.dividerColor, width: 2)),
+                ),
+                child: SizedBox(
+                  height: 64,
+                  width: double.infinity,
+                  child: InkWell(
+                    onTap: () => setState(() => _expanded = true),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Icon(Icons.menu, size: 28),
+                        const SizedBox(width: 10),
+                        Text(
+                          'Menu',
+                          style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w800),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
             ),
           ),
-        ),
       ],
     );
   }
@@ -279,8 +291,8 @@ class _NavGridTile extends StatelessWidget {
               Expanded(
                 child: Text(
                   item.label,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  softWrap: true,
                   style: theme.textTheme.titleMedium?.copyWith(
                     fontWeight: FontWeight.w800,
                     fontSize: 16,

@@ -36,7 +36,7 @@ class AppBadge extends StatelessWidget {
         break;
       case AppBadgeVariant.warning:
         bg = const Color(0xFFD69E2E);
-        fg = Colors.white;
+        fg = const Color(0xFF1A2332);
         break;
       case AppBadgeVariant.error:
         bg = cs.error;
@@ -52,7 +52,8 @@ class AppBadge extends StatelessWidget {
       ),
       child: Text(
         text.toUpperCase(),
-        style: const TextStyle(
+        style: TextStyle(
+          color: fg,
           fontSize: 12,
           fontWeight: FontWeight.w800,
           letterSpacing: 0.6,

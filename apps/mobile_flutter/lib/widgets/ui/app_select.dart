@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../theme/app_theme_scope.dart';
 import 'app_label.dart';
 
 class AppSelectOption {
@@ -30,6 +31,9 @@ class AppSelect extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final controller = AppThemeScope.of(context);
+    final borderWidth = controller.enhancedFocus ? 3.0 : 2.0;
+    final minTouchSize = controller.largeTouchTargets ? 56.0 : 48.0;
 
     final borderColor = error != null ? theme.colorScheme.error : theme.dividerColor;
 
@@ -47,17 +51,18 @@ class AppSelect extends StatelessWidget {
               enabled: !disabled,
               isDense: true,
               contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+              constraints: BoxConstraints(minHeight: minTouchSize),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8),
-                borderSide: BorderSide(color: borderColor, width: 2),
+                borderSide: BorderSide(color: borderColor, width: borderWidth),
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8),
-                borderSide: BorderSide(color: theme.colorScheme.primary, width: 2),
+                borderSide: BorderSide(color: theme.colorScheme.primary, width: borderWidth),
               ),
               errorBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8),
-                borderSide: BorderSide(color: theme.colorScheme.error, width: 2),
+                borderSide: BorderSide(color: theme.colorScheme.error, width: borderWidth),
               ),
               suffixIcon: Icon(Icons.expand_more, color: theme.hintColor),
             ),

@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../widgets/ui/app_card.dart';
 import '../widgets/ui/app_button.dart';
 import '../widgets/navigation/header_voice_button.dart';
+import '../theme/app_theme_scope.dart';
 // Your converted accessibility widgets:
 import '../widgets/accessibility/theme_selector.dart';
 import '../widgets/accessibility/text_size_control.dart';
@@ -86,6 +87,7 @@ class _SettingsPageState extends State<SettingsPage> {
     await prefs.remove('careconnect-screen-reader');
 
     if (!mounted) return;
+    final themeController = AppThemeScope.of(context);
 
     // Reset local toggles to defaults (matches the React UI defaults)
     setState(() {
@@ -98,6 +100,9 @@ class _SettingsPageState extends State<SettingsPage> {
       largeTouchTargets = true;
       screenReaderSupport = false;
     });
+    themeController.setEnhancedFocus(true);
+    themeController.setLargeTouchTargets(true);
+    themeController.setScreenReaderSupport(false);
 
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('Settings reset to defaults.')),
@@ -110,6 +115,7 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final cs = theme.colorScheme;
+    final themeController = AppThemeScope.of(context);
 
     // These mirror your React “settingsSections” structure
     final sections = <_SettingsSection>[
@@ -302,7 +308,7 @@ class _SettingsPageState extends State<SettingsPage> {
                           value: enhancedFocus,
                           onChanged: (v) {
                             setState(() => enhancedFocus = v);
-                            _saveSetting('careconnect-enhanced-focus', v);
+                            themeController.setEnhancedFocus(v);
                           },
                         ),
                         const SizedBox(height: 10),
@@ -312,7 +318,7 @@ class _SettingsPageState extends State<SettingsPage> {
                           value: largeTouchTargets,
                           onChanged: (v) {
                             setState(() => largeTouchTargets = v);
-                            _saveSetting('careconnect-large-touch', v);
+                            themeController.setLargeTouchTargets(v);
                           },
                         ),
                         const SizedBox(height: 10),
@@ -322,7 +328,7 @@ class _SettingsPageState extends State<SettingsPage> {
                           value: screenReaderSupport,
                           onChanged: (v) {
                             setState(() => screenReaderSupport = v);
-                            _saveSetting('careconnect-screen-reader', v);
+                            themeController.setScreenReaderSupport(v);
                           },
                         ),
                       ],
@@ -588,7 +594,7 @@ class _ResetDialog extends StatelessWidget {
                 Text('⚠️ Safety Notice',
                     style: theme.textTheme.bodyMedium?.copyWith(
                         fontWeight: FontWeight.w900,
-                        color: const Color(0xFFD69E2E))),
+                        color: const Color(0xFF8A5A00))),
                 const SizedBox(height: 6),
                 Text(
                   'You can always change these settings again after resetting.',

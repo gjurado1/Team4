@@ -34,9 +34,9 @@ class AppAlert extends StatelessWidget {
         icon = Icons.info_outline;
         break;
       case AppAlertVariant.warning:
-        border = const Color(0xFFF6C343);
+        border = const Color(0xFF8A5A00);
         bg = const Color(0xFFFEF5E7);
-        fg = const Color(0xFFD69E2E);
+        fg = const Color(0xFF8A5A00);
         icon = Icons.warning_amber_outlined;
         break;
       case AppAlertVariant.error:

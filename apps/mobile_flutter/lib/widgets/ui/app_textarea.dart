@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../theme/app_theme_scope.dart';
 
 class AppTextarea extends StatelessWidget {
   final TextEditingController? controller;
@@ -19,6 +20,9 @@ class AppTextarea extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final themeController = AppThemeScope.of(context);
+    final borderWidth = themeController.enhancedFocus ? 3.0 : 2.0;
+    final minTouchSize = themeController.largeTouchTargets ? 56.0 : 48.0;
 
     return TextField(
       controller: controller,
@@ -30,13 +34,14 @@ class AppTextarea extends StatelessWidget {
         filled: true,
         fillColor: theme.colorScheme.surface,
         contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
+        constraints: BoxConstraints(minHeight: minTouchSize),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: BorderSide(color: theme.dividerColor, width: 2),
+          borderSide: BorderSide(color: theme.dividerColor, width: borderWidth),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: BorderSide(color: theme.colorScheme.primary, width: 2),
+          borderSide: BorderSide(color: theme.colorScheme.primary, width: borderWidth),
         ),
       ),
     );

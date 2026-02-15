@@ -12,6 +12,7 @@ import { AppButton } from "../components/ui/AppButton";
 import { PageHeader } from "../components/ui/PageHeader";
 import { Text, useAppTheme } from "../theme/ThemeProvider";
 import type { RootStackParamList } from "../navigation/types";
+import { useSettings } from "../context/SettingsContext";
 
 import ThemeSelector from "../components/accessibility/ThemeSelector";
 import TextSizeControl from "../components/accessibility/TextSizeControl";
@@ -167,6 +168,7 @@ function ResetDialog({
 export function SettingsScreen() {
   const navigation = useNavigation<Nav>();
   const { theme, textScale } = useAppTheme();
+  const { setEnhancedFocus, setLargeTouchTargets, setScreenReaderSupport } = useSettings();
 
   const [toggles, setToggles] = React.useState<ToggleState>(DEFAULTS);
   const [resetOpen, setResetOpen] = React.useState(false);
@@ -195,7 +197,14 @@ export function SettingsScreen() {
   const setToggle = React.useCallback(async (key: keyof ToggleState, value: boolean) => {
     setToggles((prev) => ({ ...prev, [key]: value }));
     await setBool(STORAGE_KEYS[key], value);
-  }, []);
+    if (key === "enhancedFocus") {
+      await setEnhancedFocus(value);
+    } else if (key === "largeTouchTargets") {
+      await setLargeTouchTargets(value);
+    } else if (key === "screenReaderSupport") {
+      await setScreenReaderSupport(value);
+    }
+  }, [setEnhancedFocus, setLargeTouchTargets, setScreenReaderSupport]);
 
   const handleBack = React.useCallback(async () => {
     // 1) Normal case: go back if there is history
@@ -222,8 +231,13 @@ export function SettingsScreen() {
     await Promise.all(Object.values(STORAGE_KEYS).map((k) => removeKey(k)));
 
     setToggles(DEFAULTS);
+    await Promise.all([
+      setEnhancedFocus(DEFAULTS.enhancedFocus),
+      setLargeTouchTargets(DEFAULTS.largeTouchTargets),
+      setScreenReaderSupport(DEFAULTS.screenReaderSupport),
+    ]);
     setResetOpen(false);
-  }, []);
+  }, [setEnhancedFocus, setLargeTouchTargets, setScreenReaderSupport]);
 
   const accountItems: Array<{ label: string; route: keyof RootStackParamList }> = [
     { label: "Profile Information", route: "Profile" },

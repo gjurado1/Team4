@@ -49,6 +49,14 @@ jest.mock("../theme/ThemeProvider", () => {
   };
 });
 
+jest.mock("../context/SettingsContext", () => ({
+  useSettings: () => ({
+    setEnhancedFocus: jest.fn().mockResolvedValue(undefined),
+    setLargeTouchTargets: jest.fn().mockResolvedValue(undefined),
+    setScreenReaderSupport: jest.fn().mockResolvedValue(undefined),
+  }),
+}));
+
 /* -------------------- MOCK CHILD COMPONENTS -------------------- */
 
 jest.mock("../components/navigation/AppLayout", () => ({
@@ -92,13 +100,21 @@ describe("SettingsScreen", () => {
     jest.clearAllMocks();
   });
 
+  async function renderScreen() {
+    const utils = render(<SettingsScreen />);
+    await waitFor(() => {
+      expect(AsyncStorage.getItem).toHaveBeenCalled();
+    });
+    return utils;
+  }
+
   /* -------------------- BACK NAVIGATION -------------------- */
 
   it("goes back if navigation stack exists", async () => {
     mockCanGoBack.mockReturnValue(true);
     (AsyncStorage.getItem as jest.Mock).mockResolvedValue(null);
 
-    const { getByText } = render(<SettingsScreen />);
+    const { getByText } = await renderScreen();
 
     fireEvent.press(getByText("Back"));
     expect(mockGoBack).toHaveBeenCalled();
@@ -108,7 +124,7 @@ describe("SettingsScreen", () => {
     mockCanGoBack.mockReturnValue(false);
     (AsyncStorage.getItem as jest.Mock).mockResolvedValue("caregiver");
 
-    const { getByText } = render(<SettingsScreen />);
+    const { getByText } = await renderScreen();
 
     fireEvent.press(getByText("Back"));
 
@@ -126,7 +142,7 @@ describe("SettingsScreen", () => {
     mockCanGoBack.mockReturnValue(true);
     (AsyncStorage.getItem as jest.Mock).mockResolvedValue(null);
 
-    const { getByLabelText } = render(<SettingsScreen />);
+    const { getByLabelText } = await renderScreen();
 
     fireEvent.press(getByLabelText("Read Aloud"));
 
@@ -142,7 +158,7 @@ describe("SettingsScreen", () => {
     mockCanGoBack.mockReturnValue(true);
     (AsyncStorage.getItem as jest.Mock).mockResolvedValue(null);
 
-    const { getByLabelText } = render(<SettingsScreen />);
+    const { getByLabelText } = await renderScreen();
 
     fireEvent.press(getByLabelText("Screen Reader Support"));
 
@@ -160,9 +176,7 @@ describe("SettingsScreen", () => {
     mockCanGoBack.mockReturnValue(true);
     (AsyncStorage.getItem as jest.Mock).mockResolvedValue(null);
 
-    const { getByLabelText, queryByLabelText, getAllByText } = render(
-      <SettingsScreen />
-    );
+    const { getByLabelText, queryByLabelText, getAllByText } = await renderScreen();
 
     // Open dialog
     fireEvent.press(getByLabelText("Reset all settings"));
@@ -198,9 +212,7 @@ describe("SettingsScreen", () => {
     mockCanGoBack.mockReturnValue(true);
     (AsyncStorage.getItem as jest.Mock).mockResolvedValue(null);
 
-    const { getByLabelText, getAllByText, queryByLabelText } = render(
-      <SettingsScreen />
-    );
+    const { getByLabelText, getAllByText, queryByLabelText } = await renderScreen();
 
     fireEvent.press(getByLabelText("Reset all settings"));
     expect(

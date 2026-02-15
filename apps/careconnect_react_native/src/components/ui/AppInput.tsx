@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, TextInput, View } from 'react-native';
 import { Text, useAppTheme } from '../../theme/ThemeProvider';
+import { useSettings } from '../../context/SettingsContext';
 
 type Props = {
   label: string;
@@ -28,6 +29,7 @@ export function AppInput({
   testID
 }: Props) {
   const { theme, textScale } = useAppTheme();
+  const { enhancedFocus, largeTouchTargets, screenReaderSupport } = useSettings();
 
   return (
     <View style={styles.wrap}>
@@ -47,11 +49,15 @@ export function AppInput({
           {
             backgroundColor: theme.colors.surface,
             borderColor: theme.colors.border,
+            borderWidth: enhancedFocus ? 3 : 2,
             color: theme.colors.text,
-            fontSize: 16 * textScale
+            fontSize: 16 * textScale,
+            minHeight: largeTouchTargets ? 56 : 48
           }
         ]}
         accessibilityLabel={label}
+        accessibilityHint={screenReaderSupport ? placeholder : undefined}
+        importantForAccessibility={screenReaderSupport ? 'yes' : 'auto'}
         testID={testID}
       />
     </View>

@@ -13,6 +13,9 @@ class AppThemeController extends ChangeNotifier {
 
   int textSizePercent = 100;
   ThemeMode themeMode = ThemeMode.system;
+  bool enhancedFocus = true;
+  bool largeTouchTargets = true;
+  bool screenReaderSupport = false;
 
   /// Loads saved values
   Future<void> loadFromPrefs() async {
@@ -25,6 +28,9 @@ class AppThemeController extends ChangeNotifier {
 
     final savedVisionIndex = prefs.getInt('careconnect-vision-theme') ?? 0;
     visionTheme = AppVisionTheme.values[savedVisionIndex];
+    enhancedFocus = prefs.getBool('careconnect-enhanced-focus') ?? true;
+    largeTouchTargets = prefs.getBool('careconnect-large-touch') ?? true;
+    screenReaderSupport = prefs.getBool('careconnect-screen-reader') ?? false;
 
     notifyListeners();
   }
@@ -62,6 +68,27 @@ class AppThemeController extends ChangeNotifier {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setInt('careconnect-text-percent', p);
     await prefs.setDouble('careconnect-textsize', textScaleFactor);
+  }
+
+  void setEnhancedFocus(bool value) async {
+    enhancedFocus = value;
+    notifyListeners();
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('careconnect-enhanced-focus', value);
+  }
+
+  void setLargeTouchTargets(bool value) async {
+    largeTouchTargets = value;
+    notifyListeners();
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('careconnect-large-touch', value);
+  }
+
+  void setScreenReaderSupport(bool value) async {
+    screenReaderSupport = value;
+    notifyListeners();
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('careconnect-screen-reader', value);
   }
 
   // ✅ THIS is what makes Sepia actually change the app

@@ -21,7 +21,6 @@ export function ScreenContainer({ children, scroll = false, testID }: Props) {
         <ScrollView
           contentContainerStyle={styles.scrollContent}
           keyboardShouldPersistTaps="handled"
-          accessibilityRole="scrollbar"
         >
           {children}
         </ScrollView>

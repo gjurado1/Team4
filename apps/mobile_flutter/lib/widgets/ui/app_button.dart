@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../theme/app_theme_scope.dart';
 
 enum AppButtonVariant { primary, secondary, destructive }
 
@@ -21,7 +22,10 @@ class AppButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final controller = AppThemeScope.of(context);
     final cs = theme.colorScheme;
+    final borderWidth = controller.enhancedFocus ? 3.0 : 2.0;
+    final minTouchSize = controller.largeTouchTargets ? 56.0 : 48.0;
 
     late Color bg;
     late Color fg;
@@ -73,10 +77,8 @@ class AppButton extends StatelessWidget {
             style: TextStyle(
               color: fg,
               fontWeight: FontWeight.w700,
-              overflow:
-                  TextOverflow.ellipsis, // Adds "..." if text is way too long
             ),
-            softWrap: false, // Keeps text on one line for buttons
+            softWrap: true,
             child: child,
           ),
         ),
@@ -91,11 +93,11 @@ class AppButton extends StatelessWidget {
         backgroundColor: bg,
         foregroundColor: fg,
         elevation: variant == AppButtonVariant.secondary ? 0 : 2,
-        minimumSize: const Size(48, 48),
+        minimumSize: Size(minTouchSize, minTouchSize),
         padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),
-          side: BorderSide(color: border, width: 2),
+          side: BorderSide(color: border, width: borderWidth),
         ),
       ),
       child: content,

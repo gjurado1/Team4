@@ -1,9 +1,11 @@
 import React from 'react';
 import { StyleSheet, View, ViewProps } from 'react-native';
 import { useAppTheme } from '../../theme/ThemeProvider';
+import { useSettings } from '../../context/SettingsContext';
 
 export function AppCard({ style, ...rest }: ViewProps) {
   const { theme } = useAppTheme();
+  const { enhancedFocus } = useSettings();
   return (
     <View
       {...rest}
@@ -11,7 +13,8 @@ export function AppCard({ style, ...rest }: ViewProps) {
         styles.card,
         {
           backgroundColor: theme.colors.surface,
-          borderColor: theme.colors.border
+          borderColor: theme.colors.border,
+          borderWidth: enhancedFocus ? 3 : 2
         },
         style
       ]}

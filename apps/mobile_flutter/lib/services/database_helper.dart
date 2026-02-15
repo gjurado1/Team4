@@ -69,4 +69,12 @@ class DatabaseHelper {
     final db = await instance.database;
     return await db.insert('users', user.toMap());
   }
+
+  // Test hook: reset singleton DB state so widget tests can isolate runs.
+  Future<void> resetForTest() async {
+    if (_database != null) {
+      await _database!.close();
+      _database = null;
+    }
+  }
 }

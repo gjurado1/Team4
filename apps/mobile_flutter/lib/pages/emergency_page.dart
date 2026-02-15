@@ -24,14 +24,15 @@ class _EmergencyPageState extends State<EmergencyPage> {
 
   void _handleSOS() {
     if (_emergencyActivated) return;
+    if (!mounted) return;
 
     showDialog<void>(
       context: context,
       barrierDismissible: true,
-      builder: (_) => _ConfirmEmergencyDialog(
-        onCancel: () => Navigator.of(context).pop(),
+      builder: (dialogContext) => _ConfirmEmergencyDialog(
+        onCancel: () => Navigator.of(dialogContext).pop(),
         onConfirm: () {
-          Navigator.of(context).pop();
+          Navigator.of(dialogContext).pop();
           _confirmSOS();
         },
       ),
@@ -39,6 +40,7 @@ class _EmergencyPageState extends State<EmergencyPage> {
   }
 
   void _confirmSOS() {
+    if (!mounted) return;
     setState(() => _emergencyActivated = true);
 
     ScaffoldMessenger.of(context).showSnackBar(
@@ -47,6 +49,7 @@ class _EmergencyPageState extends State<EmergencyPage> {
   }
 
   void _callContact(_EmergencyContact c) {
+    if (!mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text('Dial ${c.number} (demo)')),
     );
@@ -160,32 +163,46 @@ class _EmergencyPageState extends State<EmergencyPage> {
                           textAlign: TextAlign.center,
                         ),
                         const SizedBox(height: 18),
-                        SizedBox(
-                          width: 260,
-                          height: 260,
-                          child: ElevatedButton(
-                            onPressed: _emergencyActivated ? null : _handleSOS,
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: cs.error,
-                              foregroundColor: Colors.white,
-                              shape: const CircleBorder(),
-                              elevation: 12,
-                              side: const BorderSide(color: Colors.white, width: 8),
-                            ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const Icon(Icons.warning_amber_rounded, size: 64),
-                                const SizedBox(height: 10),
-                                const Text('SOS', style: TextStyle(fontSize: 34, fontWeight: FontWeight.w900)),
-                                const SizedBox(height: 8),
-                                Text(
-                                  'Press for Emergency',
-                                  style: TextStyle(fontSize: 16, color: Colors.white.withValues(alpha: 0.92)),
+                        LayoutBuilder(
+                          builder: (context, constraints) {
+                            final scale = MediaQuery.textScalerOf(context).scale(1.0);
+                            final desiredSize = 260 + ((scale - 1.0).clamp(0.0, 1.0) * 100);
+                            final buttonSize = desiredSize.clamp(220.0, constraints.maxWidth);
+
+                            return Center(
+                              child: SizedBox(
+                                width: buttonSize,
+                                height: buttonSize,
+                                child: ElevatedButton(
+                                  onPressed: _emergencyActivated ? null : _handleSOS,
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: cs.error,
+                                    foregroundColor: Colors.white,
+                                    shape: const CircleBorder(),
+                                    elevation: 12,
+                                    side: const BorderSide(color: Colors.white, width: 8),
+                                  ),
+                                  child: FittedBox(
+                                    fit: BoxFit.scaleDown,
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        const Icon(Icons.warning_amber_rounded, size: 64),
+                                        const SizedBox(height: 8),
+                                        const Text('SOS', style: TextStyle(fontSize: 34, fontWeight: FontWeight.w900)),
+                                        const SizedBox(height: 6),
+                                        Text(
+                                          'Press for Emergency',
+                                          style: TextStyle(fontSize: 16, color: Colors.white.withValues(alpha: 0.92)),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                 ),
-                              ],
-                            ),
-                          ),
+                              ),
+                            );
+                          },
                         ),
                       ],
                     ),
@@ -208,12 +225,12 @@ class _EmergencyPageState extends State<EmergencyPage> {
                               Text('Location Services', style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w800)),
                               const SizedBox(height: 6),
                               Text(
-                                '📍 Your location will be shared with emergency contacts when SOS is activated',
+                                'Location will be shared with emergency contacts when SOS is activated.',
                                 style: theme.textTheme.bodySmall?.copyWith(color: theme.hintColor),
                               ),
                               const SizedBox(height: 10),
                               Text(
-                                '✓ Location: 123 Main Street, Springfield, IL 62701',
+                                'Status: Location available - 123 Main Street, Springfield, IL 62701',
                                 style: theme.textTheme.bodySmall?.copyWith(
                                   color: const Color(0xFF2F855A),
                                   fontWeight: FontWeight.w700,
@@ -303,13 +320,13 @@ class _EmergencyPageState extends State<EmergencyPage> {
                         children: [
                           Text('Safety Information', style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w900)),
                           const SizedBox(height: 10),
-                          Text('• Pressing SOS will immediately notify all emergency contacts', style: theme.textTheme.bodySmall?.copyWith(color: theme.hintColor)),
+                          Text('- Pressing SOS will immediately notify all emergency contacts', style: theme.textTheme.bodySmall?.copyWith(color: theme.hintColor)),
                           const SizedBox(height: 6),
-                          Text('• Your location will be shared automatically', style: theme.textTheme.bodySmall?.copyWith(color: theme.hintColor)),
+                          Text('- Your location will be shared automatically', style: theme.textTheme.bodySmall?.copyWith(color: theme.hintColor)),
                           const SizedBox(height: 6),
-                          Text('• Emergency services can be contacted directly from this screen', style: theme.textTheme.bodySmall?.copyWith(color: theme.hintColor)),
+                          Text('- Emergency services can be contacted directly from this screen', style: theme.textTheme.bodySmall?.copyWith(color: theme.hintColor)),
                           const SizedBox(height: 6),
-                          Text('• Your caregiver will receive a priority alert', style: theme.textTheme.bodySmall?.copyWith(color: theme.hintColor)),
+                          Text('- Your caregiver will receive a priority alert', style: theme.textTheme.bodySmall?.copyWith(color: theme.hintColor)),
                         ],
                       ),
                     ),
@@ -426,10 +443,10 @@ class _ConfirmEmergencyDialog extends StatelessWidget {
                       Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          '✓ Notify all emergency contacts via SMS and phone call\n'
-                          '✓ Share your current location\n'
-                          '✓ Alert your primary caregiver\n'
-                          '✓ Log emergency event in your health records',
+                          '- Notify all emergency contacts via SMS and phone call\n'
+                          '- Share your current location\n'
+                          '- Alert your primary caregiver\n'
+                          '- Log emergency event in your health records',
                           style: theme.textTheme.bodySmall?.copyWith(
                             color: theme.hintColor,
                             height: 1.7,
