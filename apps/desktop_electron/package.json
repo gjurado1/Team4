@@ -1,0 +1,57 @@
+{
+  "name": "careconnect-desktop-electron",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Electron desktop host for CareConnect",
+  "main": "src/main/main.cjs",
+  "author": "CareConnect Team",
+  "license": "UNLICENSED",
+  "scripts": {
+    "dev": "concurrently -k \"npm run dev:renderer\" \"npm run dev:electron\"",
+    "dev:renderer": "npm --prefix ../desktop_vite run dev",
+    "dev:electron": "wait-on tcp:5173 && cross-env ELECTRON_RENDERER_URL=http://localhost:5173 electron src/main/main.cjs",
+    "lint": "eslint \"src/**/*.cjs\" \"test/**/*.mjs\"",
+    "test": "vitest run",
+    "build:renderer": "npm --prefix ../desktop_vite run build && node scripts/sync-renderer.cjs",
+    "dist": "npm run build:renderer && electron-builder"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2",
+    "cross-env": "^7.0.3",
+    "electron": "^35.0.0",
+    "electron-builder": "^22.14.13",
+    "eslint": "^10.0.1",
+    "vitest": "^3.2.4",
+    "wait-on": "^8.0.3"
+  },
+  "build": {
+    "appId": "com.careconnect.desktop",
+    "productName": "CareConnect Desktop",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "src/main/**/*",
+      "package.json",
+      "renderer-dist/**/*"
+    ],
+    "extraMetadata": {
+      "main": "src/main/main.cjs"
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true
+    }
+  }
+}
