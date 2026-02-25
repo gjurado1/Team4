@@ -1,6 +1,7 @@
 const path = require("node:path");
 const { app, BrowserWindow, Tray, Menu } = require("electron");
 const { loadWindowState, saveWindowState } = require("./windowState.cjs");
+const { createAppMenu } = require("./menu.cjs");
 const { registerIpcHandlers } = require("./ipc.cjs");
 
 const APP_ROOT = path.resolve(__dirname, "..", "..");
@@ -20,7 +21,6 @@ function createMainWindow() {
     y: windowState.y,
     minWidth: 1024,
     minHeight: 700,
-    autoHideMenuBar: true,
     show: false,
     title: "CareConnect Desktop",
     backgroundColor: "#f7f4f6",
@@ -32,9 +32,6 @@ function createMainWindow() {
       webSecurity: true
     }
   });
-  mainWindow.removeMenu();
-  mainWindow.setMenuBarVisibility(false);
-  mainWindow.setAutoHideMenuBar(true);
 
   if (RENDERER_DEV_URL) {
     mainWindow.loadURL(RENDERER_DEV_URL);
@@ -56,6 +53,7 @@ function createMainWindow() {
   mainWindow.on("move", persistBounds);
   mainWindow.on("close", persistBounds);
 
+  createAppMenu(mainWindow);
   registerIpcHandlers(mainWindow);
   return mainWindow;
 }
@@ -108,7 +106,6 @@ if (!gotSingleInstanceLock) {
   });
 
   app.whenReady().then(() => {
-    Menu.setApplicationMenu(null);
     createMainWindow();
     createTrayIfAvailable();
     app.setAppUserModelId("com.careconnect.desktop");

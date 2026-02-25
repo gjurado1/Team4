@@ -1,5 +1,4 @@
 import { Outlet } from 'react-router';
-import { MenuBar } from './MenuBar';
 import { Toolbar } from './Toolbar';
 import { StatusBar } from './StatusBar';
 import { RadialMenu } from './RadialMenu';
@@ -15,7 +14,7 @@ interface DashboardLayoutProps {
   onLogout?: () => void;
 }
 
-export function DashboardLayout({ onThemeChange, currentTheme, onLogout }: DashboardLayoutProps) {
+export function DashboardLayout({ onLogout }: DashboardLayoutProps) {
   const navigate = useNavigate();
 
   // Override shortcut actions to use actual navigation
@@ -69,7 +68,6 @@ export function DashboardLayout({ onThemeChange, currentTheme, onLogout }: Dashb
       {/* Screen Reader Announcer */}
       <ScreenReaderAnnouncer />
       
-      <MenuBar onThemeChange={onThemeChange} currentTheme={currentTheme} onLogout={onLogout} />
       <Toolbar onLogout={onLogout} />
       
       <div 
