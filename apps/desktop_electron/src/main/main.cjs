@@ -90,7 +90,8 @@ function createTrayIfAvailable() {
   });
 }
 
-const gotSingleInstanceLock = app.requestSingleInstanceLock();
+const isPlaywrightRun = process.env.PLAYWRIGHT_TEST === "1";
+const gotSingleInstanceLock = isPlaywrightRun ? true : app.requestSingleInstanceLock();
 if (!gotSingleInstanceLock) {
   app.quit();
 } else {

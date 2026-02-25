@@ -177,11 +177,12 @@ export default function App() {
   // Welcome and Login screens (full window)
   if (currentScreen === 'welcome' || currentScreen === 'login') {
     return (
-      <div 
+      <main 
         className="w-screen h-screen overflow-hidden relative"
         style={{
           fontFamily: 'var(--font-family)',
         }}
+        aria-label="Authentication"
       >
         {/* Background Image - Always visible */}
         <div 
@@ -328,18 +329,19 @@ export default function App() {
             )}
           </AnimatePresence>
         </div>
-      </div>
+      </main>
     );
   }
 
   // Role Selection screen (full window)
   if (currentScreen === 'roleselection') {
     return (
-      <div 
+      <main 
         className="w-screen h-screen overflow-hidden relative"
         style={{
           fontFamily: 'var(--font-family)',
         }}
+        aria-label="Role selection"
       >
         {/* Background Image - Always visible */}
         <div 
@@ -464,7 +466,7 @@ export default function App() {
             </motion.div>
           </AnimatePresence>
         </div>
-      </div>
+      </main>
     );
   }
 

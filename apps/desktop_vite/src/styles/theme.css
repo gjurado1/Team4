@@ -23,9 +23,9 @@
   --color-surface: #F9E0D8;
   --color-panel: #fce9e3;
   --color-text: #3d1a26;
-  --color-text-muted: #8d4a5f;
+  --color-text-muted: #4f2331;
   --color-border: #c28a9a;
-  --color-focus: #8d4a5f;
+  --color-focus: #6b2f42;
   --color-success: #2e7d32;
   --color-warning: #e65100;
   --color-error: #c62828;
@@ -107,7 +107,7 @@
   /* Interaction Tokens */
   --focus-ring-width: 2px;
   --focus-ring-offset: 2px;
-  --focus-ring-color: #8d4a5f;
+  --focus-ring-color: #6b2f42;
   --transition-fast: 150ms ease-in-out;
   --transition-medium: 300ms ease-in-out;
   --transition-slow: 500ms ease-in-out;
@@ -126,7 +126,7 @@
   --input-border: #c28a9a;
   --input-border-focus: #8d4a5f;
   --input-text: #3d1a26;
-  --input-placeholder: #7a7a7c;
+  --input-placeholder: #59595c;
   
   /* Legacy tokens for compatibility */
   --font-size: 16px;
@@ -141,7 +141,7 @@
   --secondary: #f5d5ca;
   --secondary-foreground: #3d1a26;
   --muted: #F1F1F3;
-  --muted-foreground: #8d4a5f;
+  --muted-foreground: #4f2331;
   --accent: #c28a9a;
   --accent-foreground: #3d1a26;
   --destructive: #c62828;
@@ -152,7 +152,7 @@
   --switch-background: #c28a9a;
   --font-weight-medium: 500;
   --font-weight-normal: 400;
-  --ring: #8d4a5f;
+  --ring: #6b2f42;
   --radius: 0.625rem;
 }
 
@@ -255,9 +255,9 @@
   --color-surface: #F9E0D8;
   --color-panel: #fce9e3;
   --color-text: #3d1a26;
-  --color-text-muted: #8d4a5f;
+  --color-text-muted: #4f2331;
   --color-border: #c28a9a;
-  --color-focus: #8d4a5f;
+  --color-focus: #6b2f42;
   --color-success: #2e7d32;
   --color-warning: #e65100;
   --color-error: #c62828;
@@ -316,7 +316,7 @@
   --input-border: #c28a9a;
   --input-border-focus: #8d4a5f;
   --input-text: #3d1a26;
-  --input-placeholder: #7a7a7c;
+  --input-placeholder: #59595c;
   
   /* Shadows for warm theme */
   --shadow-sm: 0 2px 4px 0 rgba(84, 36, 52, 0.08);
@@ -336,13 +336,13 @@
   --secondary: #f5d5ca;
   --secondary-foreground: #3d1a26;
   --muted: #F1F1F3;
-  --muted-foreground: #8d4a5f;
+  --muted-foreground: #4f2331;
   --accent: #c28a9a;
   --accent-foreground: #3d1a26;
   --border: #c28a9a;
   --input: #ffffff;
   --input-background: #ffffff;
-  --ring: #8d4a5f;
+  --ring: #6b2f42;
 }
 
 /* ===== THEME C: Deep Focus Purple ===== */

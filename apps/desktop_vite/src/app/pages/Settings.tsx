@@ -158,7 +158,7 @@ export function Settings({ onThemeChange, currentTheme = 'warm' }: SettingsProps
         >
           <div className="flex items-center gap-3 mb-4">
             <User size={20} style={{ color: 'var(--color-focus)' }} />
-            <h3 
+            <h2 
               style={{
                 fontSize: 'var(--font-size-section)',
                 fontWeight: '600',
@@ -166,11 +166,12 @@ export function Settings({ onThemeChange, currentTheme = 'warm' }: SettingsProps
               }}
             >
               Profile Settings
-            </h3>
+            </h2>
           </div>
           <div className="space-y-3">
             <div>
               <label 
+                htmlFor="settings-full-name"
                 className="block mb-1.5"
                 style={{
                   fontSize: 'var(--font-size-label)',
@@ -181,6 +182,7 @@ export function Settings({ onThemeChange, currentTheme = 'warm' }: SettingsProps
                 Full Name
               </label>
               <input
+                id="settings-full-name"
                 type="text"
                 defaultValue="Sarah Johnson"
                 className="w-full px-3 py-2 rounded outline-none transition-colors"
@@ -204,6 +206,7 @@ export function Settings({ onThemeChange, currentTheme = 'warm' }: SettingsProps
             </div>
             <div>
               <label 
+                htmlFor="settings-email-address"
                 className="block mb-1.5"
                 style={{
                   fontSize: 'var(--font-size-label)',
@@ -214,6 +217,7 @@ export function Settings({ onThemeChange, currentTheme = 'warm' }: SettingsProps
                 Email Address
               </label>
               <input
+                id="settings-email-address"
                 type="email"
                 defaultValue="sarah.johnson@careconnect.com"
                 className="w-full px-3 py-2 rounded outline-none transition-colors"
@@ -249,7 +253,7 @@ export function Settings({ onThemeChange, currentTheme = 'warm' }: SettingsProps
         >
           <div className="flex items-center gap-3 mb-4">
             <Palette size={20} style={{ color: 'var(--color-focus)' }} />
-            <h3 
+            <h2 
               style={{
                 fontSize: 'var(--font-size-section)',
                 fontWeight: '600',
@@ -257,13 +261,14 @@ export function Settings({ onThemeChange, currentTheme = 'warm' }: SettingsProps
               }}
             >
               Appearance
-            </h3>
+            </h2>
           </div>
           
           {/* Text Scale Slider */}
           <div className="mb-5">
             <div className="flex items-center justify-between mb-2">
               <label 
+                htmlFor="settings-text-scale"
                 className="block"
                 style={{
                   fontSize: 'var(--font-size-label)',
@@ -287,6 +292,7 @@ export function Settings({ onThemeChange, currentTheme = 'warm' }: SettingsProps
             </div>
             
             <input
+              id="settings-text-scale"
               type="range"
               min="100"
               max="250"
@@ -321,6 +327,7 @@ export function Settings({ onThemeChange, currentTheme = 'warm' }: SettingsProps
           <div className="mb-5">
             <div className="flex items-center justify-between mb-2">
               <label 
+                htmlFor="settings-radial-menu-scale"
                 className="block"
                 style={{
                   fontSize: 'var(--font-size-label)',
@@ -344,6 +351,7 @@ export function Settings({ onThemeChange, currentTheme = 'warm' }: SettingsProps
             </div>
             
             <input
+              id="settings-radial-menu-scale"
               type="range"
               min="100"
               max="250"
@@ -378,6 +386,7 @@ export function Settings({ onThemeChange, currentTheme = 'warm' }: SettingsProps
           <div className="mb-5">
             <div className="flex items-center justify-between mb-2">
               <label 
+                htmlFor="settings-toolbar-icon-scale"
                 className="block"
                 style={{
                   fontSize: 'var(--font-size-label)',
@@ -401,6 +410,7 @@ export function Settings({ onThemeChange, currentTheme = 'warm' }: SettingsProps
             </div>
             
             <input
+              id="settings-toolbar-icon-scale"
               type="range"
               min="100"
               max="150"
@@ -516,7 +526,7 @@ export function Settings({ onThemeChange, currentTheme = 'warm' }: SettingsProps
             boxShadow: 'var(--shadow-sm)',
           }}
         >
-          <h3
+          <h2
             className="mb-4"
             style={{
               fontSize: 'var(--font-size-section)',
@@ -525,7 +535,7 @@ export function Settings({ onThemeChange, currentTheme = 'warm' }: SettingsProps
             }}
           >
             Accessibility & Voice
-          </h3>
+          </h2>
 
           <div className="space-y-4">
             <label className="flex items-center justify-between gap-4">
@@ -577,7 +587,7 @@ export function Settings({ onThemeChange, currentTheme = 'warm' }: SettingsProps
             boxShadow: 'var(--shadow-sm)',
           }}
         >
-          <h3
+          <h2
             className="mb-4"
             style={{
               fontSize: 'var(--font-size-section)',
@@ -586,7 +596,7 @@ export function Settings({ onThemeChange, currentTheme = 'warm' }: SettingsProps
             }}
           >
             Navigation Behavior
-          </h3>
+          </h2>
 
           <label className="flex items-center justify-between gap-4">
               <div>
@@ -619,7 +629,7 @@ export function Settings({ onThemeChange, currentTheme = 'warm' }: SettingsProps
         >
           <div className="flex items-center gap-3 mb-4">
             <Bell size={20} style={{ color: 'var(--color-focus)' }} />
-            <h3 
+            <h2 
               style={{
                 fontSize: 'var(--font-size-section)',
                 fontWeight: '600',
@@ -627,7 +637,7 @@ export function Settings({ onThemeChange, currentTheme = 'warm' }: SettingsProps
               }}
             >
               Notifications
-            </h3>
+            </h2>
           </div>
           <div className="space-y-3">
             <label className="flex items-center gap-3">
@@ -697,7 +707,7 @@ export function Settings({ onThemeChange, currentTheme = 'warm' }: SettingsProps
         >
           <div className="flex items-center gap-3 mb-4">
             <Lock size={20} style={{ color: 'var(--color-focus)' }} />
-            <h3 
+            <h2 
               style={{
                 fontSize: 'var(--font-size-section)',
                 fontWeight: '600',
@@ -705,7 +715,7 @@ export function Settings({ onThemeChange, currentTheme = 'warm' }: SettingsProps
               }}
             >
               Security
-            </h3>
+            </h2>
           </div>
           <button
             className="px-4 py-2 rounded-lg transition-all outline-none"
