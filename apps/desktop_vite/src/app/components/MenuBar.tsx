@@ -78,6 +78,76 @@ export function MenuBar({ onThemeChange, currentTheme, onLogout }: MenuBarProps)
     ],
   };
 
+  // Frontend accelerator support (when Electron native menu is disabled)
+  useEffect(() => {
+    const isPrimaryModifierPressed = (event: KeyboardEvent) => event.ctrlKey || event.metaKey;
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      // Let text editing shortcuts behave normally while typing, except app-level commands.
+      const target = event.target as HTMLElement | null;
+      const isEditable =
+        !!target &&
+        (target.tagName === 'INPUT' ||
+          target.tagName === 'TEXTAREA' ||
+          target.isContentEditable);
+
+      const key = event.key.toLowerCase();
+      const primary = isPrimaryModifierPressed(event);
+
+      if (primary && key === 'n') {
+        event.preventDefault();
+        navigateFromMenu('/dashboard/my-care');
+        return;
+      }
+
+      if (primary && key === 'l') {
+        event.preventDefault();
+        onLogout?.();
+        return;
+      }
+
+      if (primary && key === ',') {
+        event.preventDefault();
+        navigateFromMenu('/dashboard/settings');
+        return;
+      }
+
+      if (event.key === 'F1') {
+        event.preventDefault();
+        navigateFromMenu('/dashboard/help');
+        return;
+      }
+
+      if (primary && key === '/') {
+        event.preventDefault();
+        navigateFromMenu('/dashboard/shortcuts');
+        return;
+      }
+
+      // Avoid intercepting standard editing/browser behavior in editable areas.
+      if (isEditable) return;
+
+      // Optional app-level zoom shortcuts for consistency with menu labels.
+      if (primary && (key === '=' || key === '+')) {
+        event.preventDefault();
+        document.body.style.zoom = `${Math.min(2, (Number(document.body.style.zoom || 1) || 1) + 0.1)}`;
+        return;
+      }
+      if (primary && key === '-') {
+        event.preventDefault();
+        document.body.style.zoom = `${Math.max(0.5, (Number(document.body.style.zoom || 1) || 1) - 0.1)}`;
+        return;
+      }
+      if (primary && key === '0') {
+        event.preventDefault();
+        document.body.style.zoom = '1';
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [navigate, onLogout]);
+
   return (
     <div 
       className="relative"
