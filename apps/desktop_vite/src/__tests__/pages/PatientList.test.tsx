@@ -255,4 +255,24 @@ describe('PatientList', () => {
     expect((window as any).tabManager.openNewTab).toHaveBeenCalledWith('/dashboard/patients/3');
     expect(mockNavigate).not.toHaveBeenCalled();
   });
+
+  it('Ctrl+click does nothing when tabManager is not set', async () => {
+    delete (window as any).tabManager;
+    renderPatientList();
+    const margaretCard = screen.getByText('Margaret Smith').closest('[class*="cursor-pointer"]')!;
+    const { fireEvent } = await import('@testing-library/react');
+    fireEvent.click(margaretCard, { ctrlKey: true });
+    expect(mockNavigate).not.toHaveBeenCalled();
+  });
+
+  it('external link button click does not crash when tabManager is not set', async () => {
+    const user = userEvent.setup();
+    delete (window as any).tabManager;
+    renderPatientList();
+    const externalLinkButtons = screen
+      .getAllByRole('button')
+      .filter((btn) => btn.querySelector('svg') && btn.closest('[class*="cursor-pointer"]'));
+    await user.click(externalLinkButtons[0]);
+    expect(mockNavigate).not.toHaveBeenCalled();
+  });
 });
