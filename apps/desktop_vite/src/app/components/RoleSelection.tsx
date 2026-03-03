@@ -64,7 +64,7 @@ export function RoleSelection({ onRoleSelect, onBack, allowedRoles = ['caregiver
               <p
                 style={{
                   fontSize: 'var(--font-size-section)',
-                  color: 'var(--color-text-muted)',
+                  color: 'var(--color-text)',
                 }}
               >
                 How will you be using the app today?
@@ -125,7 +125,7 @@ export function RoleSelection({ onRoleSelect, onBack, allowedRoles = ['caregiver
                   <p
                     style={{
                       fontSize: 'var(--font-size-body)',
-                      color: 'var(--color-text-muted)',
+                      color: 'var(--color-text)',
                       lineHeight: '1.6',
                     }}
                   >
@@ -134,7 +134,7 @@ export function RoleSelection({ onRoleSelect, onBack, allowedRoles = ['caregiver
                   <div
                     className="mt-6 flex items-center gap-2"
                     style={{
-                      color: 'var(--color-focus)',
+                      color: 'var(--color-text)',
                       fontSize: 'var(--font-size-body)',
                       fontWeight: '500',
                     }}
@@ -197,7 +197,7 @@ export function RoleSelection({ onRoleSelect, onBack, allowedRoles = ['caregiver
                   <p
                     style={{
                       fontSize: 'var(--font-size-body)',
-                      color: 'var(--color-text-muted)',
+                      color: 'var(--color-text)',
                       lineHeight: '1.6',
                     }}
                   >
@@ -206,7 +206,7 @@ export function RoleSelection({ onRoleSelect, onBack, allowedRoles = ['caregiver
                   <div
                     className="mt-6 flex items-center gap-2"
                     style={{
-                      color: 'var(--color-focus)',
+                      color: 'var(--color-text)',
                       fontSize: 'var(--font-size-body)',
                       fontWeight: '500',
                     }}

@@ -4,6 +4,14 @@ import tailwindcss from '@tailwindcss/vite';
 import path from 'path';
 
 export default defineConfig({
+  // Use relative asset paths so renderer-dist works from Electron file:// URLs.
+  base: './',
+  plugins: [
+    // The React and Tailwind plugins are both required for Make, even if
+    // Tailwind is not being actively used – do not remove them
+    react(),
+    tailwindcss(),
+  ],
   plugins: [react(), tailwindcss()],
   resolve: {
     alias: {
