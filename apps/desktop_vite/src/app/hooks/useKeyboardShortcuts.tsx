@@ -279,3 +279,68 @@ export const navigationShortcuts: KeyboardShortcut[] = [
     category: 'Navigation',
   },
 ];
+
+// Radial menu keyboard shortcuts
+export const radialMenuShortcuts: KeyboardShortcut[] = [
+  {
+    key: 'm',
+    alt: true,
+    action: () => {},
+    description: 'Open/Close radial menu',
+    category: 'Radial Menu',
+  },
+  {
+    key: 'ArrowUp',
+    action: () => {},
+    description: 'Select previous radial option (when menu is open)',
+    category: 'Radial Menu',
+  },
+  {
+    key: 'ArrowDown',
+    action: () => {},
+    description: 'Select next radial option (when menu is open)',
+    category: 'Radial Menu',
+  },
+  {
+    key: 'ArrowLeft',
+    action: () => {},
+    description: 'Select previous radial option (when menu is open)',
+    category: 'Radial Menu',
+  },
+  {
+    key: 'ArrowRight',
+    action: () => {},
+    description: 'Select next radial option (when menu is open)',
+    category: 'Radial Menu',
+  },
+  {
+    key: 'Home',
+    action: () => {},
+    description: 'Jump to first radial option (when menu is open)',
+    category: 'Radial Menu',
+  },
+  {
+    key: 'End',
+    action: () => {},
+    description: 'Jump to last radial option (when menu is open)',
+    category: 'Radial Menu',
+  },
+  {
+    key: 'Enter',
+    action: () => {},
+    description: 'Open selected radial page (when menu is open)',
+    category: 'Radial Menu',
+  },
+  {
+    key: ' ',
+    action: () => {},
+    description: 'Open selected radial page (when menu is open)',
+    category: 'Radial Menu',
+  },
+  {
+    key: 'Escape',
+    action: () => {},
+    description: 'Close radial menu',
+    category: 'Radial Menu',
+  },
+];

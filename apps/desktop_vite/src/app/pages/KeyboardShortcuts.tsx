@@ -3,6 +3,7 @@ import { Search, Command } from 'lucide-react';
 import { 
   globalShortcuts, 
   navigationShortcuts, 
+  radialMenuShortcuts,
   formatShortcut, 
   isMac,
   type KeyboardShortcut 
@@ -14,7 +15,7 @@ export function KeyboardShortcuts() {
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
 
   // Combine all shortcuts for display
-  const allShortcuts = [...globalShortcuts, ...navigationShortcuts];
+  const allShortcuts = [...globalShortcuts, ...navigationShortcuts, ...radialMenuShortcuts];
 
   // Get unique categories
   const categories = ['All', ...new Set(allShortcuts.map(s => s.category))];

@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useMemo } from 'react';
+import { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Users, Pill, Calendar, Settings, HelpCircle, Menu, X, LayoutDashboard, Mail, HeartPulse, FileText, BookOpen, Palette, Eye } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router';
@@ -18,6 +18,7 @@ interface MenuButton {
 export function RadialMenu() {
   const [isOpen, setIsOpen] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
+  const [keyboardIndex, setKeyboardIndex] = useState(0);
   const navigate = useNavigate();
   const location = useLocation();
   const { userRole } = useUser();
@@ -81,7 +82,7 @@ export function RadialMenu() {
     }
   }, [userRole]);
 
-  const handleMenuClick = (path: string, event?: React.MouseEvent) => {
+  const handleMenuClick = useCallback((path: string, event?: React.MouseEvent) => {
     const openInNewTabByDefault = localStorage.getItem(OPEN_MENU_NAV_IN_NEW_TAB_KEY) === 'true';
     const openInNewTabWithModifier = Boolean(event && (event.ctrlKey || event.metaKey));
 
@@ -94,12 +95,23 @@ export function RadialMenu() {
       navigate(path);
     }
     setIsOpen(false);
-  };
+  }, [navigate]);
+
+  const getCurrentRouteIndex = useCallback(() => {
+    const routeIndex = menuButtons.findIndex((button) => button.path === location.pathname);
+    return routeIndex >= 0 ? routeIndex : 0;
+  }, [menuButtons, location.pathname]);
 
   const handleClick = () => {
     // Only toggle if not dragging
     if (!isDragging) {
-      setIsOpen(!isOpen);
+      setIsOpen((prev) => {
+        const next = !prev;
+        if (next) {
+          setKeyboardIndex(getCurrentRouteIndex());
+        }
+        return next;
+      });
     }
   };
 
@@ -121,6 +133,83 @@ export function RadialMenu() {
       setIsDragging(false);
     }, 100);
   };
+
+  useEffect(() => {
+    if (!isOpen) return;
+    setKeyboardIndex(getCurrentRouteIndex());
+  }, [isOpen, getCurrentRouteIndex]);
+
+  useEffect(() => {
+    const isEditableElement = (target: EventTarget | null) => {
+      const element = target as HTMLElement | null;
+      if (!element) return false;
+      return (
+        element.tagName === 'INPUT' ||
+        element.tagName === 'TEXTAREA' ||
+        element.isContentEditable
+      );
+    };
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (isEditableElement(event.target)) return;
+
+      // Easy keyboard-only access: Alt+M toggles radial menu.
+      if (event.altKey && event.key.toLowerCase() === 'm') {
+        event.preventDefault();
+        setIsOpen((prev) => {
+          const next = !prev;
+          if (next) {
+            setKeyboardIndex(getCurrentRouteIndex());
+          }
+          return next;
+        });
+        return;
+      }
+
+      if (!isOpen || menuButtons.length === 0) return;
+
+      if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
+        event.preventDefault();
+        setKeyboardIndex((prev) => (prev + 1) % menuButtons.length);
+        return;
+      }
+
+      if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
+        event.preventDefault();
+        setKeyboardIndex((prev) => (prev - 1 + menuButtons.length) % menuButtons.length);
+        return;
+      }
+
+      if (event.key === 'Home') {
+        event.preventDefault();
+        setKeyboardIndex(0);
+        return;
+      }
+
+      if (event.key === 'End') {
+        event.preventDefault();
+        setKeyboardIndex(menuButtons.length - 1);
+        return;
+      }
+
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        setIsOpen(false);
+        return;
+      }
+
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        const selected = menuButtons[keyboardIndex];
+        if (selected) {
+          handleMenuClick(selected.path);
+        }
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, keyboardIndex, menuButtons, getCurrentRouteIndex, handleMenuClick]);
 
   // Use CSS variable for scaling - multiply base values by scale
   const getScaledValue = (baseValue: number) => {
@@ -172,6 +261,7 @@ export function RadialMenu() {
             const x = Math.cos(angleRad) * radius;
             const y = Math.sin(angleRad) * radius;
             const isActive = location.pathname === button.path;
+            const isKeyboardSelected = keyboardIndex === index;
 
             return (
               <motion.div
@@ -212,21 +302,21 @@ export function RadialMenu() {
                     style={{
                       width: `${buttonSize}px`,
                       height: `${buttonSize}px`,
-                      backgroundColor: isActive ? 'var(--btn-primary-bg)' : 'var(--color-surface)',
-                      border: `2px solid ${isActive ? 'var(--btn-primary-bg)' : 'var(--color-border)'}`,
-                      color: isActive ? 'var(--btn-primary-fg)' : 'var(--color-text)',
-                      boxShadow: 'var(--shadow-panel)',
+                      backgroundColor: isActive || isKeyboardSelected ? 'var(--btn-primary-bg)' : 'var(--color-surface)',
+                      border: `2px solid ${isActive || isKeyboardSelected ? 'var(--btn-primary-bg)' : 'var(--color-border)'}`,
+                      color: isActive || isKeyboardSelected ? 'var(--btn-primary-fg)' : 'var(--color-text)',
+                      boxShadow: isKeyboardSelected ? 'var(--shadow-modal)' : 'var(--shadow-panel)',
                       transition: 'var(--transition-medium)',
                     }}
                     onMouseEnter={(e) => {
-                      if (!isActive) {
+                      if (!isActive && !isKeyboardSelected) {
                         e.currentTarget.style.backgroundColor = 'var(--btn-secondary-hover-bg)';
                         e.currentTarget.style.borderColor = 'var(--color-focus)';
                         e.currentTarget.style.transform = 'scale(1.1)';
                       }
                     }}
                     onMouseLeave={(e) => {
-                      if (!isActive) {
+                      if (!isActive && !isKeyboardSelected) {
                         e.currentTarget.style.backgroundColor = 'var(--color-surface)';
                         e.currentTarget.style.borderColor = 'var(--color-border)';
                         e.currentTarget.style.transform = 'scale(1)';
@@ -240,6 +330,7 @@ export function RadialMenu() {
                       e.currentTarget.style.outline = 'none';
                     }}
                     aria-label={button.label}
+                    aria-current={isKeyboardSelected ? 'true' : undefined}
                   >
                     <Icon size={iconSize} />
                   </button>
