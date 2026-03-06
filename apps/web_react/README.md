@@ -1,7 +1,7 @@
 
-  # Caregiver Low-Vision App
+  # Build website from prompt
 
-  This is a code bundle for Caregiver Low-Vision App. The original project is available at https://www.figma.com/design/lxPdetsd3S17V7rrCFpc55/Caregiver-Low-Vision-App.
+  This is a code bundle for Build website from prompt. The original project is available at https://www.figma.com/design/z6tEu1YqBXboNqCKIg720j/Build-website-from-prompt.
 
   ## Running the code
 

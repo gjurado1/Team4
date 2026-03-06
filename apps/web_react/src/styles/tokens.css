@@ -1,0 +1,283 @@
+/* ============================================
+   CARECONNECT GLOBAL CSS TOKENS
+   Source of Truth - All Components Reference These
+   ============================================ */
+
+:root {
+  /* Default to dark theme */
+  color-scheme: dark;
+  
+  /* ==================== A) BREAKPOINTS ==================== */
+  --bp-mobile-min: 320px;
+  --bp-mobile-max: 767px;
+  --bp-tablet-min: 768px;
+  --bp-tablet-max: 1023px;
+  --bp-desktop-min: 1024px;
+
+  /* ==================== B) LAYOUT TOKENS ==================== */
+  --container-max-mobile: 100%;
+  --container-max-tablet: 768px;
+  --container-max-desktop: 1280px;
+  --grid-columns: 12;
+  --grid-gutter: 24px;
+  --grid-margin: 16px;
+  --sidebar-width: 280px;
+  --sidebar-width-collapsed: 64px;
+  --header-height: 72px;
+  --footer-height: 320px;
+
+  /* ==================== C) COLOR TOKENS ==================== */
+  --color-bg: #0a0e1a;
+  --color-surface: rgba(255, 255, 255, 0.05);
+  --color-panel: rgba(255, 255, 255, 0.08);
+  --color-text: #ffffff;
+  --color-text-muted: #d1d5db;
+  --color-text-secondary: #9ca3af;
+  --color-border: rgba(255, 255, 255, 0.1);
+  --color-focus: #3b82f6;
+  --color-overlay-scrim: rgba(10, 14, 26, 0.85);
+  --color-link: #60a5fa;
+  --color-link-hover: #93c5fd;
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+  --color-error: #ef4444;
+  
+  /* Brand Colors */
+  --color-brand-primary: #3b82f6;
+  --color-brand-secondary: #8b5cf6;
+  --color-brand-accent: #06b6d4;
+  --color-brand-gradient-start: #3b82f6;
+  --color-brand-gradient-end: #8b5cf6;
+
+  /* ==================== D) TYPOGRAPHY TOKENS ==================== */
+  --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-size-hero: clamp(2.5rem, 5vw, 4.5rem);
+  --font-size-h1: clamp(2rem, 4vw, 3rem);
+  --font-size-h2: clamp(1.5rem, 3vw, 2rem);
+  --font-size-h3: clamp(1.25rem, 2.5vw, 1.5rem);
+  --font-size-body: 1rem;
+  --font-size-small: 0.875rem;
+  --font-size-label: 0.75rem;
+  --line-height-base: 1.6;
+  --line-height-tight: 1.2;
+  --letter-spacing-hero: -0.02em;
+  --letter-spacing-wide: 0.05em;
+
+  /* ==================== E) SPACING TOKENS ==================== */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 96px;
+  --space-10: 128px;
+
+  /* ==================== F) RADIUS TOKENS ==================== */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-full: 9999px;
+
+  /* ==================== G) SHADOW/ELEVATION TOKENS ==================== */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.5);
+  --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.6);
+  --shadow-overlay: 0 25px 50px rgba(0, 0, 0, 0.7);
+  --shadow-glow: 0 0 30px rgba(59, 130, 246, 0.3);
+  --shadow-glow-hover: 0 0 40px rgba(59, 130, 246, 0.5);
+
+  /* ==================== H) MOTION TOKENS ==================== */
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-emphasized: cubic-bezier(0.2, 0, 0, 1);
+  --ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  --duration-fast: 150ms;
+  --duration-medium: 300ms;
+  --duration-slow: 500ms;
+
+  /* ==================== I) BUTTON TOKENS ==================== */
+  /* Primary Button */
+  --btn-primary-bg: linear-gradient(135deg, var(--color-brand-gradient-start), var(--color-brand-gradient-end));
+  --btn-primary-fg: #ffffff;
+  --btn-primary-hover-bg: linear-gradient(135deg, #4f90ff, #9d6fff);
+  --btn-primary-hover-fg: #ffffff;
+  --btn-primary-active-bg: linear-gradient(135deg, #2563eb, #7c3aed);
+  --btn-primary-disabled-bg: rgba(59, 130, 246, 0.3);
+  --btn-primary-disabled-fg: rgba(255, 255, 255, 0.4);
+
+  /* Secondary Button */
+  --btn-secondary-bg: rgba(255, 255, 255, 0.1);
+  --btn-secondary-fg: #ffffff;
+  --btn-secondary-hover-bg: rgba(255, 255, 255, 0.15);
+  --btn-secondary-hover-fg: #ffffff;
+  --btn-secondary-border: rgba(255, 255, 255, 0.2);
+
+  /* Danger Button */
+  --btn-danger-bg: #ef4444;
+  --btn-danger-fg: #ffffff;
+  --btn-danger-hover-bg: #dc2626;
+  --btn-danger-hover-fg: #ffffff;
+
+  /* ==================== J) INPUT TOKENS ==================== */
+  --input-bg: rgba(255, 255, 255, 0.05);
+  --input-fg: #ffffff;
+  --input-border: rgba(255, 255, 255, 0.15);
+  --input-border-hover: rgba(255, 255, 255, 0.25);
+  --input-border-focus: var(--color-brand-primary);
+  --input-placeholder: rgba(255, 255, 255, 0.4);
+
+  /* ==================== K) NAVIGATION TOKENS ==================== */
+  --nav-bg: rgba(10, 14, 26, 0.8);
+  --nav-fg: #ffffff;
+  --nav-hover-bg: rgba(255, 255, 255, 0.1);
+  --nav-active-bg: rgba(59, 130, 246, 0.2);
+  --nav-border: rgba(255, 255, 255, 0.1);
+
+  /* ==================== L) FOCUS RING TOKENS ==================== */
+  --focus-ring-width: 2px;
+  --focus-ring-offset: 2px;
+  --focus-ring-color: var(--color-brand-primary);
+
+  /* ==================== M) CARD TOKENS ==================== */
+  --card-bg: rgba(255, 255, 255, 0.08);
+  --card-border: rgba(255, 255, 255, 0.15);
+  --card-hover-bg: rgba(255, 255, 255, 0.12);
+  --card-hover-border: rgba(255, 255, 255, 0.25);
+}
+
+/* ==================== DARK MODE (using .dark class) ==================== */
+.dark {
+  /* Dark mode uses the root values which are already dark */
+  --color-bg: #0a0e1a;
+  --color-surface: rgba(255, 255, 255, 0.05);
+  --color-panel: rgba(255, 255, 255, 0.08);
+  --color-text: #ffffff;
+  --color-text-muted: #d1d5db;
+  --color-text-secondary: #9ca3af;
+  --color-border: rgba(255, 255, 255, 0.1);
+  --color-overlay-scrim: rgba(10, 14, 26, 0.85);
+  
+  --btn-secondary-bg: rgba(255, 255, 255, 0.1);
+  --btn-secondary-fg: #ffffff;
+  --btn-secondary-hover-bg: rgba(255, 255, 255, 0.15);
+  
+  --nav-bg: rgba(10, 14, 26, 0.8);
+  --nav-fg: #ffffff;
+  --nav-hover-bg: rgba(255, 255, 255, 0.1);
+  --nav-active-bg: rgba(59, 130, 246, 0.2);
+  
+  --input-bg: rgba(255, 255, 255, 0.05);
+  --input-fg: #ffffff;
+  --input-border: rgba(255, 255, 255, 0.15);
+  --input-placeholder: rgba(255, 255, 255, 0.4);
+  
+  --card-bg: rgba(255, 255, 255, 0.08);
+  --card-border: rgba(255, 255, 255, 0.15);
+  --card-hover-bg: rgba(255, 255, 255, 0.12);
+  
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.5);
+  --shadow-overlay: 0 25px 50px rgba(0, 0, 0, 0.7);
+}
+
+/* ==================== LIGHT MODE (default when .dark is not present) ==================== */
+:root:not(.dark) {
+  color-scheme: light;
+  
+  --color-bg: #ffffff;
+  --color-surface: #f8fafc;
+  --color-panel: #f1f5f9;
+  --color-text: #0f172a;
+  --color-text-muted: #64748b;
+  --color-text-secondary: #94a3b8;
+  --color-border: #e2e8f0;
+  --color-overlay-scrim: rgba(255, 255, 255, 0.9);
+  
+  --btn-primary-bg: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  --btn-secondary-bg: #f1f5f9;
+  --btn-secondary-fg: #0f172a;
+  --btn-secondary-hover-bg: #e2e8f0;
+  --btn-secondary-hover-fg: #0f172a;
+  
+  --nav-bg: rgba(255, 255, 255, 0.95);
+  --nav-fg: #0f172a;
+  --nav-hover-bg: #f1f5f9;
+  --nav-active-bg: rgba(59, 130, 246, 0.1);
+  --nav-border: rgba(0, 0, 0, 0.1);
+  
+  --input-bg: #ffffff;
+  --input-fg: #0f172a;
+  --input-border: #e2e8f0;
+  --input-border-hover: #cbd5e1;
+  --input-placeholder: #94a3b8;
+  
+  --card-bg: #ffffff;
+  --card-border: #e2e8f0;
+  --card-hover-bg: #fafbfc;
+  --card-hover-border: #cbd5e1;
+  
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.12);
+  --shadow-overlay: 0 25px 50px rgba(0, 0, 0, 0.15);
+  --shadow-glow: 0 0 30px rgba(59, 130, 246, 0.2);
+  --shadow-glow-hover: 0 0 40px rgba(59, 130, 246, 0.3);
+}
+
+/* ==================== LIGHT THEME VARIANT ==================== */
+[data-theme="light"] {
+  --color-bg: #ffffff;
+  --color-surface: #f8fafc;
+  --color-panel: #f1f5f9;
+  --color-text: #0f172a;
+  --color-text-muted: #64748b;
+  --color-border: #e2e8f0;
+  --color-overlay-scrim: rgba(255, 255, 255, 0.9);
+  
+  --btn-primary-bg: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  --btn-secondary-bg: #f1f5f9;
+  --btn-secondary-fg: #0f172a;
+  --btn-secondary-hover-bg: #e2e8f0;
+  
+  --nav-bg: rgba(255, 255, 255, 0.95);
+  --nav-fg: #0f172a;
+  --nav-hover-bg: #f1f5f9;
+  --nav-active-bg: rgba(59, 130, 246, 0.1);
+  
+  --input-bg: #ffffff;
+  --input-fg: #0f172a;
+  --input-border: #e2e8f0;
+  --input-placeholder: #94a3b8;
+  
+  --card-bg: #ffffff;
+  --card-border: #e2e8f0;
+  --card-hover-bg: #fafbfc;
+  
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+  --shadow-overlay: 0 25px 50px rgba(0, 0, 0, 0.15);
+}
+
+/* ==================== MEDICAL THEME VARIANT ==================== */
+[data-theme="medical"] {
+  --color-brand-primary: #10b981;
+  --color-brand-secondary: #06b6d4;
+  --color-brand-gradient-start: #10b981;
+  --color-brand-gradient-end: #06b6d4;
+}
+
+/* ==================== HIGH CONTRAST THEME ==================== */
+[data-theme="high-contrast"] {
+  --color-bg: #000000;
+  --color-text: #ffffff;
+  --color-border: #ffffff;
+  --btn-primary-bg: #ffffff;
+  --btn-primary-fg: #000000;
+}

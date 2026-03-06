@@ -1,0 +1,355 @@
+CareConnect Responsive Web App – Figma AI Prompt (Token-Only, Global CSS Driven)
+
+NON-NEGOTIABLE RULES (CRITICAL)
+
+1. NO hard-coded colors, font sizes, spacing, radii, shadows, borders, or motion values inside any component.
+2. EVERYTHING must be defined as global CSS variables (design tokens) in ONE global stylesheet.
+3. Components and screens may ONLY reference token names (e.g., var(--color-bg), var(--space-4), var(--radius-md)).
+4. ALL interaction states (hover/focus/active/disabled) must be tokenized (e.g., --btn-primary-hover-bg).
+5. Responsive behavior must be tokenized where possible (container max widths, grid gutters, breakpoints, typography scale).
+6. Output should explicitly list the token set first, then show component usage that references tokens only.
+
+PROJECT BRIEF
+Design a responsive CareConnect web application (React + Vite) that works on:
+• Mobile web (320–767): single column, hamburger nav
+• Tablet web (768–1023): two column, collapsible sidebar
+• Desktop web (1024+): multi-column, full navigation
+
+Deliverables required:
+Part 1: Responsive web design system + wireframes
+Part 2: Web accessibility documentation
+Part 3: Performance + SEO planning
+PLUS: a flashy, cinematic first page hero (healthcare-appropriate) like a premium product landing page.
+
+---
+
+FIGMA FILE STRUCTURE (ONE FILE)
+
+Create these pages:
+
+1. 00 – Global CSS Tokens (Source of Truth)
+2. 01 – Web Component Library (Token-Only)
+3. 02 – Responsive Grid & Breakpoints
+4. 03 – Flashy Hero Landing (CareConnect)
+5. 04 – Core Screens (8–10) × 3 Breakpoints
+6. 05 – PWA Planning
+7. 06 – Web Accessibility Documentation
+8. 07 – Performance & SEO Planning
+
+---
+
+PAGE 00 – GLOBAL CSS TOKENS (SOURCE OF TRUTH)
+
+Create a “Global CSS Sheet” section that defines ONLY tokens.
+
+A) Breakpoint Tokens
+--bp-mobile-min: 320px
+--bp-mobile-max: 767px
+--bp-tablet-min: 768px
+--bp-tablet-max: 1023px
+--bp-desktop-min: 1024px
+
+B) Layout Tokens
+--container-max-mobile
+--container-max-tablet
+--container-max-desktop
+--grid-columns: 12
+--grid-gutter
+--grid-margin
+--sidebar-width
+--sidebar-width-collapsed
+--header-height
+--footer-height
+
+C) Color Tokens (No direct hex usage in components)
+--color-bg
+--color-surface
+--color-panel
+--color-text
+--color-text-muted
+--color-border
+--color-focus
+--color-overlay-scrim
+--color-link
+--color-link-hover
+--color-success
+--color-warning
+--color-error
+
+D) Typography Tokens (Web-specific scale)
+--font-family
+--font-size-hero
+--font-size-h1
+--font-size-h2
+--font-size-h3
+--font-size-body
+--font-size-small
+--font-size-label
+--line-height-base
+--line-height-tight
+--letter-spacing-hero
+
+E) Spacing Tokens
+--space-1 (4)
+--space-2 (8)
+--space-3 (12)
+--space-4 (16)
+--space-5 (24)
+--space-6 (32)
+--space-7 (48)
+--space-8 (64)
+
+F) Radius Tokens
+--radius-sm
+--radius-md
+--radius-lg
+--radius-xl
+
+G) Shadow/Elevation Tokens
+--shadow-sm
+--shadow-md
+--shadow-lg
+--shadow-overlay
+
+H) Motion Tokens (Used for hero + UI transitions)
+--ease-standard
+--ease-emphasized
+--duration-fast
+--duration-medium
+--duration-slow
+
+I) Interactive Tokens (Stateful)
+Buttons
+--btn-primary-bg
+--btn-primary-fg
+--btn-primary-hover-bg
+--btn-primary-hover-fg
+--btn-primary-active-bg
+--btn-primary-disabled-bg
+--btn-primary-disabled-fg
+
+--btn-secondary-bg
+--btn-secondary-fg
+--btn-secondary-hover-bg
+--btn-secondary-hover-fg
+
+--btn-danger-bg
+--btn-danger-fg
+--btn-danger-hover-bg
+--btn-danger-hover-fg
+
+Inputs
+--input-bg
+--input-fg
+--input-border
+--input-border-hover
+--input-border-focus
+--input-placeholder
+
+Navigation
+--nav-bg
+--nav-fg
+--nav-hover-bg
+--nav-active-bg
+--nav-border
+
+Focus Ring
+--focus-ring-width
+--focus-ring-offset
+--focus-ring-color
+
+Create theme wrappers that ONLY override tokens (components never change):
+[data-theme="default"]
+[data-theme="medical"]
+[data-theme="warm"]
+[data-theme="dark"]
+[data-theme="sepia"]
+[data-theme="high-contrast"]
+
+---
+
+PAGE 01 – WEB COMPONENT LIBRARY (TOKEN-ONLY)
+
+Create web-specific components that reference tokens only.
+
+Required components:
+Navigation
+• Nav/Desktop (full links)
+• Nav/Mobile (hamburger + drawer)
+• Nav/Tablet (collapsible sidebar)
+• Breadcrumbs
+
+Web UI
+• Dropdown
+• Tooltip
+• Tabs
+• Modal dialog (focus trap documented)
+• Toast / alert banner
+
+Forms
+• Text input + label + helper text
+• Error state with tokenized error colors
+• Required indicator tokenized
+• Select dropdown
+• Checkbox / radio
+• Search
+
+Buttons (ALL states must be token-only)
+• Primary / Secondary / Destructive / Disabled
+• Hover MUST change to a different tokenized background color
+• Focus-visible ring uses focus tokens
+
+---
+
+PAGE 02 – RESPONSIVE GRID & BREAKPOINTS
+
+Build layout templates for:
+• Mobile (single column)
+• Tablet (two column + collapsible sidebar)
+• Desktop (12-column grid + multi-column)
+
+All spacing, gutters, and margins must reference tokens.
+
+Show how the same components reflow across breakpoints WITHOUT creating separate custom styling per screen.
+
+---
+
+PAGE 03 – FLASHY HERO LANDING (CARECONNECT)
+
+Create a premium, cinematic hero page (like high-end product marketing) but healthcare-appropriate.
+
+Requirements (token-only):
+• Background: family-friendly caregiver/medical imagery with tokenized overlay scrim
+• Glass/soft panels using --color-surface and --shadow-overlay
+• Large hero typography using --font-size-hero, --letter-spacing-hero
+• Primary CTA button “Get Started” with clear hover color change using tokens
+• Secondary CTA “Learn More”
+• Top navigation adapts:
+
+* Mobile: hamburger
+* Tablet: compact nav + drawer
+* Desktop: full nav
+
+Include subtle animated feel in prototype notes:
+• Hover glow uses tokenized shadow/overlay
+• Hero CTA hover changes background color (token)
+• Smooth transitions use motion tokens only
+
+---
+
+PAGE 04 – CORE SCREENS (8–10 SCREENS × 3 BREAKPOINTS)
+
+Create ALL screens at:
+• Mobile / Tablet / Desktop
+
+Screens:
+
+1. Dashboard
+2. Tasks
+3. Task Detail
+4. Notes / Health Logs
+5. Messaging
+6. Notifications
+7. Emergency / SOS
+8. Profile
+9. Settings
+10. Help / Resources
+
+Each screen must demonstrate adaptation:
+• Mobile: single column, stacked cards
+• Tablet: two columns, collapsible sidebar
+• Desktop: multi-column, full nav, optional right panel
+
+---
+
+PAGE 05 – PWA PLANNING (TOKEN-ALIGNED)
+
+Create a PWA planning section with:
+Manifest fields:
+• name: CareConnect
+• short_name: CareConnect
+• icons: 192, 512
+• theme_color: var(--btn-primary-bg) conceptually
+• background_color: var(--color-bg) conceptually
+Offline plan:
+• Read tasks/notes cached
+• Recently viewed messages cached
+• Offline banner component (token-only)
+Install UX:
+• Install prompt mock
+Service worker strategy:
+• cache static assets
+• stale-while-revalidate for API
+• offline fallback shell
+
+---
+
+PAGE 06 – WEB ACCESSIBILITY DOCUMENTATION
+
+Document web-specific accessibility patterns:
+
+Semantic HTML plan
+• header, nav, main, article, aside, footer
+
+ARIA landmarks
+• role="banner", role="navigation", role="main", role="contentinfo"
+
+Skip link
+• “Skip to main content” component (token-only)
+
+Form accessibility
+• label association
+• required indicators
+• error messaging with aria-describedby
+
+Keyboard navigation
+• tab order rules
+• modal focus trap
+• ESC closes modal
+
+Screen reader rules
+• heading hierarchy
+• meaningful link text
+
+---
+
+PAGE 07 – PERFORMANCE & SEO PLANNING
+
+Performance budgets:
+• LCP target < 2.0s
+• initial JS budget (define as a goal)
+• image budget and responsive images plan
+
+Optimization strategy:
+• image compression + responsive sizes
+• code splitting by route
+• lazy loading below fold sections
+• skeleton loading states
+
+SEO strategy:
+• title/description meta
+• OpenGraph fields
+• sitemap structure diagram:
+/, /features, /dashboard, /resources, /help
+
+---
+
+NAMING CONVENTION
+
+Frames:
+[Screen] – [Breakpoint]
+Example:
+Hero – Mobile
+Hero – Tablet
+Hero – Desktop
+
+Components:
+Btn/Primary
+Btn/Primary/Hover
+Nav/Mobile/Drawer
+Tabs/Default
+Modal/Confirm
+
+FINAL OUTPUT REQUIREMENT
+Ensure EVERY visual decision is traceable to a global CSS variable token.
+No component may contain unique styling values outside tokens.
