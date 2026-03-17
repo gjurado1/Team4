@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { DollarSign, Download, FileText, HelpCircle, Search, Sparkles, X } from 'lucide-react';
 import { useNavigate } from 'react-router';
 
@@ -170,6 +170,23 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
     setSelectedIndex(0);
   }, [searchQuery]);
 
+  const handleResultClick = useCallback((result: SearchResult) => {
+    if (result.path.startsWith('/#')) {
+      if (window.location.pathname !== '/') {
+        navigate('/');
+        window.setTimeout(() => {
+          window.location.hash = result.path.substring(1);
+        }, 100);
+      } else {
+        window.location.hash = result.path.substring(1);
+      }
+    } else {
+      navigate(result.path);
+    }
+
+    onClose();
+  }, [navigate, onClose]);
+
   useEffect(() => {
     if (!isOpen) {
       return undefined;
@@ -198,24 +215,7 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
 
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen, onClose, results, selectedIndex]);
-
-  const handleResultClick = (result: SearchResult) => {
-    if (result.path.startsWith('/#')) {
-      if (window.location.pathname !== '/') {
-        navigate('/');
-        window.setTimeout(() => {
-          window.location.hash = result.path.substring(1);
-        }, 100);
-      } else {
-        window.location.hash = result.path.substring(1);
-      }
-    } else {
-      navigate(result.path);
-    }
-
-    onClose();
-  };
+  }, [handleResultClick, isOpen, onClose, results, selectedIndex]);
 
   if (!isOpen) {
     return null;

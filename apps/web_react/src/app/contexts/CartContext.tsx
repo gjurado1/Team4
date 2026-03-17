@@ -23,21 +23,26 @@ interface CartContextType {
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
-export function CartProvider({ children }: { children: ReactNode }) {
-  const [items, setItems] = useState<CartItem[]>([]);
+function readStoredCart() {
+  if (typeof window === 'undefined') {
+    return [] as CartItem[];
+  }
 
-  // Load cart from localStorage on mount
-  useEffect(() => {
-    const storedCart = localStorage.getItem('careconnect_cart');
-    if (storedCart) {
-      try {
-        setItems(JSON.parse(storedCart));
-      } catch (error) {
-        console.error('Failed to parse stored cart:', error);
-        localStorage.removeItem('careconnect_cart');
-      }
-    }
-  }, []);
+  const storedCart = localStorage.getItem('careconnect_cart');
+  if (!storedCart) {
+    return [] as CartItem[];
+  }
+
+  try {
+    return JSON.parse(storedCart) as CartItem[];
+  } catch {
+    localStorage.removeItem('careconnect_cart');
+    return [] as CartItem[];
+  }
+}
+
+export function CartProvider({ children }: { children: ReactNode }) {
+  const [items, setItems] = useState<CartItem[]>(readStoredCart);
 
   // Save cart to localStorage whenever it changes
   useEffect(() => {

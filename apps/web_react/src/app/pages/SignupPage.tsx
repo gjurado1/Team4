@@ -3,6 +3,10 @@ import { Link, useNavigate } from 'react-router';
 import { AlertCircle, ArrowLeft, Lock, Mail, User as UserIcon } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 
+function isValidEmail(email: string) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
 export function SignupPage() {
   const navigate = useNavigate();
   const { signup } = useAuth();
@@ -16,6 +20,18 @@ export function SignupPage() {
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setError('');
+    const normalizedName = name.trim();
+    const normalizedEmail = email.trim().toLowerCase();
+
+    if (normalizedName.length < 2) {
+      setError('Enter your full name');
+      return;
+    }
+
+    if (!isValidEmail(normalizedEmail)) {
+      setError('Enter a valid email address');
+      return;
+    }
 
     if (password !== confirmPassword) {
       setError('Passwords do not match');
@@ -30,7 +46,7 @@ export function SignupPage() {
     setIsLoading(true);
 
     try {
-      await signup(email, password, name);
+      await signup(normalizedEmail, password, normalizedName);
       navigate('/role-selection', { replace: true });
     } catch (err) {
       setError((err as Error).message);
@@ -80,6 +96,7 @@ export function SignupPage() {
                   value={name}
                   onChange={(event) => setName(event.target.value)}
                   placeholder="John Doe"
+                  autoComplete="name"
                   required
                 />
               </div>
@@ -98,6 +115,7 @@ export function SignupPage() {
                   value={email}
                   onChange={(event) => setEmail(event.target.value)}
                   placeholder="you@example.com"
+                  autoComplete="email"
                   required
                 />
               </div>
@@ -116,6 +134,7 @@ export function SignupPage() {
                   value={password}
                   onChange={(event) => setPassword(event.target.value)}
                   placeholder="********"
+                  autoComplete="new-password"
                   required
                 />
               </div>
@@ -134,6 +153,7 @@ export function SignupPage() {
                   value={confirmPassword}
                   onChange={(event) => setConfirmPassword(event.target.value)}
                   placeholder="********"
+                  autoComplete="new-password"
                   required
                 />
               </div>

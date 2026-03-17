@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
   ChevronRight,
   DollarSign,
@@ -215,6 +215,33 @@ export function Navigation({ theme = 'dark' }: NavigationProps) {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [isSearchOpen]);
 
+  const handleSectionNavigation = useCallback((sectionId: string) => {
+    setIsMenuOpen(false);
+    setIsSearchOpen(false);
+    setActiveSection(sectionId);
+
+    if (location.pathname !== '/') {
+      navigate('/');
+      window.setTimeout(() => {
+        window.location.hash = `#${sectionId}`;
+      }, 100);
+      return;
+    }
+
+    window.location.hash = `#${sectionId}`;
+  }, [location.pathname, navigate]);
+
+  const handleResultClick = useCallback((result: SearchResult) => {
+    if (result.path.startsWith('/#')) {
+      const sectionId = result.path.replace('/#', '');
+      handleSectionNavigation(sectionId);
+    } else {
+      setIsMenuOpen(false);
+      setIsSearchOpen(false);
+      navigate(result.path);
+    }
+  }, [handleSectionNavigation, navigate]);
+
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
@@ -245,7 +272,7 @@ export function Navigation({ theme = 'dark' }: NavigationProps) {
 
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [isSearchOpen, searchResults, selectedIndex]);
+  }, [handleResultClick, isSearchOpen, searchResults, selectedIndex]);
 
   useEffect(() => {
     document.body.style.overflow = isMenuOpen ? 'hidden' : '';
@@ -281,33 +308,6 @@ export function Navigation({ theme = 'dark' }: NavigationProps) {
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, [location.pathname]);
-
-  const handleSectionNavigation = (sectionId: string) => {
-    setIsMenuOpen(false);
-    setIsSearchOpen(false);
-    setActiveSection(sectionId);
-
-    if (location.pathname !== '/') {
-      navigate('/');
-      window.setTimeout(() => {
-        window.location.hash = `#${sectionId}`;
-      }, 100);
-      return;
-    }
-
-    window.location.hash = `#${sectionId}`;
-  };
-
-  const handleResultClick = (result: SearchResult) => {
-    if (result.path.startsWith('/#')) {
-      const sectionId = result.path.replace('/#', '');
-      handleSectionNavigation(sectionId);
-    } else {
-      setIsMenuOpen(false);
-      setIsSearchOpen(false);
-      navigate(result.path);
-    }
-  };
 
   return (
     <header className="site-nav" data-theme-variant={theme} role="banner">

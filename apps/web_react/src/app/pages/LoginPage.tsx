@@ -3,6 +3,10 @@ import { Link, useNavigate } from 'react-router';
 import { AlertCircle, ArrowLeft, Lock, Mail } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 
+function isValidEmail(email: string) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
 export function LoginPage() {
   const navigate = useNavigate();
   const { login } = useAuth();
@@ -14,10 +18,27 @@ export function LoginPage() {
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setError('');
+    const normalizedEmail = email.trim().toLowerCase();
+
+    if (!normalizedEmail) {
+      setError('Email address is required');
+      return;
+    }
+
+    if (!isValidEmail(normalizedEmail)) {
+      setError('Enter a valid email address');
+      return;
+    }
+
+    if (!password) {
+      setError('Password is required');
+      return;
+    }
+
     setIsLoading(true);
 
     try {
-      await login(email, password);
+      await login(normalizedEmail, password);
       navigate('/role-selection', { replace: true });
     } catch (err) {
       setError((err as Error).message);
@@ -62,6 +83,7 @@ export function LoginPage() {
                   value={email}
                   onChange={(event) => setEmail(event.target.value)}
                   placeholder=" "
+                  autoComplete="email"
                   required
                 />
                 <label htmlFor="email" className="auth-floating-label">
@@ -80,6 +102,7 @@ export function LoginPage() {
                   value={password}
                   onChange={(event) => setPassword(event.target.value)}
                   placeholder=" "
+                  autoComplete="current-password"
                   required
                 />
                 <label htmlFor="password" className="auth-floating-label">

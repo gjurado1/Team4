@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0a0e1a" />
+    <title>Offline | CareConnect</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        font-family: "Segoe UI", sans-serif;
+      }
+
+      body {
+        min-height: 100vh;
+        margin: 0;
+        display: grid;
+        place-items: center;
+        padding: 24px;
+        background:
+          radial-gradient(circle at top, rgba(59, 130, 246, 0.2), transparent 40%),
+          radial-gradient(circle at bottom right, rgba(249, 115, 22, 0.18), transparent 36%),
+          #0a0e1a;
+        color: #ffffff;
+      }
+
+      main {
+        width: min(100%, 420px);
+        padding: 32px;
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.08);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+      }
+
+      .mark {
+        width: 56px;
+        height: 56px;
+        display: inline-grid;
+        place-items: center;
+        border-radius: 12px;
+        margin-bottom: 24px;
+        background: linear-gradient(135deg, #3b82f6, #f97316);
+        font-size: 24px;
+        font-weight: 700;
+      }
+
+      h1 {
+        margin: 0 0 16px;
+        font-size: 32px;
+        line-height: 1.2;
+      }
+
+      p {
+        margin: 0 0 12px;
+        font-size: 18px;
+        line-height: 1.55;
+        color: #d1d5db;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <div class="mark">CC</div>
+      <h1>You are offline</h1>
+      <p>CareConnect is unavailable right now because your device is not connected.</p>
+      <p>Reconnect to sync the latest information, or return to a page you have already opened.</p>
+    </main>
+  </body>
+</html>
