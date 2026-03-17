@@ -5,23 +5,17 @@ const ERROR_IMG_SRC =
 
 export function ImageWithFallback(props: React.ImgHTMLAttributes<HTMLImageElement>) {
   const [didError, setDidError] = useState(false)
+  const { src, alt, className, style: _style, ...rest } = props
 
-  const handleError = () => {
-    setDidError(true)
+  if (didError) {
+    return (
+      <div className={`image-fallback ${className ?? ''}`}>
+        <div className="image-fallback__inner">
+          <img src={ERROR_IMG_SRC} alt="Error loading image" {...rest} data-original-url={src} />
+        </div>
+      </div>
+    )
   }
 
-  const { src, alt, style, className, ...rest } = props
-
-  return didError ? (
-    <div
-      className={`inline-block bg-gray-100 text-center align-middle ${className ?? ''}`}
-      style={style}
-    >
-      <div className="flex items-center justify-center w-full h-full">
-        <img src={ERROR_IMG_SRC} alt="Error loading image" {...rest} data-original-url={src} />
-      </div>
-    </div>
-  ) : (
-    <img src={src} alt={alt} className={className} style={style} {...rest} onError={handleError} />
-  )
+  return <img src={src} alt={alt} className={className} {...rest} onError={() => setDidError(true)} />
 }

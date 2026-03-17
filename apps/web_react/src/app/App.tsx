@@ -6,6 +6,7 @@ import { RouterProvider } from 'react-router';
 import { AuthProvider } from './contexts/AuthContext';
 import { CartProvider } from './contexts/CartContext';
 import { router } from './routes';
+import { applyStoredAccessibilitySettings } from './utils/accessibility';
 
 export default function App() {
   // Initialize theme on mount (prevents flash)
@@ -31,6 +32,8 @@ export default function App() {
       };
       localStorage.setItem('careconnect_users', JSON.stringify([demoUser]));
     }
+
+    applyStoredAccessibilitySettings();
   }, []);
 
   return (

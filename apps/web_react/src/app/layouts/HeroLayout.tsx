@@ -1,6 +1,6 @@
 import { Outlet } from 'react-router';
 
-export function RootLayout() {
+export function HeroLayout() {
   return (
     <div className="app-layout">
       <a href="#main-content" className="skip-link">

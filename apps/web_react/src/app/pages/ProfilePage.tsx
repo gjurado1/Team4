@@ -1,35 +1,48 @@
-import React, { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
+import {
+  ArrowLeft,
+  Bell,
+  Calendar,
+  Check,
+  Edit2,
+  LogOut,
+  Mail,
+  Shield,
+  User,
+  X,
+} from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
-import { User, Mail, Calendar, LogOut, Edit2, Check, X, Shield } from 'lucide-react';
+import { ThemeToggle } from '../components/ThemeToggle';
 
 export function ProfilePage() {
   const navigate = useNavigate();
   const { user, logout, updateProfile } = useAuth();
-  
   const [isEditing, setIsEditing] = useState(false);
   const [name, setName] = useState(user?.name || '');
   const [isSaving, setIsSaving] = useState(false);
 
-  if (!user) {
-    navigate('/login');
-    return null;
-  }
+  useEffect(() => {
+    if (!user) {
+      navigate('/login');
+    }
+  }, [user, navigate]);
 
   const handleSave = async () => {
     setIsSaving(true);
+
     try {
       await updateProfile({ name });
       setIsEditing(false);
-    } catch (error) {
-      console.error('Failed to update profile:', error);
     } finally {
       setIsSaving(false);
     }
   };
 
   const handleCancel = () => {
-    setName(user.name);
+    if (user) {
+      setName(user.name);
+    }
     setIsEditing(false);
   };
 
@@ -38,399 +51,134 @@ export function ProfilePage() {
     navigate('/');
   };
 
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    });
-  };
+  if (!user) {
+    return null;
+  }
+
+  const memberSince = new Date(user.createdAt).toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
 
   return (
-    <div
-      style={{
-        minHeight: '100vh',
-        background: 'var(--color-bg)',
-        paddingTop: 'calc(var(--header-height) + var(--space-8))',
-        paddingBottom: 'var(--space-10)',
-        paddingLeft: 'var(--space-5)',
-        paddingRight: 'var(--space-5)',
-      }}
-    >
-      <div
-        style={{
-          maxWidth: '800px',
-          margin: '0 auto',
-        }}
-      >
-        {/* Header */}
-        <div
-          style={{
-            marginBottom: 'var(--space-8)',
-          }}
-        >
-          <h1
-            style={{
-              fontSize: 'var(--font-size-h1)',
-              fontWeight: 800,
-              color: 'var(--color-text)',
-              marginBottom: 'var(--space-2)',
-            }}
-          >
-            My Profile
-          </h1>
-          <p
-            style={{
-              fontSize: 'var(--font-size-body)',
-              color: 'var(--color-text-muted)',
-            }}
-          >
-            Manage your account information and preferences
-          </p>
-        </div>
+    <div className="profile-page">
+      <header className="profile-header">
+        <div className="cc-container profile-header__inner">
+          <div className="profile-header__group">
+            <button type="button" className="cc-btn cc-btn--secondary" onClick={() => navigate('/dashboard')}>
+              <ArrowLeft className="cc-icon cc-icon--sm" aria-hidden="true" />
+              <span>Back to Dashboard</span>
+            </button>
 
-        {/* Profile Card */}
-        <div
-          style={{
-            background: 'var(--card-bg)',
-            border: '1px solid var(--card-border)',
-            borderRadius: 'var(--radius-xl)',
-            padding: 'var(--space-8)',
-            marginBottom: 'var(--space-6)',
-            boxShadow: 'var(--shadow-md)',
-          }}
-        >
-          {/* Avatar Section */}
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: 'var(--space-5)',
-              marginBottom: 'var(--space-8)',
-              paddingBottom: 'var(--space-6)',
-              borderBottom: '1px solid var(--color-border)',
-            }}
-          >
-            <div
-              style={{
-                width: '100px',
-                height: '100px',
-                borderRadius: 'var(--radius-full)',
-                background: 'var(--btn-primary-bg)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontSize: '2.5rem',
-                fontWeight: 900,
-                color: 'var(--btn-primary-fg)',
-                boxShadow: '0 0 30px rgba(59, 130, 246, 0.4)',
-                flexShrink: 0,
-              }}
-              aria-hidden="true"
-            >
-              {user.name.charAt(0).toUpperCase()}
-            </div>
-            <div style={{ flex: 1 }}>
-              <h2
-                style={{
-                  fontSize: 'var(--font-size-h2)',
-                  fontWeight: 700,
-                  color: 'var(--color-text)',
-                  marginBottom: 'var(--space-2)',
-                }}
-              >
-                {user.name}
-              </h2>
-              <p
-                style={{
-                  fontSize: 'var(--font-size-body)',
-                  color: 'var(--color-text-muted)',
-                }}
-              >
-                {user.email}
-              </p>
-            </div>
+            <button type="button" className="dashboard-brand" onClick={() => navigate('/')} aria-label="CareConnect home">
+              <span className="dashboard-brand__mark">CC</span>
+              <span className="dashboard-brand__text">CareConnect</span>
+            </button>
           </div>
 
-          {/* Profile Information */}
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: 'var(--space-5)',
-            }}
-          >
-            {/* Name Field */}
-            <div>
-              <label
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 'var(--space-2)',
-                  fontSize: 'var(--font-size-body)',
-                  fontWeight: 600,
-                  color: 'var(--color-text)',
-                  marginBottom: 'var(--space-3)',
-                }}
-              >
-                <User size={18} />
-                Full Name
-              </label>
-              {isEditing ? (
-                <div style={{ display: 'flex', gap: 'var(--space-3)', alignItems: 'center' }}>
-                  <input
-                    type="text"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    style={{
-                      flex: 1,
-                      padding: 'var(--space-4)',
-                      background: 'var(--color-surface)',
-                      border: '1px solid var(--color-border)',
-                      borderRadius: 'var(--radius-md)',
-                      fontSize: 'var(--font-size-body)',
-                      color: 'var(--color-text)',
-                      outline: 'none',
-                      transition: 'all var(--duration-fast) var(--ease-standard)',
-                    }}
-                    onFocus={(e) => {
-                      e.currentTarget.style.borderColor = 'var(--color-brand-primary)';
-                      e.currentTarget.style.boxShadow = '0 0 0 3px rgba(59, 130, 246, 0.1)';
-                    }}
-                    onBlur={(e) => {
-                      e.currentTarget.style.borderColor = 'var(--color-border)';
-                      e.currentTarget.style.boxShadow = 'none';
-                    }}
-                  />
-                  <button
-                    type="button"
-                    onClick={handleSave}
-                    disabled={isSaving}
-                    style={{
-                      padding: 'var(--space-3)',
-                      background: 'var(--btn-primary-bg)',
-                      color: 'var(--btn-primary-fg)',
-                      border: 'none',
-                      borderRadius: 'var(--radius-md)',
-                      cursor: isSaving ? 'not-allowed' : 'pointer',
-                      display: 'flex',
-                      alignItems: 'center',
-                      opacity: isSaving ? 0.6 : 1,
-                    }}
-                    aria-label="Save changes"
-                  >
-                    <Check size={20} />
-                  </button>
-                  <button
-                    type="button"
-                    onClick={handleCancel}
-                    disabled={isSaving}
-                    style={{
-                      padding: 'var(--space-3)',
-                      background: 'var(--btn-secondary-bg)',
-                      color: 'var(--btn-secondary-fg)',
-                      border: '1px solid var(--btn-secondary-border)',
-                      borderRadius: 'var(--radius-md)',
-                      cursor: isSaving ? 'not-allowed' : 'pointer',
-                      display: 'flex',
-                      alignItems: 'center',
-                      opacity: isSaving ? 0.6 : 1,
-                    }}
-                    aria-label="Cancel editing"
-                  >
-                    <X size={20} />
-                  </button>
-                </div>
-              ) : (
-                <div
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    padding: 'var(--space-4)',
-                    background: 'var(--color-surface)',
-                    borderRadius: 'var(--radius-md)',
-                  }}
-                >
-                  <span style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-text)' }}>
-                    {user.name}
-                  </span>
-                  <button
-                    type="button"
-                    onClick={() => setIsEditing(true)}
-                    style={{
-                      padding: 'var(--space-2)',
-                      background: 'transparent',
-                      color: 'var(--color-brand-primary)',
-                      border: 'none',
-                      cursor: 'pointer',
-                      display: 'flex',
-                      alignItems: 'center',
-                    }}
-                    aria-label="Edit name"
-                  >
-                    <Edit2 size={18} />
-                  </button>
-                </div>
-              )}
-            </div>
-
-            {/* Email Field (Read-only) */}
-            <div>
-              <label
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 'var(--space-2)',
-                  fontSize: 'var(--font-size-body)',
-                  fontWeight: 600,
-                  color: 'var(--color-text)',
-                  marginBottom: 'var(--space-3)',
-                }}
-              >
-                <Mail size={18} />
-                Email Address
-              </label>
-              <div
-                style={{
-                  padding: 'var(--space-4)',
-                  background: 'var(--color-surface)',
-                  borderRadius: 'var(--radius-md)',
-                  fontSize: 'var(--font-size-body)',
-                  color: 'var(--color-text)',
-                }}
-              >
-                {user.email}
-              </div>
-            </div>
-
-            {/* Member Since */}
-            <div>
-              <label
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 'var(--space-2)',
-                  fontSize: 'var(--font-size-body)',
-                  fontWeight: 600,
-                  color: 'var(--color-text)',
-                  marginBottom: 'var(--space-3)',
-                }}
-              >
-                <Calendar size={18} />
-                Member Since
-              </label>
-              <div
-                style={{
-                  padding: 'var(--space-4)',
-                  background: 'var(--color-surface)',
-                  borderRadius: 'var(--radius-md)',
-                  fontSize: 'var(--font-size-body)',
-                  color: 'var(--color-text)',
-                }}
-              >
-                {formatDate(user.createdAt)}
-              </div>
+          <div className="profile-header__group">
+            <ThemeToggle />
+            <button type="button" className="dashboard-icon-button" aria-label="Notifications">
+              <Bell className="cc-icon cc-icon--md" aria-hidden="true" />
+            </button>
+            <div className="dashboard-user-chip">
+              <span className="cc-avatar cc-avatar--md">{user.name.charAt(0).toUpperCase()}</span>
+              <span className="dashboard-user-chip__name">{user.name}</span>
             </div>
           </div>
         </div>
+      </header>
 
-        {/* Security Section */}
-        <div
-          style={{
-            background: 'var(--card-bg)',
-            border: '1px solid var(--card-border)',
-            borderRadius: 'var(--radius-xl)',
-            padding: 'var(--space-8)',
-            marginBottom: 'var(--space-6)',
-            boxShadow: 'var(--shadow-md)',
-          }}
-        >
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: 'var(--space-3)',
-              marginBottom: 'var(--space-5)',
-            }}
-          >
-            <Shield size={24} color="var(--color-brand-primary)" />
-            <h3
-              style={{
-                fontSize: 'var(--font-size-h3)',
-                fontWeight: 700,
-                color: 'var(--color-text)',
-                margin: 0,
-              }}
-            >
-              Security & Privacy
-            </h3>
-          </div>
-          <p
-            style={{
-              fontSize: 'var(--font-size-body)',
-              color: 'var(--color-text-muted)',
-              marginBottom: 'var(--space-5)',
-            }}
-          >
-            Your data is encrypted and stored securely. We follow HIPAA compliance guidelines to protect your health information.
-          </p>
-          <button
-            type="button"
-            style={{
-              padding: 'var(--space-4) var(--space-6)',
-              background: 'var(--btn-secondary-bg)',
-              color: 'var(--btn-secondary-fg)',
-              border: '1px solid var(--btn-secondary-border)',
-              borderRadius: 'var(--radius-md)',
-              fontSize: 'var(--font-size-body)',
-              fontWeight: 600,
-              cursor: 'pointer',
-              transition: 'all var(--duration-fast) var(--ease-standard)',
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.background = 'var(--btn-secondary-hover-bg)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.background = 'var(--btn-secondary-bg)';
-            }}
-          >
-            Change Password
+      <div className="profile-content">
+        <div className="profile-shell">
+          <header className="profile-page__header">
+            <h1 className="profile-page__title">My Profile</h1>
+            <p className="profile-page__subtitle">Manage your account information and preferences.</p>
+          </header>
+
+          <section className="cc-card profile-card">
+            <div className="profile-hero">
+              <span className="cc-avatar cc-avatar--lg profile-avatar">{user.name.charAt(0).toUpperCase()}</span>
+              <div className="cc-stack cc-stack--xs">
+                <h2 className="dashboard-page__title">{user.name}</h2>
+                <p className="dashboard-page__subtitle">{user.email}</p>
+              </div>
+            </div>
+
+            <div className="profile-section">
+              <div className="profile-section__field">
+                <label className="profile-section__label">
+                  <User className="cc-icon cc-icon--sm" aria-hidden="true" />
+                  <span>Full Name</span>
+                </label>
+
+                {isEditing ? (
+                  <div className="profile-edit-actions">
+                    <input
+                      className="auth-input"
+                      type="text"
+                      value={name}
+                      onChange={(event) => setName(event.target.value)}
+                    />
+                    <button type="button" className="cc-btn cc-btn--primary cc-btn--icon" onClick={handleSave} disabled={isSaving} aria-label="Save changes">
+                      <Check className="cc-icon cc-icon--sm" aria-hidden="true" />
+                    </button>
+                    <button type="button" className="cc-btn cc-btn--secondary cc-btn--icon" onClick={handleCancel} disabled={isSaving} aria-label="Cancel editing">
+                      <X className="cc-icon cc-icon--sm" aria-hidden="true" />
+                    </button>
+                  </div>
+                ) : (
+                  <div className="profile-section__value">
+                    <span className="profile-section__value-text">{user.name}</span>
+                    <button type="button" className="cc-btn cc-btn--ghost cc-btn--icon" onClick={() => setIsEditing(true)} aria-label="Edit name">
+                      <Edit2 className="cc-icon cc-icon--sm" aria-hidden="true" />
+                    </button>
+                  </div>
+                )}
+              </div>
+
+              <div className="profile-section__field">
+                <label className="profile-section__label">
+                  <Mail className="cc-icon cc-icon--sm" aria-hidden="true" />
+                  <span>Email Address</span>
+                </label>
+                <div className="profile-section__value">
+                  <span className="profile-section__value-text">{user.email}</span>
+                </div>
+              </div>
+
+              <div className="profile-section__field">
+                <label className="profile-section__label">
+                  <Calendar className="cc-icon cc-icon--sm" aria-hidden="true" />
+                  <span>Member Since</span>
+                </label>
+                <div className="profile-section__value">
+                  <span className="profile-section__value-text">{memberSince}</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section className="cc-card profile-card">
+            <div className="profile-security__header">
+              <Shield className="cc-icon cc-icon--lg" aria-hidden="true" />
+              <h3 className="dashboard-panel__title">Security &amp; Privacy</h3>
+            </div>
+            <p className="profile-security__copy">
+              Your data is encrypted and stored securely. CareConnect follows HIPAA-aligned
+              practices to protect your health information.
+            </p>
+            <button type="button" className="cc-btn cc-btn--secondary">
+              Change Password
+            </button>
+          </section>
+
+          <button type="button" className="cc-btn cc-btn--danger-outline cc-btn--wide" onClick={handleLogout}>
+            <LogOut className="cc-icon cc-icon--md" aria-hidden="true" />
+            <span>Sign Out</span>
           </button>
         </div>
-
-        {/* Logout Button */}
-        <button
-          type="button"
-          onClick={handleLogout}
-          style={{
-            width: '100%',
-            padding: 'var(--space-4)',
-            background: 'transparent',
-            color: '#ef4444',
-            border: '2px solid #ef4444',
-            borderRadius: 'var(--radius-md)',
-            fontSize: 'var(--font-size-body)',
-            fontWeight: 700,
-            cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: 'var(--space-3)',
-            transition: 'all var(--duration-fast) var(--ease-standard)',
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.background = '#ef4444';
-            e.currentTarget.style.color = 'white';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.background = 'transparent';
-            e.currentTarget.style.color = '#ef4444';
-          }}
-        >
-          <LogOut size={20} />
-          Sign Out
-        </button>
       </div>
     </div>
   );

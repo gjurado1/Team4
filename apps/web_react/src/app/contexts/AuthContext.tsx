@@ -6,6 +6,7 @@ export interface User {
   name: string;
   avatar?: string;
   createdAt: string;
+  role?: 'patient' | 'caregiver';
 }
 
 interface AuthContextType {
@@ -15,6 +16,7 @@ interface AuthContextType {
   signup: (email: string, password: string, name: string) => Promise<void>;
   logout: () => void;
   updateProfile: (updates: Partial<User>) => Promise<void>;
+  setUserRole: (role: 'patient' | 'caregiver') => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -113,6 +115,24 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  const setUserRole = (role: 'patient' | 'caregiver') => {
+    if (!user) return;
+    
+    const updatedUser = { ...user, role };
+    setUser(updatedUser);
+    localStorage.setItem('careconnect_user', JSON.stringify(updatedUser));
+
+    // Update in users list
+    const usersJson = localStorage.getItem('careconnect_users');
+    const users: Array<User & { password: string }> = usersJson ? JSON.parse(usersJson) : [];
+    const userIndex = users.findIndex((u) => u.id === user.id);
+    
+    if (userIndex !== -1) {
+      users[userIndex] = { ...users[userIndex], role };
+      localStorage.setItem('careconnect_users', JSON.stringify(users));
+    }
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -122,6 +142,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         signup,
         logout,
         updateProfile,
+        setUserRole,
       }}
     >
       {children}

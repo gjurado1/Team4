@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router';
+import { useState, type FormEvent } from 'react';
+import { Link, useNavigate } from 'react-router';
+import { AlertCircle, ArrowLeft, Lock, Mail, User as UserIcon } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
-import { Lock, Mail, User as UserIcon, AlertCircle, ArrowLeft } from 'lucide-react';
 
 export function SignupPage() {
   const navigate = useNavigate();
   const { signup } = useAuth();
-  
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -14,11 +13,10 @@ export function SignupPage() {
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     setError('');
 
-    // Validation
     if (password !== confirmPassword) {
       setError('Passwords do not match');
       return;
@@ -33,7 +31,7 @@ export function SignupPage() {
 
     try {
       await signup(email, password, name);
-      navigate('/', { replace: true });
+      navigate('/role-selection', { replace: true });
     } catch (err) {
       setError((err as Error).message);
     } finally {
@@ -42,448 +40,112 @@ export function SignupPage() {
   };
 
   return (
-    <div
-      style={{
-        minHeight: '100vh',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: 'var(--space-5)',
-        background: 'var(--color-bg)',
-        position: 'relative',
-      }}
-    >
-      {/* Background Gradient */}
-      <div
-        style={{
-          position: 'absolute',
-          top: '0',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          width: '800px',
-          height: '800px',
-          background: 'radial-gradient(circle, rgba(139, 92, 246, 0.15), transparent 70%)',
-          pointerEvents: 'none',
-          opacity: 0.6,
-        }}
-        aria-hidden="true"
-      />
+    <div className="cc-page auth-page">
+      <div className="auth-page__backdrop" data-tone="secondary" aria-hidden="true" />
 
-      <div
-        style={{
-          width: '100%',
-          maxWidth: '460px',
-          position: 'relative',
-          zIndex: 1,
-        }}
-      >
-        {/* Back Button */}
-        <Link
-          to="/"
-          style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: 'var(--space-2)',
-            color: 'var(--color-text-muted)',
-            textDecoration: 'none',
-            marginBottom: 'var(--space-6)',
-            fontSize: 'var(--font-size-body)',
-            transition: 'color var(--duration-fast) var(--ease-standard)',
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.color = 'var(--color-text)';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.color = 'var(--color-text-muted)';
-          }}
-        >
-          <ArrowLeft size={20} />
-          Back to home
+      <div className="auth-shell">
+        <Link to="/" className="auth-back">
+          <ArrowLeft className="cc-icon cc-icon--md" aria-hidden="true" />
+          <span>Back to home</span>
         </Link>
 
-        {/* Signup Card */}
-        <div
-          style={{
-            background: 'var(--card-bg)',
-            border: '1px solid var(--card-border)',
-            borderRadius: 'var(--radius-xl)',
-            padding: 'var(--space-8)',
-            boxShadow: 'var(--shadow-lg)',
-          }}
-        >
-          {/* Logo */}
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              marginBottom: 'var(--space-6)',
-            }}
-          >
-            <div
-              style={{
-                width: '64px',
-                height: '64px',
-                background: 'var(--btn-primary-bg)',
-                borderRadius: 'var(--radius-md)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontWeight: 900,
-                fontSize: '1.75rem',
-                color: 'var(--btn-primary-fg)',
-                boxShadow: '0 0 24px rgba(59, 130, 246, 0.5)',
-              }}
-            >
-              CC
-            </div>
+        <div className="cc-card auth-card">
+          <div className="auth-card__brand">
+            <div className="auth-card__brand-mark">CC</div>
           </div>
 
-          <h1
-            style={{
-              fontSize: 'var(--font-size-h2)',
-              fontWeight: 800,
-              color: 'var(--color-text)',
-              textAlign: 'center',
-              marginBottom: 'var(--space-2)',
-            }}
-          >
-            Create Your Account
-          </h1>
-
-          <p
-            style={{
-              fontSize: 'var(--font-size-body)',
-              color: 'var(--color-text-muted)',
-              textAlign: 'center',
-              marginBottom: 'var(--space-6)',
-            }}
-          >
-            Join CareConnect and start managing your health
+          <h1 className="auth-card__title">Create Your Account</h1>
+          <p className="auth-card__subtitle">
+            Join CareConnect and start managing your health.
           </p>
 
-          {/* Error Message */}
-          {error && (
-            <div
-              role="alert"
-              style={{
-                display: 'flex',
-                alignItems: 'flex-start',
-                gap: 'var(--space-3)',
-                padding: 'var(--space-4)',
-                background: 'rgba(239, 68, 68, 0.1)',
-                border: '1px solid rgba(239, 68, 68, 0.3)',
-                borderRadius: 'var(--radius-md)',
-                marginBottom: 'var(--space-5)',
-              }}
-            >
-              <AlertCircle size={20} color="#ef4444" style={{ flexShrink: 0, marginTop: '2px' }} />
-              <p
-                style={{
-                  fontSize: 'var(--font-size-body)',
-                  color: '#ef4444',
-                  margin: 0,
-                }}
-              >
-                {error}
-              </p>
+          {error ? (
+            <div className="auth-error" role="alert">
+              <AlertCircle className="cc-icon cc-icon--md" aria-hidden="true" />
+              <p>{error}</p>
             </div>
-          )}
+          ) : null}
 
-          {/* Signup Form */}
-          <form onSubmit={handleSubmit}>
-            {/* Name Field */}
-            <div style={{ marginBottom: 'var(--space-4)' }}>
-              <label
-                htmlFor="name"
-                style={{
-                  display: 'block',
-                  fontSize: 'var(--font-size-body)',
-                  fontWeight: 600,
-                  color: 'var(--color-text)',
-                  marginBottom: 'var(--space-2)',
-                }}
-              >
+          <form className="auth-form" onSubmit={handleSubmit}>
+            <div className="auth-field">
+              <label htmlFor="name" className="auth-label">
                 Full Name
               </label>
-              <div style={{ position: 'relative' }}>
-                <UserIcon
-                  size={20}
-                  style={{
-                    position: 'absolute',
-                    left: 'var(--space-4)',
-                    top: '50%',
-                    transform: 'translateY(-50%)',
-                    color: 'var(--color-text-muted)',
-                    pointerEvents: 'none',
-                  }}
-                />
+              <div className="auth-input-wrap">
+                <UserIcon className="auth-input-icon cc-icon cc-icon--md" aria-hidden="true" />
                 <input
                   id="name"
+                  className="auth-input"
                   type="text"
                   value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  required
+                  onChange={(event) => setName(event.target.value)}
                   placeholder="John Doe"
-                  style={{
-                    width: '100%',
-                    padding: 'var(--space-4) var(--space-4) var(--space-4) var(--space-10)',
-                    background: 'var(--color-surface)',
-                    border: '1px solid var(--color-border)',
-                    borderRadius: 'var(--radius-md)',
-                    fontSize: 'var(--font-size-body)',
-                    color: 'var(--color-text)',
-                    outline: 'none',
-                    transition: 'all var(--duration-fast) var(--ease-standard)',
-                  }}
-                  onFocus={(e) => {
-                    e.currentTarget.style.borderColor = 'var(--color-brand-primary)';
-                    e.currentTarget.style.boxShadow = '0 0 0 3px rgba(59, 130, 246, 0.1)';
-                  }}
-                  onBlur={(e) => {
-                    e.currentTarget.style.borderColor = 'var(--color-border)';
-                    e.currentTarget.style.boxShadow = 'none';
-                  }}
+                  required
                 />
               </div>
             </div>
 
-            {/* Email Field */}
-            <div style={{ marginBottom: 'var(--space-4)' }}>
-              <label
-                htmlFor="email"
-                style={{
-                  display: 'block',
-                  fontSize: 'var(--font-size-body)',
-                  fontWeight: 600,
-                  color: 'var(--color-text)',
-                  marginBottom: 'var(--space-2)',
-                }}
-              >
+            <div className="auth-field">
+              <label htmlFor="email" className="auth-label">
                 Email Address
               </label>
-              <div style={{ position: 'relative' }}>
-                <Mail
-                  size={20}
-                  style={{
-                    position: 'absolute',
-                    left: 'var(--space-4)',
-                    top: '50%',
-                    transform: 'translateY(-50%)',
-                    color: 'var(--color-text-muted)',
-                    pointerEvents: 'none',
-                  }}
-                />
+              <div className="auth-input-wrap">
+                <Mail className="auth-input-icon cc-icon cc-icon--md" aria-hidden="true" />
                 <input
                   id="email"
+                  className="auth-input"
                   type="email"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
+                  onChange={(event) => setEmail(event.target.value)}
                   placeholder="you@example.com"
-                  style={{
-                    width: '100%',
-                    padding: 'var(--space-4) var(--space-4) var(--space-4) var(--space-10)',
-                    background: 'var(--color-surface)',
-                    border: '1px solid var(--color-border)',
-                    borderRadius: 'var(--radius-md)',
-                    fontSize: 'var(--font-size-body)',
-                    color: 'var(--color-text)',
-                    outline: 'none',
-                    transition: 'all var(--duration-fast) var(--ease-standard)',
-                  }}
-                  onFocus={(e) => {
-                    e.currentTarget.style.borderColor = 'var(--color-brand-primary)';
-                    e.currentTarget.style.boxShadow = '0 0 0 3px rgba(59, 130, 246, 0.1)';
-                  }}
-                  onBlur={(e) => {
-                    e.currentTarget.style.borderColor = 'var(--color-border)';
-                    e.currentTarget.style.boxShadow = 'none';
-                  }}
+                  required
                 />
               </div>
             </div>
 
-            {/* Password Field */}
-            <div style={{ marginBottom: 'var(--space-4)' }}>
-              <label
-                htmlFor="password"
-                style={{
-                  display: 'block',
-                  fontSize: 'var(--font-size-body)',
-                  fontWeight: 600,
-                  color: 'var(--color-text)',
-                  marginBottom: 'var(--space-2)',
-                }}
-              >
+            <div className="auth-field">
+              <label htmlFor="password" className="auth-label">
                 Password
               </label>
-              <div style={{ position: 'relative' }}>
-                <Lock
-                  size={20}
-                  style={{
-                    position: 'absolute',
-                    left: 'var(--space-4)',
-                    top: '50%',
-                    transform: 'translateY(-50%)',
-                    color: 'var(--color-text-muted)',
-                    pointerEvents: 'none',
-                  }}
-                />
+              <div className="auth-input-wrap">
+                <Lock className="auth-input-icon cc-icon cc-icon--md" aria-hidden="true" />
                 <input
                   id="password"
+                  className="auth-input"
                   type="password"
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={(event) => setPassword(event.target.value)}
+                  placeholder="********"
                   required
-                  placeholder="••••••••"
-                  style={{
-                    width: '100%',
-                    padding: 'var(--space-4) var(--space-4) var(--space-4) var(--space-10)',
-                    background: 'var(--color-surface)',
-                    border: '1px solid var(--color-border)',
-                    borderRadius: 'var(--radius-md)',
-                    fontSize: 'var(--font-size-body)',
-                    color: 'var(--color-text)',
-                    outline: 'none',
-                    transition: 'all var(--duration-fast) var(--ease-standard)',
-                  }}
-                  onFocus={(e) => {
-                    e.currentTarget.style.borderColor = 'var(--color-brand-primary)';
-                    e.currentTarget.style.boxShadow = '0 0 0 3px rgba(59, 130, 246, 0.1)';
-                  }}
-                  onBlur={(e) => {
-                    e.currentTarget.style.borderColor = 'var(--color-border)';
-                    e.currentTarget.style.boxShadow = 'none';
-                  }}
                 />
               </div>
             </div>
 
-            {/* Confirm Password Field */}
-            <div style={{ marginBottom: 'var(--space-6)' }}>
-              <label
-                htmlFor="confirmPassword"
-                style={{
-                  display: 'block',
-                  fontSize: 'var(--font-size-body)',
-                  fontWeight: 600,
-                  color: 'var(--color-text)',
-                  marginBottom: 'var(--space-2)',
-                }}
-              >
+            <div className="auth-field">
+              <label htmlFor="confirmPassword" className="auth-label">
                 Confirm Password
               </label>
-              <div style={{ position: 'relative' }}>
-                <Lock
-                  size={20}
-                  style={{
-                    position: 'absolute',
-                    left: 'var(--space-4)',
-                    top: '50%',
-                    transform: 'translateY(-50%)',
-                    color: 'var(--color-text-muted)',
-                    pointerEvents: 'none',
-                  }}
-                />
+              <div className="auth-input-wrap">
+                <Lock className="auth-input-icon cc-icon cc-icon--md" aria-hidden="true" />
                 <input
                   id="confirmPassword"
+                  className="auth-input"
                   type="password"
                   value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  onChange={(event) => setConfirmPassword(event.target.value)}
+                  placeholder="********"
                   required
-                  placeholder="••••••••"
-                  style={{
-                    width: '100%',
-                    padding: 'var(--space-4) var(--space-4) var(--space-4) var(--space-10)',
-                    background: 'var(--color-surface)',
-                    border: '1px solid var(--color-border)',
-                    borderRadius: 'var(--radius-md)',
-                    fontSize: 'var(--font-size-body)',
-                    color: 'var(--color-text)',
-                    outline: 'none',
-                    transition: 'all var(--duration-fast) var(--ease-standard)',
-                  }}
-                  onFocus={(e) => {
-                    e.currentTarget.style.borderColor = 'var(--color-brand-primary)';
-                    e.currentTarget.style.boxShadow = '0 0 0 3px rgba(59, 130, 246, 0.1)';
-                  }}
-                  onBlur={(e) => {
-                    e.currentTarget.style.borderColor = 'var(--color-border)';
-                    e.currentTarget.style.boxShadow = 'none';
-                  }}
                 />
               </div>
             </div>
 
-            {/* Submit Button */}
-            <button
-              type="submit"
-              disabled={isLoading}
-              style={{
-                width: '100%',
-                padding: 'var(--space-4)',
-                background: 'var(--btn-primary-bg)',
-                color: 'var(--btn-primary-fg)',
-                border: 'none',
-                borderRadius: 'var(--radius-md)',
-                fontSize: 'var(--font-size-body)',
-                fontWeight: 700,
-                cursor: isLoading ? 'not-allowed' : 'pointer',
-                transition: 'all var(--duration-fast) var(--ease-standard)',
-                opacity: isLoading ? 0.6 : 1,
-                outline: 'none',
-              }}
-              onMouseEnter={(e) => {
-                if (!isLoading) {
-                  e.currentTarget.style.background = 'var(--btn-primary-hover-bg)';
-                  e.currentTarget.style.boxShadow = 'var(--shadow-glow)';
-                }
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.background = 'var(--btn-primary-bg)';
-                e.currentTarget.style.boxShadow = 'none';
-              }}
-              onFocus={(e) => {
-                e.currentTarget.style.outline = '3px solid var(--color-brand-primary)';
-                e.currentTarget.style.outlineOffset = '2px';
-              }}
-              onBlur={(e) => {
-                e.currentTarget.style.outline = 'none';
-              }}
-            >
+            <button type="submit" className="cc-btn cc-btn--primary cc-btn--wide" disabled={isLoading}>
               {isLoading ? 'Creating account...' : 'Create Account'}
             </button>
           </form>
 
-          {/* Login Link */}
-          <div
-            style={{
-              marginTop: 'var(--space-6)',
-              textAlign: 'center',
-              fontSize: 'var(--font-size-body)',
-              color: 'var(--color-text-muted)',
-            }}
-          >
-            Already have an account?{' '}
-            <Link
-              to="/login"
-              style={{
-                color: 'var(--color-brand-primary)',
-                textDecoration: 'none',
-                fontWeight: 600,
-                transition: 'color var(--duration-fast) var(--ease-standard)',
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.color = 'var(--color-link-hover)';
-                e.currentTarget.style.textDecoration = 'underline';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.color = 'var(--color-brand-primary)';
-                e.currentTarget.style.textDecoration = 'none';
-              }}
-            >
-              Sign in
-            </Link>
+          <div className="auth-footer">
+            Already have an account? <Link to="/login">Sign in</Link>
           </div>
         </div>
       </div>
