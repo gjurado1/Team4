@@ -9,7 +9,7 @@ const authenticatedUser = {
 };
 
 const viewportMatrix = [
-  { label: "mobile", width: 375, height: 812 },
+  { label: "mobile", width: 375, height: 667 },
   { label: "tablet", width: 768, height: 1024 },
   { label: "desktop", width: 1440, height: 1200 },
 ];
@@ -127,6 +127,19 @@ for (const viewport of viewportMatrix) {
         await expectWithinViewport(page, page.locator(".settings-nav"));
       } else if (viewport.width >= 1440) {
         await expect(page.locator(".settings-sidebar")).toBeVisible();
+      }
+    });
+
+    test("role selection stays usable on mobile", async ({ page }) => {
+      await seedAuthenticatedState(page);
+      await page.goto("/role-selection");
+      await page.waitForLoadState("networkidle");
+
+      if (viewport.width === 375) {
+        const cards = page.locator(".selection-card");
+        await expect(cards).toHaveCount(2);
+        await expectWithinViewport(page, cards.nth(0));
+        await expectWithinViewport(page, cards.nth(1));
       }
     });
   });
