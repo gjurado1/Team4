@@ -275,6 +275,47 @@
   font-weight: 700;
 }
 
+.app-route-loading {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-5);
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+
+.app-route-loading__card {
+  width: min(100%, 480px);
+  padding: var(--space-5);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-xl);
+  background: var(--card-bg);
+  box-shadow: var(--shadow-lg);
+  text-align: center;
+}
+
+.app-route-loading__eyebrow {
+  margin: 0 0 var(--space-2);
+  color: var(--color-brand-primary);
+  font-size: var(--font-size-small);
+  font-weight: 700;
+  letter-spacing: var(--letter-spacing-wide);
+  text-transform: uppercase;
+}
+
+.app-route-loading__title {
+  margin: 0 0 var(--space-2);
+  font-size: var(--font-size-h2);
+  font-weight: 800;
+}
+
+.app-route-loading__text {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-body);
+}
+
 .cc-divider {
   height: 1px;
   background: var(--color-border);

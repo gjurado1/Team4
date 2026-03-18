@@ -8,6 +8,18 @@ import { CartProvider } from './contexts/CartContext';
 import { router } from './routes';
 import { applyStoredAccessibilitySettings } from './utils/accessibility';
 
+function RouterFallback() {
+  return (
+    <div className="app-route-loading" role="status" aria-live="polite">
+      <div className="app-route-loading__card">
+        <p className="app-route-loading__eyebrow">Loading</p>
+        <h1 className="app-route-loading__title">Preparing CareConnect</h1>
+        <p className="app-route-loading__text">Fetching the next screen and assets.</p>
+      </div>
+    </div>
+  );
+}
+
 export default function App() {
   // Initialize theme on mount (prevents flash)
   useEffect(() => {
@@ -39,7 +51,7 @@ export default function App() {
   return (
     <AuthProvider>
       <CartProvider>
-        <RouterProvider router={router} />
+        <RouterProvider router={router} fallbackElement={<RouterFallback />} />
       </CartProvider>
     </AuthProvider>
   );

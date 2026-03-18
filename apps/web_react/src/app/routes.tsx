@@ -1,59 +1,63 @@
-import { createBrowserRouter } from 'react-router';
-import { RootLayout } from './layouts/RootLayout';
-import { HeroLayout } from './layouts/HeroLayout';
-import { LandingPage } from './pages/LandingPage';
-import { LoginPage } from './pages/LoginPage';
-import { SignupPage } from './pages/SignupPage';
-import { RoleSelection } from './pages/RoleSelection';
-import { ProfilePage } from './pages/ProfilePage';
-import { CartPage } from './pages/CartPage';
-import { Dashboard } from './pages/Dashboard';
-import { SettingsPage } from './pages/SettingsPage';
+import type { ComponentType } from 'react';
+import { createBrowserRouter, type RouteObject } from 'react-router';
 
-const routes = [
+function lazyComponent<TModule extends Record<string, unknown>>(
+  loader: () => Promise<TModule>,
+  exportName: keyof TModule,
+) {
+  return async () => {
+    const module = await loader();
+
+    return {
+      Component: module[exportName] as ComponentType,
+    };
+  };
+}
+
+const routes: RouteObject[] = [
   {
     path: '/',
-    Component: HeroLayout,
+    lazy: lazyComponent(() => import('./layouts/HeroLayout'), 'HeroLayout'),
     children: [
       {
         index: true,
-        Component: LandingPage,
+        lazy: lazyComponent(() => import('./pages/LandingPage'), 'LandingPage'),
       },
     ],
   },
   {
     path: '/',
-    Component: RootLayout,
+    lazy: lazyComponent(() => import('./layouts/RootLayout'), 'RootLayout'),
     children: [
       {
         path: 'role-selection',
-        Component: RoleSelection,
+        lazy: lazyComponent(() => import('./pages/RoleSelection'), 'RoleSelection'),
       },
       {
         path: 'dashboard',
-        Component: Dashboard,
+        lazy: lazyComponent(() => import('./pages/Dashboard'), 'Dashboard'),
       },
       {
         path: 'profile',
-        Component: ProfilePage,
+        lazy: lazyComponent(() => import('./pages/ProfilePage'), 'ProfilePage'),
       },
       {
         path: 'settings',
-        Component: SettingsPage,
+        lazy: lazyComponent(() => import('./pages/SettingsPage'), 'SettingsPage'),
       },
       {
         path: 'cart',
-        Component: CartPage,
+        lazy: lazyComponent(() => import('./pages/CartPage'), 'CartPage'),
       },
     ],
   },
   {
     path: '/login',
-    Component: LoginPage,
+    lazy: lazyComponent(() => import('./pages/LoginPage'), 'LoginPage'),
   },
   {
     path: '/signup',
-    Component: SignupPage,
+    lazy: lazyComponent(() => import('./pages/SignupPage'), 'SignupPage'),
   },
 ];
 
