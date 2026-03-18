@@ -25,4 +25,16 @@ void main() {
     // Clean up the container
     container.dispose();
   });
+
+  test('User can log out after logging in', () async {
+    final container = ProviderContainer();
+    addTearDown(container.dispose);
+
+    final notifier = container.read(authProvider.notifier);
+
+    await notifier.login();
+    notifier.logout();
+
+    expect(container.read(authProvider).isLoggedIn, false);
+  });
 }

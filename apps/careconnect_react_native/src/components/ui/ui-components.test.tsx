@@ -42,6 +42,15 @@ jest.mock("@/theme/ThemeProvider", () => {
   };
 });
 
+jest.mock("@/context/SettingsContext", () => ({
+  __esModule: true,
+  useSettings: () => ({
+    enhancedFocus: true,
+    largeTouchTargets: true,
+    screenReaderSupport: false,
+  }),
+}));
+
 describe("ui components", () => {
   it("AppButton renders as an accessible button with label", () => {
     const { getByLabelText } = render(
@@ -108,7 +117,7 @@ describe("ui components", () => {
     const card = getByTestId("card");
     const flat = StyleSheet.flatten(card.props.style);
 
-    expect(flat.borderWidth).toBe(2);
+    expect(flat.borderWidth).toBe(3);
     expect(flat.borderRadius).toBe(16);
     expect(flat.padding).toBe(16);
   });

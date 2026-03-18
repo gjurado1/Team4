@@ -120,6 +120,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                     hintText: 'Enter your email address',
                     keyboardType: TextInputType.emailAddress,
                     controller: _email,
+                    onChanged: (_) => setState(() {}),
                   ),
                   const SizedBox(height: 12),
 

@@ -35,6 +35,9 @@ export default defineConfig({
         'src/main.tsx',
         'src/vite-env.d.ts',
         'src/**/index.ts',
+        // Exclude the unused component-library scaffolding that is not imported by the app.
+        'src/app/components/ui/**',
+        'src/app/components/figma/**',
       ],
     },
   },
