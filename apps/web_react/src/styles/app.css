@@ -1317,9 +1317,15 @@
 
 .auth-card {
   --auth-surface: #1e2230;
+  --auth-text: #f8fafc;
+  --auth-text-muted: #cbd5e1;
+  --auth-border: rgba(255, 255, 255, 0.35);
+  --auth-note-surface: rgba(255, 255, 255, 0.08);
+  --auth-note-border: rgba(255, 255, 255, 0.14);
   padding: var(--space-8);
   border-radius: var(--radius-xl);
   background: var(--auth-surface);
+  color: var(--auth-text);
 }
 
 .auth-card__brand {
@@ -1347,13 +1353,14 @@
   font-size: var(--font-size-h2);
   font-weight: 800;
   text-align: center;
+  color: var(--auth-text);
 }
 
 .auth-card__subtitle {
   margin: 0 0 var(--space-6);
   font-size: var(--font-size-body);
   text-align: center;
-  color: var(--color-text-muted);
+  color: var(--auth-text-muted);
 }
 
 .auth-error {
@@ -1394,7 +1401,7 @@
   left: var(--space-4);
   top: 50%;
   transform: translateY(-50%);
-  color: var(--color-text-muted);
+  color: var(--auth-text-muted);
   pointer-events: none;
 }
 
@@ -1403,9 +1410,9 @@
   min-height: var(--control-size-lg);
   padding: var(--space-4) var(--space-4) var(--space-4) calc(var(--space-8) + var(--space-2));
   background: var(--auth-surface);
-  border: 1px solid rgba(255, 255, 255, 0.35);
+  border: 1px solid var(--auth-border);
   border-radius: var(--radius-md);
-  color: var(--color-text);
+  color: var(--auth-text);
   font: inherit;
   font-size: var(--font-size-body);
   transition:
@@ -1429,7 +1436,7 @@
   transform: translateY(-50%);
   transform-origin: left top;
   padding: 0 var(--space-1);
-  color: var(--color-text-muted);
+  color: var(--auth-text-muted);
   font-size: var(--font-size-body);
   line-height: 1;
   pointer-events: none;
@@ -1460,7 +1467,7 @@
 .auth-footer {
   margin-top: var(--space-6);
   text-align: center;
-  color: var(--color-text-muted);
+  color: var(--auth-text-muted);
 }
 
 .auth-footer a {
@@ -1477,8 +1484,8 @@
 .auth-note {
   margin-top: var(--space-6);
   padding: var(--space-4);
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
+  background: var(--auth-note-surface);
+  border: 1px solid var(--auth-note-border);
   border-radius: var(--radius-md);
 }
 
@@ -1486,14 +1493,14 @@
   margin: 0 0 var(--space-2);
   font-size: var(--font-size-small);
   font-weight: 700;
-  color: var(--color-text-muted);
+  color: var(--auth-text);
 }
 
 .auth-note__body {
   margin: 0;
   font-size: var(--font-size-small);
   font-family: monospace;
-  color: var(--color-text-muted);
+  color: var(--auth-text-muted);
   line-height: 1.5;
 }
 
