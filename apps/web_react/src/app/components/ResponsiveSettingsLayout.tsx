@@ -1,6 +1,7 @@
 import { useEffect, useState, type ReactNode } from 'react';
 import { useNavigate } from 'react-router';
 import { ArrowLeft, Bell, Check, Menu, Save, X, type LucideIcon } from 'lucide-react';
+import { InstallAppButton } from './InstallAppButton';
 import { ThemeToggle } from './ThemeToggle';
 
 interface SettingsSection {
@@ -78,6 +79,10 @@ export function ResponsiveSettingsLayout({
           </div>
 
           <div className="settings-header__group">
+            <InstallAppButton
+              variant="icon"
+              className="settings-icon-button dashboard-desktop-only"
+            />
             <ThemeToggle />
             <button type="button" className="settings-icon-button dashboard-desktop-only" aria-label="Notifications">
               <Bell className="cc-icon cc-icon--md" aria-hidden="true" />

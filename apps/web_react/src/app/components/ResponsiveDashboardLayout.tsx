@@ -1,6 +1,7 @@
 import { useEffect, useState, type ReactNode } from 'react';
 import { useNavigate } from 'react-router';
 import { Bell, LogOut, Menu, Settings, X, type LucideIcon } from 'lucide-react';
+import { InstallAppButton } from './InstallAppButton';
 import { ThemeToggle } from './ThemeToggle';
 
 type UserRole = 'patient' | 'caregiver';
@@ -129,6 +130,11 @@ export function ResponsiveDashboardLayout({
           </div>
 
           <div className="dashboard-header__group">
+            <InstallAppButton
+              variant="icon"
+              className="dashboard-icon-button dashboard-desktop-only"
+            />
+
             <ThemeToggle />
 
             <button

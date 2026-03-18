@@ -432,7 +432,15 @@
 }
 
 .landing-page__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-3);
   animation: app-slide-up var(--duration-slow) var(--ease-emphasized);
+}
+
+.install-app-button {
+  white-space: nowrap;
 }
 
 .dashboard-shell {

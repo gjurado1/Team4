@@ -13,6 +13,7 @@ import {
   X,
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
+import { InstallAppButton } from '../components/InstallAppButton';
 import { ThemeToggle } from '../components/ThemeToggle';
 
 export function ProfilePage() {
@@ -78,6 +79,10 @@ export function ProfilePage() {
           </div>
 
           <div className="profile-header__group">
+            <InstallAppButton
+              variant="icon"
+              className="dashboard-icon-button dashboard-desktop-only"
+            />
             <ThemeToggle />
             <button type="button" className="dashboard-icon-button" aria-label="Notifications">
               <Bell className="cc-icon cc-icon--md" aria-hidden="true" />

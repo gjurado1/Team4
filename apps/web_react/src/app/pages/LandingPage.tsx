@@ -1,5 +1,6 @@
 import { ArrowRight } from 'lucide-react';
 import { useNavigate } from 'react-router';
+import { InstallAppButton } from '../components/InstallAppButton';
 
 export function LandingPage() {
   const navigate = useNavigate();
@@ -35,6 +36,8 @@ export function LandingPage() {
             <span>Get Started</span>
             <ArrowRight className="cc-icon cc-icon--xl" aria-hidden="true" />
           </button>
+
+          <InstallAppButton />
         </div>
       </div>
     </div>

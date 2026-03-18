@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 import { RouterProvider } from 'react-router';
 import { AuthProvider } from './contexts/AuthContext';
 import { CartProvider } from './contexts/CartContext';
+import { PwaInstallProvider } from './contexts/PwaInstallContext';
 import { router } from './routes';
 import { applyStoredAccessibilitySettings } from './utils/accessibility';
 
@@ -49,10 +50,12 @@ export default function App() {
   }, []);
 
   return (
-    <AuthProvider>
-      <CartProvider>
-        <RouterProvider router={router} fallbackElement={<RouterFallback />} />
-      </CartProvider>
-    </AuthProvider>
+    <PwaInstallProvider>
+      <AuthProvider>
+        <CartProvider>
+          <RouterProvider router={router} fallbackElement={<RouterFallback />} />
+        </CartProvider>
+      </AuthProvider>
+    </PwaInstallProvider>
   );
 }
