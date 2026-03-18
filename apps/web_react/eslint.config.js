@@ -5,7 +5,7 @@ import tseslint from "typescript-eslint";
 
 export default tseslint.config(
   {
-    ignores: ["dist/**", "node_modules/**"],
+    ignores: ["coverage/**", "dist/**", "node_modules/**", "test-results/**"],
   },
   {
     files: ["**/*.{ts,tsx}"],

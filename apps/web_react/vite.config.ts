@@ -4,7 +4,10 @@ import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react";
 import { VitePWA } from "vite-plugin-pwa";
 
+const repoBase = "/Team4/";
+
 export default defineConfig({
+  base: repoBase,
   plugins: [
     react(),
     tailwindcss(),
@@ -24,23 +27,23 @@ export default defineConfig({
         theme_color: "#0a0e1a",
         background_color: "#0a0e1a",
         display: "standalone",
-        start_url: "/",
-        scope: "/",
+        start_url: repoBase,
+        scope: repoBase,
         icons: [
           {
-            src: "/pwa-192x192.svg",
+            src: "pwa-192x192.svg",
             sizes: "192x192",
             type: "image/svg+xml",
             purpose: "any",
           },
           {
-            src: "/pwa-512x512.svg",
+            src: "pwa-512x512.svg",
             sizes: "512x512",
             type: "image/svg+xml",
             purpose: "any",
           },
           {
-            src: "/pwa-512x512.svg",
+            src: "pwa-512x512.svg",
             sizes: "512x512",
             type: "image/svg+xml",
             purpose: "maskable",
@@ -52,7 +55,7 @@ export default defineConfig({
         clientsClaim: true,
         skipWaiting: true,
         globPatterns: ["**/*.{js,css,html,svg,png,ico,json}"],
-        navigateFallback: "/index.html",
+        navigateFallback: `${repoBase}index.html`,
       },
     }),
   ],

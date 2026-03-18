@@ -10,7 +10,7 @@ import { CartPage } from './pages/CartPage';
 import { Dashboard } from './pages/Dashboard';
 import { SettingsPage } from './pages/SettingsPage';
 
-export const router = createBrowserRouter([
+const routes = [
   {
     path: '/',
     Component: HeroLayout,
@@ -55,4 +55,11 @@ export const router = createBrowserRouter([
     path: '/signup',
     Component: SignupPage,
   },
-]);
+];
+
+const basename =
+  import.meta.env.BASE_URL === '/'
+    ? '/'
+    : import.meta.env.BASE_URL.replace(/\/$/, '');
+
+export const router = createBrowserRouter(routes, { basename });

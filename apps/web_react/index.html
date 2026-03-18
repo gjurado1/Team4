@@ -5,12 +5,26 @@
       <meta charset="UTF-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <meta name="theme-color" content="#0a0e1a" />
-      <link rel="apple-touch-icon" href="/apple-touch-icon.svg" />
+      <link rel="apple-touch-icon" href="%BASE_URL%apple-touch-icon.svg" />
       <title>CareConnect</title>
     </head>
 
     <body>
       <div id="root"></div>
+      <script>
+        (function restoreGithubPagesPath() {
+          const redirect = sessionStorage.getItem("gh-pages-path");
+          if (!redirect) {
+            return;
+          }
+
+          sessionStorage.removeItem("gh-pages-path");
+          const current = window.location.pathname + window.location.search + window.location.hash;
+          if (current !== redirect) {
+            window.history.replaceState(null, "", redirect);
+          }
+        })();
+      </script>
       <script type="module" src="/src/main.tsx"></script>
     </body>
   </html>

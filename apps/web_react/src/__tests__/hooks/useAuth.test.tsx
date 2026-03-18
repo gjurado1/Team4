@@ -1,6 +1,6 @@
 import React from 'react';
 import { renderHook, act } from '@testing-library/react';
-import { AuthProvider, useAuth } from '../../app/contexts/AuthContext';
+import { AuthProvider, useAuth, type User } from '../../app/contexts/AuthContext';
 
 const wrapper = ({ children }: { children: React.ReactNode }) => (
   <AuthProvider>{children}</AuthProvider>
@@ -10,9 +10,12 @@ describe('useAuth', () => {
   beforeEach(() => {
     localStorage.clear();
     // Make the simulated network delay instant
-    jest.spyOn(global, 'setTimeout').mockImplementation((fn: any) => {
-      fn();
-      return 0 as any;
+    jest.spyOn(global, 'setTimeout').mockImplementation((fn) => {
+      if (typeof fn === 'function') {
+        fn();
+      }
+
+      return 0 as ReturnType<typeof setTimeout>;
     });
   });
 
@@ -73,7 +76,12 @@ describe('useAuth', () => {
       await act(async () => {
         await result.current.signup('new@example.com', 'pass123', 'New User');
       });
-      expect((result.current.user as any).password).toBeUndefined();
+      expect(
+        Object.prototype.hasOwnProperty.call(
+          (result.current.user ?? {}) as User | Record<string, never>,
+          'password'
+        )
+      ).toBe(false);
     });
 
     it('throws when email is already registered', async () => {

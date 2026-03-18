@@ -10,7 +10,8 @@ describe('cn', () => {
   });
 
   it('filters out falsy values', () => {
-    expect(cn('foo', false && 'bar', undefined, null, 'baz')).toBe('foo baz');
+    const disabled = false;
+    expect(cn('foo', disabled ? 'bar' : undefined, undefined, null, 'baz')).toBe('foo baz');
   });
 
   it('handles conditional object syntax', () => {

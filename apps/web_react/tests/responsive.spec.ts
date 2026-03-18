@@ -76,7 +76,7 @@ for (const viewport of viewportMatrix) {
     test.use({ viewport: { width: viewport.width, height: viewport.height } });
 
     test("public routes stay within the viewport", async ({ page }) => {
-      for (const route of ["/", "/login", "/signup"]) {
+      for (const route of ["", "login", "signup"]) {
         await page.goto(route);
         await page.waitForLoadState("networkidle");
         await expectNoHorizontalOverflow(page);
@@ -86,7 +86,7 @@ for (const viewport of viewportMatrix) {
     test("authenticated routes stay within the viewport", async ({ page }) => {
       await seedAuthenticatedState(page);
 
-      for (const route of ["/role-selection", "/dashboard", "/settings", "/cart"]) {
+      for (const route of ["role-selection", "dashboard", "settings", "cart"]) {
         await page.goto(route);
         await page.waitForLoadState("networkidle");
         await expectNoHorizontalOverflow(page);
@@ -95,7 +95,7 @@ for (const viewport of viewportMatrix) {
 
     test("dashboard navigation adapts at each breakpoint", async ({ page }) => {
       await seedAuthenticatedState(page);
-      await page.goto("/dashboard");
+      await page.goto("dashboard");
       await page.waitForLoadState("networkidle");
 
       if (viewport.width === 375) {
@@ -114,7 +114,7 @@ for (const viewport of viewportMatrix) {
 
     test("settings navigation adapts at each breakpoint", async ({ page }) => {
       await seedAuthenticatedState(page);
-      await page.goto("/settings");
+      await page.goto("settings");
       await page.waitForLoadState("networkidle");
 
       if (viewport.width === 375) {
@@ -132,7 +132,7 @@ for (const viewport of viewportMatrix) {
 
     test("role selection stays usable on mobile", async ({ page }) => {
       await seedAuthenticatedState(page);
-      await page.goto("/role-selection");
+      await page.goto("role-selection");
       await page.waitForLoadState("networkidle");
 
       if (viewport.width === 375) {
