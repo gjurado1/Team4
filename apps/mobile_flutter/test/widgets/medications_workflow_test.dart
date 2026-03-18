@@ -1,5 +1,5 @@
-﻿import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+
 import '../helpers/pump_app.dart';
 
 void main() {
@@ -13,7 +13,6 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.text("Today's Schedule"), findsOneWidget);
-      // Use textContaining to find widgets with extra text or icons
       expect(find.textContaining('Lisinopril'), findsWidgets);
     });
 
@@ -25,12 +24,11 @@ void main() {
       );
       await tester.pumpAndSettle();
 
-      final markTakenBtn = find.text('Mark Taken').first;
-      await tester.tap(markTakenBtn);
-      
-      // Use pumpAndSettle to wait for the "Taken" state transition
+      final markTakenButton = find.text('Mark Taken').first;
+      await tester.tap(markTakenButton);
       await tester.pumpAndSettle(const Duration(milliseconds: 500));
+
       expect(find.textContaining('Taken'), findsWidgets);
     });
-  }); // Added missing closing brace/parenthesis for group
-} // Added missing closing brace for main
+  });
+}

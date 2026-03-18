@@ -15,6 +15,11 @@ CareConnect is a multi-platform care coordination application designed for low-v
 ## Team Charter
 
 - [Team Charter](docs/Team%204%20Charter.pdf)
+- [User Documentation](docs/User-Documentation.md)
+- [Developer Documentation](docs/Developer-Documentation.md)
+- [Mobile VPAT](docs/VPAT-Mobile.md)
+- [Desktop VPAT](docs/VPAT-Desktop.md)
+- [Web VPAT](docs/VPAT-Web.md)
 
 ## Setup Instructions (WIP)
 

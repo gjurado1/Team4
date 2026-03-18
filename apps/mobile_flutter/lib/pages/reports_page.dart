@@ -126,7 +126,7 @@ class ReportsPage extends StatelessWidget {
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Icon(Icons.trending_up, size: 34, color: const Color(0xFF2F855A)),
+                          const Icon(Icons.trending_up, size: 34, color: Color(0xFF2F855A)),
                           const SizedBox(width: 12),
                           Expanded(
                             child: Column(

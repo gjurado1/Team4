@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../widgets/ui/app_card.dart';
-import '../widgets/ui/app_button.dart';
-import '../widgets/ui/app_textarea.dart';
 import '../widgets/navigation/header_voice_button.dart';
+import '../widgets/ui/app_button.dart';
+import '../widgets/ui/app_card.dart';
+import '../widgets/ui/app_textarea.dart';
 
 class SymptomsPage extends StatefulWidget {
   const SymptomsPage({super.key});
@@ -14,10 +14,10 @@ class SymptomsPage extends StatefulWidget {
 }
 
 class _SymptomsPageState extends State<SymptomsPage> {
-  int severity = 3; // 0..4
+  int severity = 3;
   final _notes = TextEditingController();
 
-  final List<_Symptom> symptoms = [
+  final List<_Symptom> symptoms = const [
     _Symptom(id: 1, name: 'Headache', icon: '🤕'),
     _Symptom(id: 2, name: 'Fatigue', icon: '😴'),
     _Symptom(id: 3, name: 'Nausea', icon: '🤢'),
@@ -26,18 +26,25 @@ class _SymptomsPageState extends State<SymptomsPage> {
     _Symptom(id: 6, name: 'Dizziness', icon: '😵'),
   ];
 
-  final List<String> severityLabels = const ['None', 'Mild', 'Moderate', 'Severe', 'Very Severe'];
+  final List<String> severityLabels = const [
+    'None',
+    'Mild',
+    'Moderate',
+    'Severe',
+    'Very Severe',
+  ];
 
   void _toggleSymptom(int id) {
     setState(() {
       final idx = symptoms.indexWhere((s) => s.id == id);
       if (idx == -1) return;
-      symptoms[idx] = symptoms[idx].copyWith(selected: !symptoms[idx].selected);
+      symptoms[idx] = symptoms[idx].copyWith(
+        selected: !symptoms[idx].selected,
+      );
     });
   }
 
   void _submit() {
-    // demo submit: navigate back
     context.go('/patient/dashboard');
   }
 
@@ -71,7 +78,9 @@ class _SymptomsPageState extends State<SymptomsPage> {
                 const SizedBox(width: 6),
                 Text(
                   'Symptoms',
-                  style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w900),
+                  style: theme.textTheme.titleLarge?.copyWith(
+                    fontWeight: FontWeight.w900,
+                  ),
                 ),
                 const Spacer(),
                 const Padding(
@@ -85,42 +94,44 @@ class _SymptomsPageState extends State<SymptomsPage> {
               child: Container(height: 2, color: theme.dividerColor),
             ),
           ),
-
           SliverPadding(
             padding: const EdgeInsets.fromLTRB(16, 16, 16, 96),
             sliver: SliverList(
               delegate: SliverChildListDelegate(
                 [
-                  // Card 1: symptom selection
                   AppCard(
                     padding: const EdgeInsets.all(16),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Select your symptoms',
-                            style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w900)),
+                        Text(
+                          'Select your symptoms',
+                          style: theme.textTheme.titleMedium?.copyWith(
+                            fontWeight: FontWeight.w900,
+                          ),
+                        ),
                         const SizedBox(height: 12),
-
                         LayoutBuilder(
                           builder: (context, constraints) {
-                            final width = constraints.maxWidth;
-                            final crossAxisCount = width >= 700 ? 3 : 2;
+                            final crossAxisCount =
+                                constraints.maxWidth >= 700 ? 3 : 2;
 
                             return GridView.builder(
                               shrinkWrap: true,
                               physics: const NeverScrollableScrollPhysics(),
                               itemCount: symptoms.length,
-                              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                              gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisCount: crossAxisCount,
                                 crossAxisSpacing: 12,
                                 mainAxisSpacing: 12,
                                 childAspectRatio: 1.15,
                               ),
                               itemBuilder: (context, i) {
-                                final s = symptoms[i];
+                                final symptom = symptoms[i];
                                 return _SymptomTile(
-                                  symptom: s,
-                                  onTap: () => _toggleSymptom(s.id),
+                                  symptom: symptom,
+                                  onTap: () => _toggleSymptom(symptom.id),
                                 );
                               },
                             );
@@ -129,28 +140,29 @@ class _SymptomsPageState extends State<SymptomsPage> {
                       ],
                     ),
                   ),
-
                   const SizedBox(height: 14),
-
-                  // Card 2: severity slider
                   AppCard(
                     padding: const EdgeInsets.all(16),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Severity Level',
-                            style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w900)),
+                        Text(
+                          'Severity Level',
+                          style: theme.textTheme.titleMedium?.copyWith(
+                            fontWeight: FontWeight.w900,
+                          ),
+                        ),
                         const SizedBox(height: 12),
-
                         Slider(
                           value: severity.toDouble(),
                           min: 0,
                           max: 4,
                           divisions: 4,
                           label: severityLabels[severity],
-                          onChanged: (v) => setState(() => severity = v.round()),
+                          onChanged: (value) {
+                            setState(() => severity = value.round());
+                          },
                         ),
-
                         const SizedBox(height: 6),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -160,15 +172,19 @@ class _SymptomsPageState extends State<SymptomsPage> {
                                 child: Text(
                                   severityLabels[i],
                                   textAlign: TextAlign.center,
-                                  style: theme.textTheme.bodySmall?.copyWith(
-                                    color: i == severity ? cs.primary : theme.hintColor,
-                                    fontWeight: i == severity ? FontWeight.w900 : FontWeight.w500,
+                                  style:
+                                      theme.textTheme.bodySmall?.copyWith(
+                                    color: i == severity
+                                        ? cs.primary
+                                        : theme.hintColor,
+                                    fontWeight: i == severity
+                                        ? FontWeight.w900
+                                        : FontWeight.w500,
                                   ),
                                 ),
                               ),
                           ],
                         ),
-
                         const SizedBox(height: 12),
                         Container(
                           width: double.infinity,
@@ -176,7 +192,10 @@ class _SymptomsPageState extends State<SymptomsPage> {
                           decoration: BoxDecoration(
                             color: cs.surfaceContainerHighest,
                             borderRadius: BorderRadius.circular(12),
-                            border: Border.all(color: theme.dividerColor, width: 2),
+                            border: Border.all(
+                              color: theme.dividerColor,
+                              width: 2,
+                            ),
                           ),
                           child: Center(
                             child: Text(
@@ -191,17 +210,18 @@ class _SymptomsPageState extends State<SymptomsPage> {
                       ],
                     ),
                   ),
-
                   const SizedBox(height: 14),
-
-                  // Card 3: notes
                   AppCard(
                     padding: const EdgeInsets.all(16),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Additional Notes',
-                            style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w900)),
+                        Text(
+                          'Additional Notes',
+                          style: theme.textTheme.titleMedium?.copyWith(
+                            fontWeight: FontWeight.w900,
+                          ),
+                        ),
                         const SizedBox(height: 12),
                         AppTextarea(
                           controller: _notes,
@@ -213,10 +233,7 @@ class _SymptomsPageState extends State<SymptomsPage> {
                       ],
                     ),
                   ),
-
                   const SizedBox(height: 14),
-
-                  // Submit
                   SizedBox(
                     width: double.infinity,
                     child: AppButton(
@@ -262,13 +279,15 @@ class _SymptomTile extends StatelessWidget {
   final _Symptom symptom;
   final VoidCallback onTap;
 
-  const _SymptomTile({required this.symptom, required this.onTap});
+  const _SymptomTile({
+    required this.symptom,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final cs = theme.colorScheme;
-
     final borderColor = symptom.selected ? cs.primary : theme.dividerColor;
 
     return Semantics(
@@ -281,7 +300,9 @@ class _SymptomTile extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
-            color: symptom.selected ? cs.primary.withValues(alpha: 0.08) : cs.surface,
+            color: symptom.selected
+                ? cs.primary.withValues(alpha: 0.08)
+                : cs.surface,
             borderRadius: BorderRadius.circular(12),
             border: Border.all(color: borderColor, width: 2),
             boxShadow: symptom.selected
@@ -302,7 +323,9 @@ class _SymptomTile extends StatelessWidget {
               Text(
                 symptom.name,
                 textAlign: TextAlign.center,
-                style: theme.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w700),
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  fontWeight: FontWeight.w700,
+                ),
               ),
             ],
           ),

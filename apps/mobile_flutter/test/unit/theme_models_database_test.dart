@@ -9,7 +9,6 @@ import 'package:mobile_flutter/theme/app_theme.dart';
 import 'package:mobile_flutter/theme/app_theme_controller.dart';
 import 'package:path/path.dart' as p;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sqflite/sqflite.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 void main() {

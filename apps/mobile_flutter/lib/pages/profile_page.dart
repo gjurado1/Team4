@@ -12,7 +12,7 @@ class ProfilePage extends StatelessWidget {
     final theme = Theme.of(context);
     final cs = theme.colorScheme;
 
-    final profile = const _ProfileData(
+    const profile = _ProfileData(
       name: 'John Doe',
       role: 'Care Recipient',
       email: 'john.doe@email.com',

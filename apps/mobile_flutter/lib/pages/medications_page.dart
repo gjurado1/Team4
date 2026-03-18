@@ -19,9 +19,9 @@ class _MedicationsPageState extends State<MedicationsPage> {
   void initState() {
     super.initState();
     _meds = [
-      _Medication(id: 1, name: 'Lisinopril', dosage: '10mg', time: '8:00 AM', taken: true),
-      _Medication(id: 2, name: 'Metformin', dosage: '500mg', time: '12:00 PM', taken: false),
-      _Medication(id: 3, name: 'Atorvastatin', dosage: '20mg', time: '8:00 PM', taken: false),
+      const _Medication(id: 1, name: 'Lisinopril', dosage: '10mg', time: '8:00 AM', taken: true),
+      const _Medication(id: 2, name: 'Metformin', dosage: '500mg', time: '12:00 PM', taken: false),
+      const _Medication(id: 3, name: 'Atorvastatin', dosage: '20mg', time: '8:00 PM', taken: false),
     ];
   }
 

@@ -44,8 +44,6 @@ class _AppAccordionState extends State<AppAccordion> {
     final theme = Theme.of(context);
 
     if (widget.type == AppAccordionType.single) {
-      final openId = _open.isEmpty ? null : _open.first;
-
       return ExpansionPanelList.radio(
         expandedHeaderPadding: EdgeInsets.zero,
         elevation: 0,

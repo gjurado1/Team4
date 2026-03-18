@@ -18,10 +18,10 @@ class AppCollapsible extends StatelessWidget {
     required this.child,
   });
 
-  static _CollapsibleScope of(BuildContext context) {
+  static AppCollapsibleController of(BuildContext context) {
     final scope = context.dependOnInheritedWidgetOfExactType<_CollapsibleScope>();
     assert(scope != null, 'AppCollapsible.of(context) called outside AppCollapsible');
-    return scope!;
+    return scope!.controller;
   }
 
   @override
@@ -46,7 +46,7 @@ class AppCollapsibleTrigger extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final c = AppCollapsible.of(context).controller;
+    final c = AppCollapsible.of(context);
 
     return InkWell(
       onTap: onPressed ?? c.toggle,
@@ -67,7 +67,7 @@ class AppCollapsibleContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final c = AppCollapsible.of(context).controller;
+    final c = AppCollapsible.of(context);
 
     return ValueListenableBuilder<bool>(
       valueListenable: c,

@@ -107,7 +107,7 @@ class _LegendItem extends StatelessWidget {
 
 /// A ready-to-use LineChart helper.
 class AppLineChart extends StatelessWidget {
-  final List<_Series> series;
+  final List<AppLineChartSeries> series;
   final bool showGrid;
   final bool showDots;
 
@@ -142,9 +142,14 @@ class AppLineChart extends StatelessWidget {
   }
 }
 
-class _Series {
+class AppLineChartSeries {
   final String key;
   final List<FlSpot> spots;
   final Color? color;
-  const _Series({required this.key, required this.spots, this.color});
+
+  const AppLineChartSeries({
+    required this.key,
+    required this.spots,
+    this.color,
+  });
 }

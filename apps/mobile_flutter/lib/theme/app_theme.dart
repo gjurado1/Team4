@@ -17,8 +17,6 @@ class AppTheme {
       primary: c.buttonPrimary,
       surface: c.bgSurface,
       onSurface: c.textPrimary,
-      background: c.bgPrimary,
-      onBackground: c.textPrimary,
       error: c.statusError,
       onError: Colors.white,
     );

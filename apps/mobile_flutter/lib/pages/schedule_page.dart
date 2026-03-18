@@ -37,7 +37,6 @@ class _SchedulePageState extends State<SchedulePage> {
   }
 
   void _scheduleAppointment() {
-    // TODO: hook up add appointment flow
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('Schedule Appointment (demo)')),
     );

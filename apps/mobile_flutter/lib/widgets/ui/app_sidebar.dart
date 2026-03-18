@@ -88,9 +88,9 @@ class AppSidebarLayout extends StatelessWidget {
 
     // ctrl/cmd + b shortcut
     return Shortcuts(
-      shortcuts: <ShortcutActivator, Intent>{
-        const SingleActivator(LogicalKeyboardKey.keyB, control: true): const _ToggleSidebarIntent(),
-        const SingleActivator(LogicalKeyboardKey.keyB, meta: true): const _ToggleSidebarIntent(),
+      shortcuts: const <ShortcutActivator, Intent>{
+        SingleActivator(LogicalKeyboardKey.keyB, control: true): _ToggleSidebarIntent(),
+        SingleActivator(LogicalKeyboardKey.keyB, meta: true): _ToggleSidebarIntent(),
       },
       child: Actions(
         actions: <Type, Action<Intent>>{

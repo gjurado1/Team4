@@ -107,12 +107,12 @@ class CaregiverDashboard extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(width: 12),
-                      Expanded(
+                      const Expanded(
                         child: AppCard(
-                          padding: const EdgeInsets.all(16),
+                          padding: EdgeInsets.all(16),
                           child: _SummaryCard(
                             icon: Icons.favorite,
-                            iconColor: const Color(0xFF2F855A),
+                            iconColor: Color(0xFF2F855A),
                             label: 'Active Patients',
                             value: '32',
                           ),
