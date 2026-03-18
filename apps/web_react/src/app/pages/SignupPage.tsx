@@ -82,7 +82,7 @@ export function SignupPage() {
             </div>
           ) : null}
 
-          <form className="auth-form" onSubmit={handleSubmit}>
+          <form className="auth-form" onSubmit={handleSubmit} noValidate>
             <div className="auth-field">
               <label htmlFor="name" className="auth-label">
                 Full Name

@@ -72,7 +72,7 @@ export function LoginPage() {
             </div>
           ) : null}
 
-          <form className="auth-form" onSubmit={handleSubmit}>
+          <form className="auth-form" onSubmit={handleSubmit} noValidate>
             <div className="auth-field">
               <div className="auth-input-wrap auth-input-wrap--floating">
                 <Mail className="auth-input-icon cc-icon cc-icon--md" aria-hidden="true" />
