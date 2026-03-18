@@ -3,6 +3,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router';
 import { Dashboard } from '../../app/pages/Dashboard';
+import { PwaInstallProvider } from '../../app/contexts/PwaInstallContext';
 
 let mockNavigate: jest.Mock;
 const mockLogout = jest.fn();
@@ -33,7 +34,11 @@ jest.mock('../../app/contexts/AuthContext', () => ({
 
 function renderPage() {
   return render(<Dashboard />, {
-    wrapper: ({ children }) => <MemoryRouter>{children}</MemoryRouter>,
+    wrapper: ({ children }) => (
+      <MemoryRouter>
+        <PwaInstallProvider>{children}</PwaInstallProvider>
+      </MemoryRouter>
+    ),
   });
 }
 

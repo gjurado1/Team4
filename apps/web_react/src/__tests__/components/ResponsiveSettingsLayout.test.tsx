@@ -4,6 +4,7 @@ import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router';
 import { Eye, Shield, Bell, Globe } from 'lucide-react';
 import { ResponsiveSettingsLayout } from '../../app/components/ResponsiveSettingsLayout';
+import { PwaInstallProvider } from '../../app/contexts/PwaInstallContext';
 
 let mockNavigate: jest.Mock;
 const mockSetActiveSection = jest.fn();
@@ -25,15 +26,17 @@ const sections = [
 function renderLayout(saved = false) {
   return render(
     <MemoryRouter>
-      <ResponsiveSettingsLayout
-        user={testUser}
-        activeSection="accessibility"
-        setActiveSection={mockSetActiveSection}
-        sections={sections}
-        content={<p data-testid="section-content">Accessibility content</p>}
-        handleSaveSettings={mockHandleSaveSettings}
-        saved={saved}
-      />
+      <PwaInstallProvider>
+        <ResponsiveSettingsLayout
+          user={testUser}
+          activeSection="accessibility"
+          setActiveSection={mockSetActiveSection}
+          sections={sections}
+          content={<p data-testid="section-content">Accessibility content</p>}
+          handleSaveSettings={mockHandleSaveSettings}
+          saved={saved}
+        />
+      </PwaInstallProvider>
     </MemoryRouter>
   );
 }

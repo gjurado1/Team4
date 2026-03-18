@@ -3,6 +3,7 @@ import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router';
 import { ProfilePage } from '../../app/pages/ProfilePage';
+import { PwaInstallProvider } from '../../app/contexts/PwaInstallContext';
 
 let mockNavigate: jest.Mock;
 const mockUpdateProfile = jest.fn();
@@ -31,7 +32,11 @@ jest.mock('../../app/contexts/AuthContext', () => ({
 // ThemeToggle is rendered inside ProfilePage; matchMedia is globally mocked in setupTests
 function renderPage() {
   return render(<ProfilePage />, {
-    wrapper: ({ children }) => <MemoryRouter>{children}</MemoryRouter>,
+    wrapper: ({ children }) => (
+      <MemoryRouter>
+        <PwaInstallProvider>{children}</PwaInstallProvider>
+      </MemoryRouter>
+    ),
   });
 }
 

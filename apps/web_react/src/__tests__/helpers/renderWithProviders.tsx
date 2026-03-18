@@ -3,6 +3,7 @@ import { render, RenderOptions } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 import { AuthProvider } from '../../app/contexts/AuthContext';
 import { CartProvider } from '../../app/contexts/CartContext';
+import { PwaInstallProvider } from '../../app/contexts/PwaInstallContext';
 import type { CartItem } from '../../app/contexts/CartContext';
 
 export const mockUser = {
@@ -49,9 +50,11 @@ export function renderWithProviders(
   function Wrapper({ children }: { children: React.ReactNode }) {
     return (
       <MemoryRouter initialEntries={initialEntries}>
-        <AuthProvider>
-          <CartProvider>{children}</CartProvider>
-        </AuthProvider>
+        <PwaInstallProvider>
+          <AuthProvider>
+            <CartProvider>{children}</CartProvider>
+          </AuthProvider>
+        </PwaInstallProvider>
       </MemoryRouter>
     );
   }

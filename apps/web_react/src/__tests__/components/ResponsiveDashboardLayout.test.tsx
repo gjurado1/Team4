@@ -4,6 +4,7 @@ import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router';
 import { Activity, Calendar } from 'lucide-react';
 import { ResponsiveDashboardLayout } from '../../app/components/ResponsiveDashboardLayout';
+import { PwaInstallProvider } from '../../app/contexts/PwaInstallContext';
 
 let mockNavigate: jest.Mock;
 const mockSetCurrentRole = jest.fn();
@@ -24,17 +25,19 @@ const testSections = [
 function renderLayout(currentRole: 'patient' | 'caregiver' = 'patient') {
   return render(
     <MemoryRouter>
-      <ResponsiveDashboardLayout
-        user={testUser}
-        currentRole={currentRole}
-        setCurrentRole={mockSetCurrentRole}
-        setCurrentSection={mockSetCurrentSection}
-        currentSection="overview"
-        sections={testSections}
-        onLogout={mockOnLogout}
-      >
-        <div data-testid="page-content">Dashboard content</div>
-      </ResponsiveDashboardLayout>
+      <PwaInstallProvider>
+        <ResponsiveDashboardLayout
+          user={testUser}
+          currentRole={currentRole}
+          setCurrentRole={mockSetCurrentRole}
+          setCurrentSection={mockSetCurrentSection}
+          currentSection="overview"
+          sections={testSections}
+          onLogout={mockOnLogout}
+        >
+          <div data-testid="page-content">Dashboard content</div>
+        </ResponsiveDashboardLayout>
+      </PwaInstallProvider>
     </MemoryRouter>
   );
 }

@@ -3,6 +3,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router';
 import { LandingPage } from '../../app/pages/LandingPage';
+import { PwaInstallProvider } from '../../app/contexts/PwaInstallContext';
 
 let mockNavigate: jest.Mock;
 
@@ -13,7 +14,11 @@ jest.mock('react-router', () => ({
 
 function renderPage() {
   return render(<LandingPage />, {
-    wrapper: ({ children }) => <MemoryRouter>{children}</MemoryRouter>,
+    wrapper: ({ children }) => (
+      <MemoryRouter>
+        <PwaInstallProvider>{children}</PwaInstallProvider>
+      </MemoryRouter>
+    ),
   });
 }
 
