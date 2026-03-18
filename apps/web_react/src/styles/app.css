@@ -1354,6 +1354,7 @@
   font-weight: 800;
   text-align: center;
   color: var(--auth-text);
+  -webkit-text-fill-color: currentColor;
 }
 
 .auth-card__subtitle {
@@ -1361,6 +1362,7 @@
   font-size: var(--font-size-body);
   text-align: center;
   color: var(--auth-text-muted);
+  -webkit-text-fill-color: currentColor;
 }
 
 .auth-error {
@@ -1413,6 +1415,7 @@
   border: 1px solid var(--auth-border);
   border-radius: var(--radius-md);
   color: var(--auth-text);
+  -webkit-text-fill-color: currentColor;
   font: inherit;
   font-size: var(--font-size-body);
   transition:
@@ -1437,6 +1440,7 @@
   transform-origin: left top;
   padding: 0 var(--space-1);
   color: var(--auth-text-muted);
+  -webkit-text-fill-color: currentColor;
   font-size: var(--font-size-body);
   line-height: 1;
   pointer-events: none;
@@ -1502,6 +1506,51 @@
   font-family: monospace;
   color: var(--auth-text-muted);
   line-height: 1.5;
+}
+
+:root:not(.dark) .auth-card,
+[data-theme='light'] .auth-card {
+  --auth-surface: #1b2233;
+  --auth-text: #ffffff;
+  --auth-text-muted: #e5edf8;
+  --auth-border: rgba(255, 255, 255, 0.6);
+  --auth-note-surface: #f8fafc;
+  --auth-note-border: #cbd5e1;
+}
+
+:root:not(.dark) .auth-card__title,
+:root:not(.dark) .auth-input,
+:root:not(.dark) .auth-note__title,
+[data-theme='light'] .auth-card__title,
+[data-theme='light'] .auth-input,
+[data-theme='light'] .auth-note__title {
+  color: #ffffff !important;
+  -webkit-text-fill-color: currentColor;
+}
+
+:root:not(.dark) .auth-card__subtitle,
+:root:not(.dark) .auth-input-icon,
+:root:not(.dark) .auth-floating-label,
+:root:not(.dark) .auth-footer,
+[data-theme='light'] .auth-card__subtitle,
+[data-theme='light'] .auth-input-icon,
+[data-theme='light'] .auth-floating-label,
+[data-theme='light'] .auth-footer {
+  color: #e5edf8 !important;
+  -webkit-text-fill-color: currentColor;
+}
+
+:root:not(.dark) .auth-input,
+[data-theme='light'] .auth-input {
+  border-color: rgba(255, 255, 255, 0.65);
+}
+
+:root:not(.dark) .auth-note__title,
+:root:not(.dark) .auth-note__body,
+[data-theme='light'] .auth-note__title,
+[data-theme='light'] .auth-note__body {
+  color: #1e293b !important;
+  -webkit-text-fill-color: currentColor;
 }
 
 .selection-page {
