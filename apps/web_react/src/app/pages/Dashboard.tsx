@@ -613,7 +613,7 @@ export function Dashboard() {
       user={user}
       currentRole={currentRole}
       setCurrentRole={setCurrentRole}
-      setCurrentSection={setCurrentSection}
+      setCurrentSection={(section: string) => setCurrentSection(section as Section)}
       currentSection={currentSection}
       sections={sections}
       onLogout={handleLogout}

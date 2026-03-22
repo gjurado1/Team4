@@ -170,17 +170,17 @@
 
 .cc-badge[data-tone='info'] {
   background: var(--status-info-bg);
-  color: var(--status-info-fg);
+  color: var(--status-info-on-soft-fg);
 }
 
 .cc-badge[data-tone='success'] {
   background: var(--status-success-bg);
-  color: var(--status-success-fg);
+  color: var(--status-success-on-soft-fg);
 }
 
 .cc-badge[data-tone='danger'] {
   background: var(--status-danger-bg);
-  color: var(--status-danger-fg);
+  color: var(--status-danger-on-soft-fg);
 }
 
 .cc-badge[data-tone='warning'] {
@@ -204,17 +204,17 @@
 
 .cc-icon-pill[data-tone='info'] {
   background: var(--status-info-bg);
-  color: var(--status-info-fg);
+  color: var(--status-info-on-soft-fg);
 }
 
 .cc-icon-pill[data-tone='success'] {
   background: var(--status-success-bg);
-  color: var(--status-success-fg);
+  color: var(--status-success-on-soft-fg);
 }
 
 .cc-icon-pill[data-tone='danger'] {
   background: var(--status-danger-bg);
-  color: var(--status-danger-fg);
+  color: var(--status-danger-on-soft-fg);
 }
 
 .cc-icon-pill[data-tone='secondary'] {
@@ -690,7 +690,7 @@
 }
 
 .dashboard-nav__button[data-tone='danger'] {
-  color: var(--status-danger-fg);
+  color: var(--status-danger-on-soft-fg);
 }
 
 .dashboard-nav__button[data-tone='danger']:hover {
@@ -1420,10 +1420,10 @@
   gap: var(--space-3);
   padding: var(--space-4);
   margin-bottom: var(--space-5);
-  border: 1px solid var(--status-danger-fg);
+  border: 1px solid var(--status-danger-on-soft-fg);
   border-radius: var(--radius-md);
   background: var(--status-danger-bg);
-  color: var(--status-danger-fg);
+  color: var(--status-danger-on-soft-fg);
 }
 
 .auth-form {
@@ -1524,7 +1524,7 @@
 }
 
 .auth-footer a {
-  color: var(--color-brand-primary);
+  color: var(--color-link);
   font-weight: 600;
   text-decoration: none;
 }
@@ -1669,7 +1669,7 @@
 
 .selection-card[data-tone='info'] .selection-card__icon {
   background: var(--status-info-bg);
-  color: var(--status-info-fg);
+  color: var(--status-info-on-soft-fg);
 }
 
 .selection-card[data-tone='secondary'] .selection-card__icon {
@@ -1733,11 +1733,11 @@
 }
 
 .selection-card[data-tone='info'] .selection-card__cta {
-  background: var(--status-info-fg);
+  background: var(--status-info-solid-bg);
 }
 
 .selection-card[data-tone='secondary'] .selection-card__cta {
-  background: var(--color-brand-secondary);
+  background: var(--status-secondary-solid-bg);
 }
 
 .selection-page__note {
@@ -2144,9 +2144,14 @@
   align-items: flex-start;
   gap: var(--space-3);
   padding: var(--space-6);
-  border: 1px solid var(--status-danger-fg);
+  border: 1px solid var(--status-danger-on-soft-fg);
   border-radius: var(--radius-lg);
   background: var(--status-danger-bg);
+  color: var(--status-danger-on-soft-fg);
+}
+
+.settings-alert .settings-card__text {
+  color: inherit;
 }
 
 .settings-actions {
@@ -2164,7 +2169,7 @@
   padding: var(--space-2) var(--space-4);
   border-radius: var(--radius-md);
   background: var(--status-success-bg);
-  color: var(--status-success-fg);
+  color: var(--status-success-on-soft-fg);
   font-size: var(--font-size-small);
   font-weight: 600;
 }
@@ -2286,7 +2291,7 @@
 
 .marketing-card__icon--soft {
   background: var(--status-info-bg);
-  color: var(--status-info-fg);
+  color: var(--status-info-on-soft-fg);
   box-shadow: none;
 }
 
@@ -2497,7 +2502,7 @@
 
 .hero-section__metric-button:hover,
 .hero-section__metric-button[data-active='true'] {
-  border-color: var(--status-info-fg);
+  border-color: var(--status-info-on-soft-fg);
   background: var(--status-info-bg);
   color: var(--color-text);
 }
@@ -2508,7 +2513,7 @@
 
 .hero-section__metric-button[data-active='true'] .hero-section__metric-icon,
 .hero-section__metric-button:hover .hero-section__metric-icon {
-  color: var(--status-info-fg);
+  color: var(--status-info-on-soft-fg);
 }
 
 .hero-section__metric-label {
@@ -2553,14 +2558,14 @@
 
 .hero-section__metric-status[data-tone='success'] {
   background: var(--status-success-bg);
-  border-color: var(--status-success-fg);
-  color: var(--status-success-fg);
+  border-color: var(--status-success-on-soft-fg);
+  color: var(--status-success-on-soft-fg);
 }
 
 .hero-section__metric-status[data-tone='info'] {
   background: var(--status-info-bg);
-  border-color: var(--status-info-fg);
-  color: var(--status-info-fg);
+  border-color: var(--status-info-on-soft-fg);
+  color: var(--status-info-on-soft-fg);
 }
 
 .hero-section__progress {
@@ -2873,10 +2878,10 @@
   width: 64px;
   height: 64px;
   margin-bottom: var(--space-5);
-  border: 1px solid var(--status-info-fg);
+  border: 1px solid var(--status-info-on-soft-fg);
   border-radius: var(--radius-xl);
   background: var(--status-info-bg);
-  color: var(--status-info-fg);
+  color: var(--status-info-on-soft-fg);
 }
 
 .downloads-card {
@@ -2891,7 +2896,7 @@
   padding: var(--space-1) var(--space-3);
   border-radius: var(--radius-full);
   background: var(--status-info-bg);
-  color: var(--status-info-fg);
+  color: var(--status-info-on-soft-fg);
   font-size: var(--font-size-small);
   font-weight: 700;
 }
@@ -3471,7 +3476,7 @@
   padding: 2px var(--space-2);
   border-radius: var(--radius-sm);
   background: var(--status-info-bg);
-  color: var(--status-info-fg);
+  color: var(--status-info-on-soft-fg);
   font-size: var(--font-size-small);
   font-weight: 600;
 }
@@ -3518,7 +3523,7 @@
   width: 100%;
   min-height: 84px;
   padding: var(--space-5);
-  border: 2px solid var(--status-info-fg);
+  border: 2px solid var(--status-info-on-soft-fg);
   border-radius: var(--radius-xl);
   background: var(--status-info-bg);
   color: var(--color-text);
