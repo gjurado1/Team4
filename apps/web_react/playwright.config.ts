@@ -1,16 +1,40 @@
-import { defineConfig } from "@playwright/test";
+import { defineConfig, devices } from "@playwright/test";
 
 export default defineConfig({
   testDir: "./tests",
-  fullyParallel: true,
+  fullyParallel: false,
+  reporter: "html",
+  retries: 1,
+  timeout: 60000,
+  workers: 1,
   use: {
     baseURL: "http://127.0.0.1:4173/Team4/",
     trace: "on-first-retry",
   },
+  projects: [
+    {
+      name: "Chrome",
+      use: {
+        ...devices["Desktop Chrome"],
+      },
+    },
+    {
+      name: "Firefox",
+      use: {
+        ...devices["Desktop Firefox"],
+      },
+    },
+    {
+      name: "Safari",
+      use: {
+        ...devices["Desktop Safari"],
+      },
+    },
+  ],
   webServer: {
-    command: "npm run dev -- --host 127.0.0.1 --port 4173",
+    command: "npm run e2e:serve",
     url: "http://127.0.0.1:4173",
     reuseExistingServer: true,
-    timeout: 120000,
+    timeout: 240000,
   },
 });

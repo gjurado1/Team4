@@ -29,6 +29,13 @@ async function seedAuthenticatedState(page: Page) {
   }, authenticatedUser);
 }
 
+async function waitForUiReady(page: Page) {
+  await page.waitForLoadState("domcontentloaded");
+  await page.waitForSelector("body");
+  await page.waitForFunction(() => document.readyState === "interactive" || document.readyState === "complete");
+  await page.waitForFunction(() => document.fonts?.status !== "loading");
+}
+
 async function expectNoHorizontalOverflow(page: Page) {
   const overflow = await page.evaluate(() => {
     const root = document.documentElement;
@@ -78,7 +85,7 @@ for (const viewport of viewportMatrix) {
     test("public routes stay within the viewport", async ({ page }) => {
       for (const route of ["", "login", "signup"]) {
         await page.goto(route);
-        await page.waitForLoadState("networkidle");
+        await waitForUiReady(page);
         await expectNoHorizontalOverflow(page);
       }
     });
@@ -88,7 +95,7 @@ for (const viewport of viewportMatrix) {
 
       for (const route of ["role-selection", "dashboard", "settings", "cart"]) {
         await page.goto(route);
-        await page.waitForLoadState("networkidle");
+        await waitForUiReady(page);
         await expectNoHorizontalOverflow(page);
       }
     });
@@ -96,7 +103,7 @@ for (const viewport of viewportMatrix) {
     test("dashboard navigation adapts at each breakpoint", async ({ page }) => {
       await seedAuthenticatedState(page);
       await page.goto("dashboard");
-      await page.waitForLoadState("networkidle");
+      await waitForUiReady(page);
 
       if (viewport.width === 375) {
         const menuButton = page.getByRole("button", { name: /open navigation menu/i });
@@ -115,7 +122,7 @@ for (const viewport of viewportMatrix) {
     test("settings navigation adapts at each breakpoint", async ({ page }) => {
       await seedAuthenticatedState(page);
       await page.goto("settings");
-      await page.waitForLoadState("networkidle");
+      await waitForUiReady(page);
 
       if (viewport.width === 375) {
         const menuButton = page.getByRole("button", { name: /open settings menu/i });
@@ -130,17 +137,17 @@ for (const viewport of viewportMatrix) {
       }
     });
 
-    test("role selection stays usable on mobile", async ({ page }) => {
-      await seedAuthenticatedState(page);
-      await page.goto("role-selection");
-      await page.waitForLoadState("networkidle");
+    if (viewport.width === 375) {
+      test("role selection stays usable on mobile", async ({ page }) => {
+        await seedAuthenticatedState(page);
+        await page.goto("role-selection");
+        await waitForUiReady(page);
 
-      if (viewport.width === 375) {
         const cards = page.locator(".selection-card");
         await expect(cards).toHaveCount(2);
         await expectWithinViewport(page, cards.nth(0));
         await expectWithinViewport(page, cards.nth(1));
-      }
-    });
+      });
+    }
   });
 }
